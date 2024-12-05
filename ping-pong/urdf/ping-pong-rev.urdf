@@ -1,0 +1,134 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<robot name="ping-pong">
+  <link name="base_link">
+    <inertial>
+      <origin xyz="0.236974030747518 0.198814117310018 -0.0472840790155531" rpy="0.0 -0.0 0.0"/>
+      <mass value="0.0468580123048407"/>
+      <inertia ixx="1.54404131998268e-05" ixy="-6.36178566521936e-07" ixz="1.49119062174586e-06" iyy="1.79723392941374e-05" iyz="2.33806617611275e-06" izz="9.28318321799851e-06"/>
+    </inertial>
+    <visual>
+      <geometry>
+        <mesh filename="package://ping-pong/meshes/base_link.dae"/>
+      </geometry>
+      <material name=""/>
+      <origin xyz="0.0 0.0 0.0" rpy="0.0 -0.0 0.0"/>
+    </visual>
+    <collision>
+      <geometry>
+        <mesh filename="package://ping-pong/meshes/base_link.dae"/>
+      </geometry>
+      <origin xyz="0.0 0.0 0.0" rpy="0.0 -0.0 0.0"/>
+    </collision>
+  </link>
+  <link name="upper_shoulder">
+    <inertial>
+      <origin xyz="-0.0154277085596627 -0.00223358541973112 4.50695554159442e-05" rpy="0.0 -0.0 0.0"/>
+      <mass value="0.0335476362175246"/>
+      <inertia ixx="3.45395074153155e-06" ixy="9.45834023407956e-09" ixz="2.11997951639057e-08" iyy="4.64648612211524e-06" iyz="1.21543964032148e-08" izz="3.81490040295177e-06"/>
+    </inertial>
+    <visual>
+      <geometry>
+        <mesh filename="package://ping-pong/meshes/upper_shoulder.dae"/>
+      </geometry>
+      <material name=""/>
+      <origin xyz="0.0 0.0 0.0" rpy="0.0 -0.0 0.0"/>
+    </visual>
+    <collision>
+      <geometry>
+        <mesh filename="package://ping-pong/meshes/upper_shoulder.dae"/>
+      </geometry>
+      <origin xyz="0.0 0.0 0.0" rpy="0.0 -0.0 0.0"/>
+    </collision>
+  </link>
+  <link name="lower_shoulder">
+    <inertial>
+      <origin xyz="-5.97024606077967e-05 -2.62163623037243e-05 0.0861382562708247" rpy="0.0 -0.0 0.0"/>
+      <mass value="0.0576719523187774"/>
+      <inertia ixx="1.71208966848189e-05" ixy="-1.21362897592568e-08" ixz="-1.02969443818026e-08" iyy="1.64179788574469e-05" iyz="2.12100717514079e-08" izz="4.45014104981362e-06"/>
+    </inertial>
+    <visual>
+      <geometry>
+        <mesh filename="package://ping-pong/meshes/lower_shoulder.dae"/>
+      </geometry>
+      <material name=""/>
+      <origin xyz="0.0 0.0 0.0" rpy="0.0 -0.0 0.0"/>
+    </visual>
+    <collision>
+      <geometry>
+        <mesh filename="package://ping-pong/meshes/lower_shoulder.dae"/>
+      </geometry>
+      <origin xyz="0.0 0.0 0.0" rpy="0.0 -0.0 0.0"/>
+    </collision>
+  </link>
+  <link name="upper_hand">
+    <inertial>
+      <origin xyz="0.00320599776801292 0.023294358287288 0.00476029253124649" rpy="0.0 -0.0 0.0"/>
+      <mass value="0.031305818017557"/>
+      <inertia ixx="3.97075172174144e-06" ixy="2.25290319393319e-08" ixz="3.40259465463214e-07" iyy="4.16713432161534e-06" iyz="-1.85633135872339e-09" izz="3.2938792496872e-06"/>
+    </inertial>
+    <visual>
+      <geometry>
+        <mesh filename="package://ping-pong/meshes/upper_hand.dae"/>
+      </geometry>
+      <material name=""/>
+      <origin xyz="0.0 0.0 0.0" rpy="0.0 -0.0 0.0"/>
+    </visual>
+    <collision>
+      <geometry>
+        <mesh filename="package://ping-pong/meshes/upper_hand.dae"/>
+      </geometry>
+      <origin xyz="0.0 0.0 0.0" rpy="0.0 -0.0 0.0"/>
+    </collision>
+  </link>
+  <link name="hand">
+    <inertial>
+      <origin xyz="0.0321731917729678 0.0165070943385693 0.0170774263212789" rpy="0.0 -0.0 0.0"/>
+      <mass value="0.0364485484086937"/>
+      <inertia ixx="4.87558289521533e-06" ixy="-6.72451244131164e-10" ixz="9.10211126920207e-07" iyy="1.9761361014673e-05" iyz="9.25529998709742e-10" izz="1.6594817641288e-05"/>
+    </inertial>
+    <visual>
+      <geometry>
+        <mesh filename="package://ping-pong/meshes/hand.dae"/>
+      </geometry>
+      <material name=""/>
+      <origin xyz="0.0 0.0 0.0" rpy="0.0 -0.0 0.0"/>
+    </visual>
+    <collision>
+      <geometry>
+        <mesh filename="package://ping-pong/meshes/hand.dae"/>
+      </geometry>
+      <origin xyz="0.0 0.0 0.0" rpy="0.0 -0.0 0.0"/>
+    </collision>
+  </link>
+  <joint name="upper_shoulder" type="continuous">
+    <limit effort="0.0" velocity="0.0"/>
+    <parent link="base_link"/>
+    <child link="upper_shoulder"/>
+    <axis xyz="1. 0. 0."/>
+    <origin xyz="0.2173 -0.020918 0.16517" rpy="-1.6552 0.24810999999999994 -1.7979"/>
+  </joint>
+  <joint name="lower_shoulder" type="continuous">
+    <limit effort="0.0" velocity="0.0"/>
+    <parent link="upper_shoulder"/>
+    <child link="lower_shoulder"/>
+    <axis xyz="0. 0. 1."/>
+    <origin xyz="-0.00211697862590773 -0.002599999999995 0.00924978024452464" rpy="0.0 -0.0 -1.79186376010431"/>
+  </joint>
+  <joint name="upper_hand" type="continuous">
+    <limit effort="0.0" velocity="0.0"/>
+    <parent link="lower_shoulder"/>
+    <child link="upper_hand"/>
+    <axis xyz="0. 1. 0."/>
+    <origin xyz="0.000112596657948771 0.0 0.132750131806573" rpy="0.0011127586783639461 0.704035778292276 1.57151661473209"/>
+  </joint>
+  <joint name="hand" type="fixed">
+    <limit effort="0.0" velocity="0.0"/>
+    <parent link="upper_hand"/>
+    <child link="hand"/>
+    <axis xyz="0. 0. 0."/>
+    <origin xyz="-0.0166 0.012495 0.1085" rpy="-1.5707926535897934 1.5707926535897934 3.141592653589793"/>
+  </joint>
+  <material name="">
+    <color rgba="0.29803922 0.29803922 0.29803922 1.        "/>
+  </material>
+</robot>
