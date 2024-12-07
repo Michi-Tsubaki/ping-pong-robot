@@ -1,0 +1,1 @@
+/home/mech-user/ping-pong-robot/devel/.private/ping-pong/lib/pkgconfig/ping-pong.pc

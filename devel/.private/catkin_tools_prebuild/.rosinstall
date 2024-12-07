@@ -1,0 +1,2 @@
+- setup-file:
+    local-name: /home/mech-user/ping-pong-robot/devel/.private/catkin_tools_prebuild/setup.sh

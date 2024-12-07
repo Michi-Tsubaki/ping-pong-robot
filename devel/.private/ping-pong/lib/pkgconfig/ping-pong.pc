@@ -1,0 +1,8 @@
+prefix=/home/mech-user/ping-pong-robot/devel/.private/ping-pong
+
+Name: ping-pong
+Description: Description of ping-pong
+Version: 1.0.0
+Cflags: 
+Libs: -L${prefix}/lib 
+Requires: 
