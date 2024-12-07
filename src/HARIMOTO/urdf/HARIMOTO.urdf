@@ -1,0 +1,279 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- This URDF was automatically created by SolidWorks to URDF Exporter! Originally created by Stephen Brawner (brawner@gmail.com) 
+     Commit Version:   Build Version: 1.6.9102.25287
+     For more information, please see http://wiki.ros.org/sw_urdf_exporter -->
+<robot
+  name="HARIMOTO">
+  <link
+    name="base_link">
+    <inertial>
+      <origin
+        xyz="0.29261255484517 0.148262747393957 0.00908048714658979"
+        rpy="0 0 0" />
+      <mass
+        value="0.0151156528348089" />
+      <inertia
+        ixx="1.13528085492964E-05"
+        ixy="6.71088724246266E-07"
+        ixz="-7.58818234892207E-07"
+        iyy="8.98720976442149E-06"
+        iyz="5.61874160781365E-06"
+        izz="1.03751576399389E-05" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://HARIMOTO/meshes/base_link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="1 1 1 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://HARIMOTO/meshes/base_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <link
+    name="upper_shoulder">
+    <inertial>
+      <origin
+        xyz="-0.00727171936158348 6.40677468041195E-05 -0.0318663457382054"
+        rpy="0 0 0" />
+      <mass
+        value="0.0317423532584571" />
+      <inertia
+        ixx="3.23700614524556E-06"
+        ixy="4.07736132342351E-09"
+        ixz="2.10545105734787E-08"
+        iyy="4.29520956910189E-06"
+        iyz="1.16767686212848E-08"
+        izz="4.44854212300623E-06" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://HARIMOTO/meshes/upper_shoulder.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.298039215686275 0.298039215686275 0.298039215686275 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://HARIMOTO/meshes/upper_shoulder.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="uppler_shoulder"
+    type="revolute">
+    <origin
+      xyz="0.28912 -0.029003 0.077743"
+      rpy="2.9844 0.72154 1.5356" />
+    <parent
+      link="base_link" />
+    <child
+      link="upper_shoulder" />
+    <axis
+      xyz="0 0 -1" />
+    <limit
+      lower="-1.22"
+      upper="0"
+      effort="0"
+      velocity="10" />
+  </joint>
+  <link
+    name="lower_shoulder">
+    <inertial>
+      <origin
+        xyz="0.0129549305137357 -0.0148664141809141 -0.019013131831365"
+        rpy="0 0 0" />
+      <mass
+        value="0.0335476434855063" />
+      <inertia
+        ixx="3.8149015561543E-06"
+        ixy="1.21543917807109E-08"
+        ixz="2.11998108883256E-08"
+        iyy="4.6464870940964E-06"
+        iyz="9.45842330051011E-09"
+        izz="3.45395092938991E-06" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://HARIMOTO/meshes/lower_shoulder.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.298039215686275 0.298039215686275 0.298039215686275 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://HARIMOTO/meshes/lower_shoulder.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="lower_shoulder"
+    type="revolute">
+    <origin
+      xyz="-0.018453 -0.010996 0"
+      rpy="-3.1416 0 -0.38339" />
+    <parent
+      link="upper_shoulder" />
+    <child
+      link="lower_shoulder" />
+    <axis
+      xyz="1 0 0" />
+    <limit
+      lower="-2.35"
+      upper="0.785"
+      effort="0"
+      velocity="10" />
+  </joint>
+  <link
+    name="arm">
+    <inertial>
+      <origin
+        xyz="-6.29007393652195E-05 -0.0155262161943493 0.0383879745241498"
+        rpy="0 0 0" />
+      <mass
+        value="0.0576719241727569" />
+      <inertia
+        ixx="1.71209095381949E-05"
+        ixy="-1.21542702244495E-08"
+        ixz="-9.45797260722933E-09"
+        iyy="1.6417974323839E-05"
+        iyz="2.11998275069628E-08"
+        izz="4.4501235896574E-06" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://HARIMOTO/meshes/arm.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.298039215686275 0.298039215686275 0.298039215686275 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://HARIMOTO/meshes/arm.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="arm"
+    type="revolute">
+    <origin
+      xyz="-0.044 0.001 -0.032324"
+      rpy="3.1416 -1.5708 0" />
+    <parent
+      link="lower_shoulder" />
+    <child
+      link="arm" />
+    <axis
+      xyz="0 0 0" />
+    <limit
+      lower="-0.75"
+      upper="0.75"
+      effort="0"
+      velocity="10" />
+  </joint>
+  <link
+    name="hand">
+    <inertial>
+      <origin
+        xyz="0.0313101510085131 0.0029992969262132 0.0147276163702791"
+        rpy="0 0 0" />
+      <mass
+        value="0.0501084792304562" />
+      <inertia
+        ixx="5.44033404829723E-06"
+        ixy="-1.93368561041075E-07"
+        ixz="-4.35497116671628E-07"
+        iyy="1.41250260453223E-05"
+        iyz="-7.37987860707146E-08"
+        izz="1.24656243271728E-05" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://HARIMOTO/meshes/hand.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.298039215686275 0.298039215686275 0.298039215686275 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://HARIMOTO/meshes/hand.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="hand"
+    type="revolute">
+    <origin
+      xyz="-0.0275 -0.0155 0.085"
+      rpy="0 -1.5708 0" />
+    <parent
+      link="arm" />
+    <child
+      link="hand" />
+    <axis
+      xyz="0 0 0" />
+    <limit
+      lower="-1.5"
+      upper="1.5"
+      effort="0"
+      velocity="10" />
+  </joint>
+</robot>
