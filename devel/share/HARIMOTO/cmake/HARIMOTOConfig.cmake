@@ -1,0 +1,1 @@
+/home/mech-user/ping-pong-robot/devel/.private/HARIMOTO/share/HARIMOTO/cmake/HARIMOTOConfig.cmake

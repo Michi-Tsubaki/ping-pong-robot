@@ -1,0 +1,5 @@
+HARIMOTO
+/home/mech-user/ping-pong-robot/devel/.private/HARIMOTO/cmake.lock /home/mech-user/ping-pong-robot/devel/./cmake.lock
+/home/mech-user/ping-pong-robot/devel/.private/HARIMOTO/share/HARIMOTO/cmake/HARIMOTOConfig-version.cmake /home/mech-user/ping-pong-robot/devel/share/HARIMOTO/cmake/HARIMOTOConfig-version.cmake
+/home/mech-user/ping-pong-robot/devel/.private/HARIMOTO/share/HARIMOTO/cmake/HARIMOTOConfig.cmake /home/mech-user/ping-pong-robot/devel/share/HARIMOTO/cmake/HARIMOTOConfig.cmake
+/home/mech-user/ping-pong-robot/devel/.private/HARIMOTO/lib/pkgconfig/HARIMOTO.pc /home/mech-user/ping-pong-robot/devel/lib/pkgconfig/HARIMOTO.pc
