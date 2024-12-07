@@ -1,0 +1,48 @@
+<?xml version="1.0"?>
+<package format="2">
+  <name>kxr_controller</name>
+  <version>0.0.5</version>
+  <description>The kxr_controller package</description>
+
+  <maintainer email="yanokura@jsk.imi.i.u-tokyo.ac.jp">Iori Yanokura</maintainer>
+
+  <license>MIT</license>
+
+  <buildtool_depend>catkin</buildtool_depend>
+  <build_depend>catkin_virtualenv</build_depend>
+
+  <build_depend>roscpp</build_depend>
+  <build_depend>controller_manager</build_depend>
+  <build_depend>dynamic_reconfigure</build_depend>
+  <build_depend>hardware_interface</build_depend>
+  <build_depend>angles</build_depend>
+  <build_depend>urdf</build_depend>
+  <build_depend>cmake_modules</build_depend>
+  <build_depend>actionlib</build_depend>
+  <build_depend>actionlib_msgs</build_depend>
+  <build_depend>kxr_models</build_depend>
+  <build_depend>git</build_depend>
+
+  <exec_depend>roscpp</exec_depend>
+  <exec_depend>controller_manager</exec_depend>
+  <exec_depend>hardware_interface</exec_depend>
+  <exec_depend>joint_state_controller</exec_depend>
+  <exec_depend>joint_trajectory_controller</exec_depend>
+  <exec_depend>position_controllers</exec_depend>
+  <exec_depend>angles</exec_depend>
+  <exec_depend>diff_drive_controller</exec_depend>
+  <exec_depend>dynamic_reconfigure</exec_depend>
+  <exec_depend>urdf</exec_depend>
+  <exec_depend>cmake_modules</exec_depend>
+  <exec_depend>kxr_models</exec_depend>
+  <exec_depend>rviz</exec_depend>
+
+  <test_depend>roslaunch</test_depend>
+  <test_depend>rostest</test_depend>
+  <test_depend>jsk_tools</test_depend>
+
+  <export>
+    <pip_requirements>requirements.txt</pip_requirements>
+  </export>
+
+</package>

@@ -1,0 +1,379 @@
+CMake Warning (dev) at CMakeFiles/Makefile.cmake:380:
+  Syntax Warning in cmake code at column 76
+
+  Argument not separated from preceding token by whitespace.
+This warning is for project developers.  Use -Wno-dev to suppress it.
+
+CMake Warning (dev) at CMakeFiles/Makefile.cmake:381:
+  Syntax Warning in cmake code at column 75
+
+  Argument not separated from preceding token by whitespace.
+This warning is for project developers.  Use -Wno-dev to suppress it.
+
+CMake Warning (dev) at CMakeFiles/Makefile.cmake:382:
+  Syntax Warning in cmake code at column 75
+
+  Argument not separated from preceding token by whitespace.
+This warning is for project developers.  Use -Wno-dev to suppress it.
+
+CMake Warning (dev) at CMakeFiles/Makefile.cmake:405:
+  Syntax Warning in cmake code at column 75
+
+  Argument not separated from preceding token by whitespace.
+This warning is for project developers.  Use -Wno-dev to suppress it.
+
+CMake Warning (dev) at CMakeFiles/Makefile.cmake:409:
+  Syntax Warning in cmake code at column 76
+
+  Argument not separated from preceding token by whitespace.
+This warning is for project developers.  Use -Wno-dev to suppress it.
+
+CMake Warning (dev) at CMakeFiles/Makefile.cmake:460:
+  Syntax Warning in cmake code at column 75
+
+  Argument not separated from preceding token by whitespace.
+This warning is for project developers.  Use -Wno-dev to suppress it.
+
+CMake Warning (dev) at CMakeFiles/Makefile.cmake:464:
+  Syntax Warning in cmake code at column 76
+
+  Argument not separated from preceding token by whitespace.
+This warning is for project developers.  Use -Wno-dev to suppress it.
+
+CMake Warning (dev) at CMakeFiles/Makefile.cmake:485:
+  Syntax Warning in cmake code at column 76
+
+  Argument not separated from preceding token by whitespace.
+This warning is for project developers.  Use -Wno-dev to suppress it.
+
+[35m[1mScanning dependencies of target dynamic_reconfigure_generate_messages_nodejs[0m
+[35m[1mScanning dependencies of target _kxr_controller_generate_messages_check_deps_ServoStateArray[0m
+[35m[1mScanning dependencies of target _kxr_controller_generate_messages_check_deps_StretchAction[0m
+[35m[1mScanning dependencies of target _kxr_controller_generate_messages_check_deps_ServoState[0m
+[35m[1mScanning dependencies of target _kxr_controller_generate_messages_check_deps_Stretch[0m
+[35m[1mScanning dependencies of target _kxr_controller_generate_messages_check_deps_PressureControl[0m
+[35m[1mScanning dependencies of target _kxr_controller_generate_messages_check_deps_PressureControlResult[0m
+[35m[1mScanning dependencies of target _kxr_controller_generate_messages_check_deps_PressureControlGoal[0m
+[  0%] Built target dynamic_reconfigure_generate_messages_nodejs
+[35m[1mScanning dependencies of target _kxr_controller_generate_messages_check_deps_PressureControlFeedback[0m
+[  0%] Built target _kxr_controller_generate_messages_check_deps_Stretch
+[  0%] Built target _kxr_controller_generate_messages_check_deps_PressureControlResult
+[  0%] Built target _kxr_controller_generate_messages_check_deps_ServoState
+[  0%] Built target _kxr_controller_generate_messages_check_deps_StretchAction
+[  0%] Built target _kxr_controller_generate_messages_check_deps_PressureControl
+[  0%] Built target _kxr_controller_generate_messages_check_deps_ServoStateArray
+[  0%] Built target _kxr_controller_generate_messages_check_deps_PressureControlGoal
+[35m[1mScanning dependencies of target _kxr_controller_generate_messages_check_deps_StretchFeedback[0m
+[35m[1mScanning dependencies of target _kxr_controller_generate_messages_check_deps_PressureControlActionFeedback[0m
+[35m[1mScanning dependencies of target _kxr_controller_generate_messages_check_deps_PressureControlActionResult[0m
+[35m[1mScanning dependencies of target _kxr_controller_generate_messages_check_deps_StretchResult[0m
+[35m[1mScanning dependencies of target _kxr_controller_generate_messages_check_deps_PressureControlAction[0m
+[35m[1mScanning dependencies of target _kxr_controller_generate_messages_check_deps_ServoOnOff[0m
+[35m[1mScanning dependencies of target _kxr_controller_generate_messages_check_deps_StretchGoal[0m
+[  0%] Built target _kxr_controller_generate_messages_check_deps_PressureControlFeedback
+[35m[1mScanning dependencies of target _kxr_controller_generate_messages_check_deps_StretchActionFeedback[0m
+[  0%] Built target _kxr_controller_generate_messages_check_deps_StretchFeedback
+[  0%] Built target _kxr_controller_generate_messages_check_deps_PressureControlActionFeedback
+[  0%] Built target _kxr_controller_generate_messages_check_deps_PressureControlActionResult
+[  0%] Built target _kxr_controller_generate_messages_check_deps_StretchResult
+[  0%] Built target _kxr_controller_generate_messages_check_deps_PressureControlAction
+[35m[1mScanning dependencies of target _kxr_controller_generate_messages_check_deps_StretchActionResult[0m
+[  0%] Built target _kxr_controller_generate_messages_check_deps_StretchGoal
+[  0%] Built target _kxr_controller_generate_messages_check_deps_ServoOnOff
+[35m[1mScanning dependencies of target _kxr_controller_generate_messages_check_deps_StretchActionGoal[0m
+[35m[1mScanning dependencies of target _kxr_controller_generate_messages_check_deps_ServoOnOffActionFeedback[0m
+[35m[1mScanning dependencies of target std_msgs_generate_messages_cpp[0m
+[35m[1mScanning dependencies of target _kxr_controller_generate_messages_check_deps_PressureControlActionGoal[0m
+[35m[1mScanning dependencies of target _kxr_controller_generate_messages_check_deps_ServoOnOffResult[0m
+[35m[1mScanning dependencies of target _kxr_controller_generate_messages_check_deps_AdjustAngleVectorActionResult[0m
+[  0%] Built target std_msgs_generate_messages_cpp
+[  0%] Built target _kxr_controller_generate_messages_check_deps_StretchActionFeedback
+[35m[1mScanning dependencies of target _kxr_controller_generate_messages_check_deps_AdjustAngleVectorResult[0m
+[35m[1mScanning dependencies of target _kxr_controller_generate_messages_check_deps_AdjustAngleVectorActionFeedback[0m
+[  0%] Built target _kxr_controller_generate_messages_check_deps_StretchActionResult
+[  0%] Built target _kxr_controller_generate_messages_check_deps_StretchActionGoal
+[  0%] Built target _kxr_controller_generate_messages_check_deps_ServoOnOffActionFeedback
+[  0%] Built target _kxr_controller_generate_messages_check_deps_PressureControlActionGoal
+[35m[1mScanning dependencies of target actionlib_msgs_generate_messages_cpp[0m
+[  0%] Built target _kxr_controller_generate_messages_check_deps_ServoOnOffResult
+[35m[1mScanning dependencies of target _kxr_controller_generate_messages_check_deps_ServoOnOffActionResult[0m
+[  0%] Built target _kxr_controller_generate_messages_check_deps_AdjustAngleVectorActionResult
+[35m[1mScanning dependencies of target _kxr_controller_generate_messages_check_deps_ServoOnOffAction[0m
+[35m[1mScanning dependencies of target _kxr_controller_generate_messages_check_deps_ServoOnOffActionGoal[0m
+[35m[1mScanning dependencies of target _kxr_controller_generate_messages_check_deps_AdjustAngleVectorActionGoal[0m
+[  0%] Built target actionlib_msgs_generate_messages_cpp
+[35m[1mScanning dependencies of target _kxr_controller_generate_messages_check_deps_ServoOnOffGoal[0m
+[35m[1mScanning dependencies of target _kxr_controller_generate_messages_check_deps_AdjustAngleVectorFeedback[0m
+[  0%] Built target _kxr_controller_generate_messages_check_deps_AdjustAngleVectorResult
+[  0%] Built target _kxr_controller_generate_messages_check_deps_AdjustAngleVectorActionFeedback
+[35m[1mScanning dependencies of target _kxr_controller_generate_messages_check_deps_ServoOnOffFeedback[0m
+[35m[1mScanning dependencies of target _kxr_controller_generate_messages_check_deps_AdjustAngleVectorAction[0m
+[  0%] Built target _kxr_controller_generate_messages_check_deps_ServoOnOffActionResult
+[  0%] Built target _kxr_controller_generate_messages_check_deps_ServoOnOffAction
+[  0%] Built target _kxr_controller_generate_messages_check_deps_ServoOnOffActionGoal
+[  0%] Built target _kxr_controller_generate_messages_check_deps_AdjustAngleVectorActionGoal
+[35m[1mScanning dependencies of target roscpp_generate_messages_eus[0m
+[35m[1mScanning dependencies of target _kxr_controller_generate_messages_check_deps_AdjustAngleVectorGoal[0m
+[  0%] Built target _kxr_controller_generate_messages_check_deps_ServoOnOffGoal
+[35m[1mScanning dependencies of target std_msgs_generate_messages_py[0m
+[35m[1mScanning dependencies of target controller_manager_msgs_generate_messages_nodejs[0m
+[  0%] Built target _kxr_controller_generate_messages_check_deps_AdjustAngleVectorFeedback
+[  0%] Built target roscpp_generate_messages_eus
+[  0%] Built target std_msgs_generate_messages_py
+[35m[1mScanning dependencies of target roscpp_generate_messages_nodejs[0m
+[  0%] Built target controller_manager_msgs_generate_messages_nodejs
+[35m[1mScanning dependencies of target actionlib_generate_messages_cpp[0m
+[35m[1mScanning dependencies of target rosgraph_msgs_generate_messages_nodejs[0m
+[  0%] Built target roscpp_generate_messages_nodejs
+[  0%] Built target _kxr_controller_generate_messages_check_deps_ServoOnOffFeedback
+[35m[1mScanning dependencies of target rosgraph_msgs_generate_messages_lisp[0m
+[35m[1mScanning dependencies of target actionlib_generate_messages_py[0m
+[  0%] Built target _kxr_controller_generate_messages_check_deps_AdjustAngleVectorAction
+[  0%] Built target actionlib_generate_messages_cpp
+[  0%] Built target rosgraph_msgs_generate_messages_nodejs
+[35m[1mScanning dependencies of target actionlib_generate_messages_lisp[0m
+[35m[1mScanning dependencies of target _catkin_empty_exported_target[0m
+[  0%] Built target rosgraph_msgs_generate_messages_lisp
+[  0%] Built target actionlib_generate_messages_py
+[35m[1mScanning dependencies of target controller_manager_msgs_generate_messages_eus[0m
+[35m[1mScanning dependencies of target rosgraph_msgs_generate_messages_py[0m
+[35m[1mScanning dependencies of target actionlib_generate_messages_nodejs[0m
+[  0%] Built target _kxr_controller_generate_messages_check_deps_AdjustAngleVectorGoal
+[  0%] Built target actionlib_generate_messages_lisp
+[35m[1mScanning dependencies of target roscpp_generate_messages_cpp[0m
+[  0%] Built target _catkin_empty_exported_target
+[  0%] Built target controller_manager_msgs_generate_messages_eus
+[35m[1mScanning dependencies of target std_msgs_generate_messages_eus[0m
+[  0%] Built target rosgraph_msgs_generate_messages_py
+[35m[1mScanning dependencies of target actionlib_msgs_generate_messages_lisp[0m
+[  0%] Built target actionlib_generate_messages_nodejs
+[35m[1mScanning dependencies of target actionlib_msgs_generate_messages_nodejs[0m
+[35m[1mScanning dependencies of target rosgraph_msgs_generate_messages_cpp[0m
+[  0%] Built target roscpp_generate_messages_cpp
+[35m[1mScanning dependencies of target actionlib_generate_messages_eus[0m
+[  0%] Built target std_msgs_generate_messages_eus
+[35m[1mScanning dependencies of target roscpp_generate_messages_py[0m
+[35m[1mScanning dependencies of target kxr_controller_gencfg[0m
+[  0%] Built target actionlib_msgs_generate_messages_lisp
+[35m[1mScanning dependencies of target roscpp_generate_messages_lisp[0m
+[  0%] Built target actionlib_msgs_generate_messages_nodejs
+[  0%] Built target rosgraph_msgs_generate_messages_cpp
+[  0%] Built target actionlib_generate_messages_eus
+[35m[1mScanning dependencies of target controller_manager_msgs_generate_messages_lisp[0m
+[35m[1mScanning dependencies of target rosgraph_msgs_generate_messages_eus[0m
+[  0%] [34m[1mGenerating dynamic reconfigure files from cfg/KXRParameteres.cfg: /home/mech-user/ping-pong-robot/devel/.private/kxr_controller/include/kxr_controller/KXRParameteresConfig.h /home/mech-user/ping-pong-robot/devel/.private/kxr_controller/lib/python3/dist-packages/kxr_controller/cfg/KXRParameteresConfig.py[0m
+[  0%] Built target roscpp_generate_messages_py
+[35m[1mScanning dependencies of target std_msgs_generate_messages_lisp[0m
+[  0%] Built target roscpp_generate_messages_lisp
+[35m[1mScanning dependencies of target actionlib_msgs_generate_messages_eus[0m
+[35m[1mScanning dependencies of target actionlib_msgs_generate_messages_py[0m
+[  0%] Built target controller_manager_msgs_generate_messages_lisp
+[  0%] Built target rosgraph_msgs_generate_messages_eus
+[35m[1mScanning dependencies of target dynamic_reconfigure_generate_messages_cpp[0m
+[35m[1mScanning dependencies of target dynamic_reconfigure_generate_messages_py[0m
+[  0%] Built target std_msgs_generate_messages_lisp
+[  0%] Built target actionlib_msgs_generate_messages_eus
+[  0%] Built target actionlib_msgs_generate_messages_py
+[35m[1mScanning dependencies of target dynamic_reconfigure_generate_messages_eus[0m
+[35m[1mScanning dependencies of target dynamic_reconfigure_gencfg[0m
+[  0%] Built target dynamic_reconfigure_generate_messages_cpp
+[  0%] Built target dynamic_reconfigure_generate_messages_py
+[35m[1mScanning dependencies of target dynamic_reconfigure_generate_messages_lisp[0m
+[  0%] Built target dynamic_reconfigure_generate_messages_eus
+[35m[1mScanning dependencies of target controller_manager_msgs_generate_messages_cpp[0m
+[35m[1mScanning dependencies of target controller_manager_msgs_generate_messages_py[0m
+[  0%] Built target dynamic_reconfigure_gencfg
+[35m[1mScanning dependencies of target std_msgs_generate_messages_nodejs[0m
+[35m[1mScanning dependencies of target kxr_controller_generate_messages_py[0m
+[  0%] Built target dynamic_reconfigure_generate_messages_lisp
+[  0%] Built target controller_manager_msgs_generate_messages_cpp
+[35m[1mScanning dependencies of target kxr_controller_generate_messages_lisp[0m
+[  0%] Built target controller_manager_msgs_generate_messages_py
+[35m[1mScanning dependencies of target kxr_controller_generate_messages_eus[0m
+[  0%] Built target std_msgs_generate_messages_nodejs
+[35m[1mScanning dependencies of target kxr_controller_generate_messages_cpp[0m
+[  0%] [34m[1mGenerating Python from MSG kxr_controller/ServoOnOffAction[0m
+[  1%] [34m[1mGenerating Python from MSG kxr_controller/ServoOnOffActionGoal[0m
+[  1%] [34m[1mGenerating Python from MSG kxr_controller/ServoOnOffActionResult[0m
+[  1%] [34m[1mGenerating Lisp code from kxr_controller/ServoOnOffAction.msg[0m
+[  2%] [34m[1mGenerating Python from MSG kxr_controller/ServoOnOffActionFeedback[0m
+[  2%] [34m[1mGenerating EusLisp code from kxr_controller/ServoOnOffAction.msg[0m
+[  3%] [34m[1mGenerating C++ code from kxr_controller/ServoOnOffAction.msg[0m
+Generating reconfiguration files for KXRParameteres in kxr_controller
+Wrote header file in /home/mech-user/ping-pong-robot/devel/.private/kxr_controller/include/kxr_controller/KXRParameteresConfig.h
+[  4%] [34m[1mGenerating Lisp code from kxr_controller/ServoOnOffActionGoal.msg[0m
+[  4%] Built target kxr_controller_gencfg
+[  4%] [34m[1mGenerating C++ code from kxr_controller/ServoOnOffActionGoal.msg[0m
+[  5%] [34m[1mGenerating EusLisp code from kxr_controller/ServoOnOffActionGoal.msg[0m
+[  5%] [34m[1mGenerating Lisp code from kxr_controller/ServoOnOffActionResult.msg[0m
+[  5%] [34m[1mGenerating Python from MSG kxr_controller/ServoOnOffGoal[0m
+[  6%] [34m[1mGenerating Python from MSG kxr_controller/ServoOnOffResult[0m
+[  8%] [34m[1mGenerating C++ code from kxr_controller/ServoOnOffActionFeedback.msg[0m
+[  8%] [34m[1mGenerating C++ code from kxr_controller/ServoOnOffGoal.msg[0m
+[  8%] [34m[1mGenerating C++ code from kxr_controller/ServoOnOffActionResult.msg[0m
+[  9%] [34m[1mGenerating Lisp code from kxr_controller/ServoOnOffActionFeedback.msg[0m
+[  9%] [34m[1mGenerating EusLisp code from kxr_controller/ServoOnOffActionResult.msg[0m
+[ 10%] [34m[1mGenerating EusLisp code from kxr_controller/ServoOnOffActionFeedback.msg[0m
+[ 10%] [34m[1mGenerating Lisp code from kxr_controller/ServoOnOffGoal.msg[0m
+[ 10%] [34m[1mGenerating EusLisp code from kxr_controller/ServoOnOffGoal.msg[0m
+[ 10%] [34m[1mGenerating Python from MSG kxr_controller/ServoOnOffFeedback[0m
+[ 11%] [34m[1mGenerating C++ code from kxr_controller/ServoOnOffResult.msg[0m
+[ 12%] [34m[1mGenerating Lisp code from kxr_controller/ServoOnOffResult.msg[0m
+[ 13%] [34m[1mGenerating Lisp code from kxr_controller/ServoOnOffFeedback.msg[0m
+[ 13%] [34m[1mGenerating C++ code from kxr_controller/ServoOnOffFeedback.msg[0m
+[ 14%] [34m[1mGenerating C++ code from kxr_controller/AdjustAngleVectorAction.msg[0m
+[ 15%] [34m[1mGenerating EusLisp code from kxr_controller/ServoOnOffResult.msg[0m
+[ 15%] [34m[1mGenerating Lisp code from kxr_controller/AdjustAngleVectorAction.msg[0m
+[ 16%] [34m[1mGenerating Lisp code from kxr_controller/AdjustAngleVectorActionGoal.msg[0m
+[ 17%] [34m[1mGenerating EusLisp code from kxr_controller/ServoOnOffFeedback.msg[0m
+[ 17%] [34m[1mGenerating Lisp code from kxr_controller/AdjustAngleVectorActionResult.msg[0m
+[ 17%] [34m[1mGenerating EusLisp code from kxr_controller/AdjustAngleVectorAction.msg[0m
+[ 17%] [34m[1mGenerating C++ code from kxr_controller/AdjustAngleVectorActionGoal.msg[0m
+[ 18%] [34m[1mGenerating Python from MSG kxr_controller/AdjustAngleVectorAction[0m
+[ 19%] [34m[1mGenerating Python from MSG kxr_controller/AdjustAngleVectorActionGoal[0m
+[ 20%] [34m[1mGenerating Lisp code from kxr_controller/AdjustAngleVectorActionFeedback.msg[0m
+[ 21%] [34m[1mGenerating C++ code from kxr_controller/AdjustAngleVectorActionResult.msg[0m
+[ 21%] [34m[1mGenerating Lisp code from kxr_controller/AdjustAngleVectorGoal.msg[0m
+[ 22%] [34m[1mGenerating Lisp code from kxr_controller/AdjustAngleVectorResult.msg[0m
+[ 23%] [34m[1mGenerating EusLisp code from kxr_controller/AdjustAngleVectorActionGoal.msg[0m
+[ 23%] [34m[1mGenerating Lisp code from kxr_controller/AdjustAngleVectorFeedback.msg[0m
+[ 25%] [34m[1mGenerating Lisp code from kxr_controller/StretchAction.msg[0m
+[ 25%] [34m[1mGenerating EusLisp code from kxr_controller/AdjustAngleVectorActionResult.msg[0m
+[ 25%] [34m[1mGenerating C++ code from kxr_controller/AdjustAngleVectorActionFeedback.msg[0m
+[ 26%] [34m[1mGenerating Lisp code from kxr_controller/StretchActionGoal.msg[0m
+[ 26%] [34m[1mGenerating Python from MSG kxr_controller/AdjustAngleVectorActionResult[0m
+[ 26%] [34m[1mGenerating Lisp code from kxr_controller/StretchActionResult.msg[0m
+[ 27%] [34m[1mGenerating Lisp code from kxr_controller/StretchActionFeedback.msg[0m
+[ 28%] [34m[1mGenerating C++ code from kxr_controller/AdjustAngleVectorGoal.msg[0m
+[ 28%] [34m[1mGenerating C++ code from kxr_controller/AdjustAngleVectorResult.msg[0m
+[ 29%] [34m[1mGenerating EusLisp code from kxr_controller/AdjustAngleVectorActionFeedback.msg[0m
+[ 29%] [34m[1mGenerating Lisp code from kxr_controller/StretchGoal.msg[0m
+[ 30%] [34m[1mGenerating Lisp code from kxr_controller/StretchResult.msg[0m
+[ 30%] [34m[1mGenerating Lisp code from kxr_controller/StretchFeedback.msg[0m
+[ 31%] [34m[1mGenerating Lisp code from kxr_controller/PressureControlAction.msg[0m
+[ 31%] [34m[1mGenerating Lisp code from kxr_controller/PressureControlActionGoal.msg[0m
+[ 32%] [34m[1mGenerating Lisp code from kxr_controller/PressureControlActionResult.msg[0m
+[ 33%] [34m[1mGenerating Lisp code from kxr_controller/PressureControlActionFeedback.msg[0m
+[ 33%] [34m[1mGenerating EusLisp code from kxr_controller/AdjustAngleVectorGoal.msg[0m
+[ 33%] [34m[1mGenerating Lisp code from kxr_controller/PressureControlGoal.msg[0m
+[ 34%] [34m[1mGenerating C++ code from kxr_controller/AdjustAngleVectorFeedback.msg[0m
+[ 35%] [34m[1mGenerating Lisp code from kxr_controller/PressureControlResult.msg[0m
+[ 35%] [34m[1mGenerating Lisp code from kxr_controller/PressureControlFeedback.msg[0m
+[ 36%] [34m[1mGenerating Python from MSG kxr_controller/AdjustAngleVectorActionFeedback[0m
+[ 37%] [34m[1mGenerating Lisp code from kxr_controller/Stretch.msg[0m
+[35m[1mScanning dependencies of target kxr_controller_generate_messages_nodejs[0m
+[ 37%] [34m[1mGenerating Lisp code from kxr_controller/ServoOnOff.msg[0m
+[ 38%] [34m[1mGenerating Javascript code from kxr_controller/ServoOnOffAction.msg[0m
+[ 39%] [34m[1mGenerating Lisp code from kxr_controller/PressureControl.msg[0m
+[ 40%] [34m[1mGenerating EusLisp code from kxr_controller/AdjustAngleVectorResult.msg[0m
+[ 40%] [34m[1mGenerating Javascript code from kxr_controller/ServoOnOffActionGoal.msg[0m
+[ 41%] [34m[1mGenerating Javascript code from kxr_controller/ServoOnOffActionResult.msg[0m
+[ 41%] [34m[1mGenerating Javascript code from kxr_controller/ServoOnOffActionFeedback.msg[0m
+[ 42%] [34m[1mGenerating Lisp code from kxr_controller/ServoState.msg[0m
+[ 43%] [34m[1mGenerating Javascript code from kxr_controller/ServoOnOffGoal.msg[0m
+[ 44%] [34m[1mGenerating C++ code from kxr_controller/StretchAction.msg[0m
+[ 44%] [34m[1mGenerating Lisp code from kxr_controller/ServoStateArray.msg[0m
+[ 44%] [34m[1mGenerating Javascript code from kxr_controller/ServoOnOffResult.msg[0m
+[ 44%] [34m[1mGenerating EusLisp code from kxr_controller/AdjustAngleVectorFeedback.msg[0m
+[ 45%] [34m[1mGenerating Javascript code from kxr_controller/ServoOnOffFeedback.msg[0m
+[ 46%] [34m[1mGenerating Javascript code from kxr_controller/AdjustAngleVectorAction.msg[0m
+[ 46%] [34m[1mGenerating Javascript code from kxr_controller/AdjustAngleVectorActionGoal.msg[0m
+[ 46%] [34m[1mGenerating Python from MSG kxr_controller/AdjustAngleVectorGoal[0m
+[ 46%] Built target kxr_controller_generate_messages_lisp
+[ 47%] [34m[1mGenerating Python from MSG kxr_controller/AdjustAngleVectorResult[0m
+[ 48%] [34m[1mGenerating Javascript code from kxr_controller/AdjustAngleVectorActionResult.msg[0m
+[ 48%] [34m[1mGenerating Python from MSG kxr_controller/AdjustAngleVectorFeedback[0m
+[ 48%] [34m[1mGenerating Javascript code from kxr_controller/AdjustAngleVectorActionFeedback.msg[0m
+[ 50%] [34m[1mGenerating Javascript code from kxr_controller/AdjustAngleVectorGoal.msg[0m
+[ 51%] [34m[1mGenerating EusLisp code from kxr_controller/StretchAction.msg[0m
+[ 52%] [34m[1mGenerating Python from MSG kxr_controller/StretchAction[0m
+[ 52%] [34m[1mGenerating C++ code from kxr_controller/StretchActionGoal.msg[0m
+[ 52%] [34m[1mGenerating Python from MSG kxr_controller/StretchActionGoal[0m
+[ 52%] [34m[1mGenerating Javascript code from kxr_controller/AdjustAngleVectorResult.msg[0m
+[ 53%] [34m[1mGenerating Python from MSG kxr_controller/StretchActionResult[0m
+[ 54%] [34m[1mGenerating Python from MSG kxr_controller/StretchActionFeedback[0m
+[ 55%] [34m[1mGenerating EusLisp code from kxr_controller/StretchActionGoal.msg[0m
+[ 55%] [34m[1mGenerating Python from MSG kxr_controller/StretchGoal[0m
+[ 56%] [34m[1mGenerating Javascript code from kxr_controller/AdjustAngleVectorFeedback.msg[0m
+[ 57%] [34m[1mGenerating Python from MSG kxr_controller/StretchResult[0m
+[ 58%] [34m[1mGenerating C++ code from kxr_controller/StretchActionResult.msg[0m
+[ 58%] [34m[1mGenerating Javascript code from kxr_controller/StretchAction.msg[0m
+[ 58%] [34m[1mGenerating C++ code from kxr_controller/StretchActionFeedback.msg[0m
+[ 58%] [34m[1mGenerating EusLisp code from kxr_controller/StretchActionResult.msg[0m
+[ 58%] [34m[1mGenerating Python from MSG kxr_controller/StretchFeedback[0m
+[ 59%] [34m[1mGenerating Javascript code from kxr_controller/StretchActionGoal.msg[0m
+[ 60%] [34m[1mGenerating Python from MSG kxr_controller/PressureControlAction[0m
+[ 61%] [34m[1mGenerating Javascript code from kxr_controller/StretchActionResult.msg[0m
+[ 61%] [34m[1mGenerating Python from MSG kxr_controller/PressureControlActionGoal[0m
+[ 62%] [34m[1mGenerating C++ code from kxr_controller/StretchGoal.msg[0m
+[ 63%] [34m[1mGenerating EusLisp code from kxr_controller/StretchActionFeedback.msg[0m
+[ 63%] [34m[1mGenerating Javascript code from kxr_controller/StretchActionFeedback.msg[0m
+[ 63%] [34m[1mGenerating EusLisp code from kxr_controller/StretchGoal.msg[0m
+[ 64%] [34m[1mGenerating Python from MSG kxr_controller/PressureControlActionResult[0m
+[ 65%] [34m[1mGenerating Javascript code from kxr_controller/StretchGoal.msg[0m
+[ 65%] [34m[1mGenerating Javascript code from kxr_controller/StretchResult.msg[0m
+[ 66%] [34m[1mGenerating EusLisp code from kxr_controller/StretchResult.msg[0m
+[ 66%] [34m[1mGenerating Python from MSG kxr_controller/PressureControlActionFeedback[0m
+[ 67%] [34m[1mGenerating Javascript code from kxr_controller/StretchFeedback.msg[0m
+[ 68%] [34m[1mGenerating Python from MSG kxr_controller/PressureControlGoal[0m
+[ 68%] [34m[1mGenerating Javascript code from kxr_controller/PressureControlAction.msg[0m
+[ 68%] [34m[1mGenerating C++ code from kxr_controller/StretchResult.msg[0m
+[ 68%] [34m[1mGenerating EusLisp code from kxr_controller/StretchFeedback.msg[0m
+[ 69%] [34m[1mGenerating EusLisp code from kxr_controller/PressureControlAction.msg[0m
+[ 70%] [34m[1mGenerating Javascript code from kxr_controller/PressureControlActionGoal.msg[0m
+[ 70%] [34m[1mGenerating Javascript code from kxr_controller/PressureControlActionResult.msg[0m
+[ 71%] [34m[1mGenerating Javascript code from kxr_controller/PressureControlActionFeedback.msg[0m
+[ 72%] [34m[1mGenerating Javascript code from kxr_controller/PressureControlGoal.msg[0m
+[ 72%] [34m[1mGenerating EusLisp code from kxr_controller/PressureControlActionGoal.msg[0m
+[ 72%] [34m[1mGenerating Javascript code from kxr_controller/PressureControlResult.msg[0m
+[ 73%] [34m[1mGenerating C++ code from kxr_controller/StretchFeedback.msg[0m
+[ 75%] [34m[1mGenerating Python from MSG kxr_controller/PressureControlResult[0m
+[ 76%] [34m[1mGenerating Javascript code from kxr_controller/PressureControlFeedback.msg[0m
+[ 77%] [34m[1mGenerating EusLisp code from kxr_controller/PressureControlActionResult.msg[0m
+[ 78%] [34m[1mGenerating EusLisp code from kxr_controller/PressureControlActionFeedback.msg[0m
+[ 78%] [34m[1mGenerating Python from MSG kxr_controller/PressureControlFeedback[0m
+[ 78%] [34m[1mGenerating Javascript code from kxr_controller/Stretch.msg[0m
+[ 78%] [34m[1mGenerating EusLisp code from kxr_controller/PressureControlGoal.msg[0m
+[ 79%] [34m[1mGenerating Javascript code from kxr_controller/ServoOnOff.msg[0m
+[ 80%] [34m[1mGenerating EusLisp code from kxr_controller/PressureControlResult.msg[0m
+[ 80%] [34m[1mGenerating Javascript code from kxr_controller/PressureControl.msg[0m
+[ 80%] [34m[1mGenerating EusLisp code from kxr_controller/PressureControlFeedback.msg[0m
+[ 81%] [34m[1mGenerating Javascript code from kxr_controller/ServoState.msg[0m
+[ 81%] [34m[1mGenerating C++ code from kxr_controller/PressureControlAction.msg[0m
+[ 82%] [34m[1mGenerating Javascript code from kxr_controller/ServoStateArray.msg[0m
+[ 83%] [34m[1mGenerating Python from MSG kxr_controller/Stretch[0m
+[ 83%] [34m[1mGenerating Python from MSG kxr_controller/ServoOnOff[0m
+[ 84%] [34m[1mGenerating Python from MSG kxr_controller/PressureControl[0m
+[ 85%] [34m[1mGenerating C++ code from kxr_controller/PressureControlActionGoal.msg[0m
+[ 86%] [34m[1mGenerating EusLisp code from kxr_controller/Stretch.msg[0m
+[ 86%] [34m[1mGenerating EusLisp code from kxr_controller/ServoOnOff.msg[0m
+[ 86%] Built target kxr_controller_generate_messages_nodejs
+[ 87%] [34m[1mGenerating EusLisp code from kxr_controller/PressureControl.msg[0m
+[ 88%] [34m[1mGenerating EusLisp code from kxr_controller/ServoState.msg[0m
+[ 89%] [34m[1mGenerating C++ code from kxr_controller/PressureControlActionResult.msg[0m
+[ 89%] [34m[1mGenerating EusLisp code from kxr_controller/ServoStateArray.msg[0m
+[ 89%] [34m[1mGenerating C++ code from kxr_controller/PressureControlActionFeedback.msg[0m
+[ 89%] [34m[1mGenerating Python from MSG kxr_controller/ServoState[0m
+[ 91%] [34m[1mGenerating Python from MSG kxr_controller/ServoStateArray[0m
+[ 91%] [34m[1mGenerating EusLisp manifest code for kxr_controller[0m
+[ 92%] [34m[1mGenerating C++ code from kxr_controller/PressureControlGoal.msg[0m
+[ 92%] [34m[1mGenerating C++ code from kxr_controller/PressureControlResult.msg[0m
+WARNING: Package name "HARIMOTO" does not follow the naming conventions. It should start with a lower case letter and only contain lower case letters, digits, underscores, and dashes.
+[ 93%] [34m[1mGenerating C++ code from kxr_controller/PressureControlFeedback.msg[0m
+[ 93%] [34m[1mGenerating C++ code from kxr_controller/Stretch.msg[0m
+[ 94%] [34m[1mGenerating C++ code from kxr_controller/ServoOnOff.msg[0m
+[ 95%] [34m[1mGenerating C++ code from kxr_controller/PressureControl.msg[0m
+[ 96%] [34m[1mGenerating Python msg __init__.py for kxr_controller[0m
+[ 96%] [34m[1mGenerating C++ code from kxr_controller/ServoState.msg[0m
+[ 97%] [34m[1mGenerating C++ code from kxr_controller/ServoStateArray.msg[0m
+[ 97%] Built target kxr_controller_generate_messages_py
+[ 97%] Built target kxr_controller_generate_messages_cpp
+WARNING: Package name "HARIMOTO" does not follow the naming conventions. It should start with a lower case letter and only contain lower case letters, digits, underscores, and dashes.
+[35m[1mScanning dependencies of target kxr_controller[0m
+[ 97%] [32mBuilding CXX object CMakeFiles/kxr_controller.dir/src/kxr_robot_hardware.cpp.o[0m
+[ 98%] [32mBuilding CXX object CMakeFiles/kxr_controller.dir/src/kxr_ros_controller.cpp.o[0m
+[ 98%] Built target kxr_controller_generate_messages_eus
+[35m[1mScanning dependencies of target kxr_controller_generate_messages[0m
+[ 98%] Built target kxr_controller_generate_messages
+[100%] [32m[1mLinking CXX executable /home/mech-user/ping-pong-robot/devel/.private/kxr_controller/lib/kxr_controller/kxr_controller[0m
+[100%] Built target kxr_controller

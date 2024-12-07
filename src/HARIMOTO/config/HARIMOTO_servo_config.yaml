@@ -1,0 +1,6 @@
+joint_name_to_servo_id: {
+  upper_shoulder: {id: 0, direction: 1, offset: 0},
+  lower_shoulder: {id: 2, direction: 1, offset: 0},
+  upper_arm: {id: 4, direction: 1, offset: 0},
+  lower_arm: {id: 6, direction: 1, offset: 0},
+}

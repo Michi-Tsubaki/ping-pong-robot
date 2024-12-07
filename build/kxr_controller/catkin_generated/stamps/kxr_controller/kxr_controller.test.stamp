@@ -1,0 +1,82 @@
+<launch>
+
+  <arg name="namespace" default="" />
+  <arg name="use_rcb4" default="false" doc="Flag to use RCB4 mini board"/>
+  <arg name="frame_count" default="50" />
+
+  <include file="$(find kxr_controller)/launch/kxr_controller.launch">
+    <arg name="urdf_path" value="$(find kxr_models)/urdf/kxr_test_head.urdf" />
+    <arg name="servo_config_path" value="$(find kxr_models)/config/kxr_test_head_servo_config.yaml" />
+    <arg name="namespace" value="$(arg namespace)" />
+    <arg name="use_rcb4" value="$(arg use_rcb4)" />
+    <arg name="frame_count" value="$(arg frame_count)" />
+  </include>
+
+  <group if="$(eval len(arg('namespace')) > 0)" ns="$(arg namespace)" >
+    <test test-name="test_ros_topics"
+          name="test_ros_topics"
+          pkg="jsk_tools" type="test_topic_published.py"
+          retry="1" >
+        <rosparam>
+          topic_0: current_joint_states
+          timeout_0: 30
+          topic_1: joint_states
+          timeout_1: 30
+          topic_2: fullbody_controller/follow_joint_trajectory/status
+          timeout_2: 30
+          topic_3: fullbody_controller/servo_on_off_real_interface/status
+          timeout_3: 30
+        </rosparam>
+    </test>
+
+    <group unless="$(arg use_rcb4)" >
+      <test test-name="test_ros_topics_for_armh7"
+            name="test_ros_topics_for_armh7"
+            pkg="jsk_tools" type="test_topic_published.py"
+            retry="1" >
+        <rosparam>
+          topic_0: imu
+          timeout_0: 30
+        </rosparam>
+      </test>
+    </group>
+  </group>
+
+
+  <group unless="$(eval len(arg('namespace')) > 0)">
+    <test test-name="test_ros_topics"
+          name="test_ros_topics"
+          pkg="jsk_tools" type="test_topic_published.py"
+          retry="1" >
+      <rosparam>
+        topic_0: current_joint_states
+        timeout_0: 30
+        topic_1: joint_states
+        timeout_1: 30
+        topic_2: fullbody_controller/follow_joint_trajectory/status
+        timeout_2: 30
+        topic_3: fullbody_controller/servo_on_off_real_interface/status
+        timeout_3: 30
+      </rosparam>
+    </test>
+
+    <group unless="$(arg use_rcb4)" >
+      <test test-name="test_ros_topics_for_armh7"
+            name="test_ros_topics_for_armh7"
+            pkg="jsk_tools" type="test_topic_published.py"
+            retry="1" >
+        <rosparam>
+          topic_0: imu
+          timeout_0: 30
+        </rosparam>
+      </test>
+    </group>
+  </group>
+
+  <test test-name="test_kxr_controller"
+        name="test_kxr_controller"
+        pkg="kxr_controller" type="test_kxr_controller.py" >
+    <param name="~namespace" value="$(arg namespace)" />
+  </test>
+
+</launch>

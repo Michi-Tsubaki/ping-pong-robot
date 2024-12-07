@@ -1,0 +1,131 @@
+[33m[1mCMake Warning[0m at /opt/ros/noetic/share/cmake_modules/cmake/Modules/FindEigen.cmake:62 (message):
+  The FindEigen.cmake Module in the cmake_modules package is deprecated.
+
+  Please use the FindEigen3.cmake Module provided with Eigen.  Change
+  instances of find_package(Eigen) to find_package(Eigen3).  Check the
+  FindEigen3.cmake Module for the resulting CMake variable names.
+
+[36mCall Stack (most recent call first):[0m
+  CMakeLists.txt:46 (find_package)
+
+
+CMake Warning (dev) at /opt/ros/noetic/share/catkin/cmake/test/tests.cmake:163 (add_custom_target):
+  Policy CMP0037 is not set: Target names should not be reserved and should
+  match a validity pattern.  Run "cmake --help-policy CMP0037" for policy
+  details.  Use the cmake_policy command to set the policy and suppress this
+  warning.
+
+  The target name
+  "run_tests_kxr_controller_rostest_kxr_controller__namespace_"".test" is
+  reserved or not valid for certain CMake features, such as generator
+  expressions, and may result in undefined behavior.
+[36mCall Stack (most recent call first):[0m
+  /opt/ros/noetic/share/rostest/cmake/rostest-extras.cmake:52 (catkin_run_tests_target)
+  CMakeLists.txt:115 (add_rostest)
+This warning is for project developers.  Use -Wno-dev to suppress it.
+
+CMake Warning (dev) at /opt/ros/noetic/share/catkin/cmake/test/tests.cmake:177 (add_custom_target):
+  Policy CMP0037 is not set: Target names should not be reserved and should
+  match a validity pattern.  Run "cmake --help-policy CMP0037" for policy
+  details.  Use the cmake_policy command to set the policy and suppress this
+  warning.
+
+  The target name
+  "_run_tests_kxr_controller_rostest_kxr_controller__namespace_"".test" is
+  reserved or not valid for certain CMake features, such as generator
+  expressions, and may result in undefined behavior.
+[36mCall Stack (most recent call first):[0m
+  /opt/ros/noetic/share/rostest/cmake/rostest-extras.cmake:52 (catkin_run_tests_target)
+  CMakeLists.txt:115 (add_rostest)
+This warning is for project developers.  Use -Wno-dev to suppress it.
+
+CMake Warning (dev) at /opt/ros/noetic/share/catkin/cmake/test/tests.cmake:163 (add_custom_target):
+  Policy CMP0037 is not set: Target names should not be reserved and should
+  match a validity pattern.  Run "cmake --help-policy CMP0037" for policy
+  details.  Use the cmake_policy command to set the policy and suppress this
+  warning.
+
+  The target name
+  "run_tests_kxr_controller_rostest_kxr_controller__namespace_"robot_a".test"
+  is reserved or not valid for certain CMake features, such as generator
+  expressions, and may result in undefined behavior.
+[36mCall Stack (most recent call first):[0m
+  /opt/ros/noetic/share/rostest/cmake/rostest-extras.cmake:52 (catkin_run_tests_target)
+  CMakeLists.txt:116 (add_rostest)
+This warning is for project developers.  Use -Wno-dev to suppress it.
+
+CMake Warning (dev) at /opt/ros/noetic/share/catkin/cmake/test/tests.cmake:177 (add_custom_target):
+  Policy CMP0037 is not set: Target names should not be reserved and should
+  match a validity pattern.  Run "cmake --help-policy CMP0037" for policy
+  details.  Use the cmake_policy command to set the policy and suppress this
+  warning.
+
+  The target name
+  "_run_tests_kxr_controller_rostest_kxr_controller__namespace_"robot_a".test"
+  is reserved or not valid for certain CMake features, such as generator
+  expressions, and may result in undefined behavior.
+[36mCall Stack (most recent call first):[0m
+  /opt/ros/noetic/share/rostest/cmake/rostest-extras.cmake:52 (catkin_run_tests_target)
+  CMakeLists.txt:116 (add_rostest)
+This warning is for project developers.  Use -Wno-dev to suppress it.
+
+CMake Warning (dev) at /opt/ros/noetic/share/catkin/cmake/test/tests.cmake:163 (add_custom_target):
+  Policy CMP0037 is not set: Target names should not be reserved and should
+  match a validity pattern.  Run "cmake --help-policy CMP0037" for policy
+  details.  Use the cmake_policy command to set the policy and suppress this
+  warning.
+
+  The target name
+  "run_tests_kxr_controller_rostest_kxr_controller__namespace_""__use_rcb4_true__frame_count_5.test"
+  is reserved or not valid for certain CMake features, such as generator
+  expressions, and may result in undefined behavior.
+[36mCall Stack (most recent call first):[0m
+  /opt/ros/noetic/share/rostest/cmake/rostest-extras.cmake:52 (catkin_run_tests_target)
+  CMakeLists.txt:117 (add_rostest)
+This warning is for project developers.  Use -Wno-dev to suppress it.
+
+CMake Warning (dev) at /opt/ros/noetic/share/catkin/cmake/test/tests.cmake:177 (add_custom_target):
+  Policy CMP0037 is not set: Target names should not be reserved and should
+  match a validity pattern.  Run "cmake --help-policy CMP0037" for policy
+  details.  Use the cmake_policy command to set the policy and suppress this
+  warning.
+
+  The target name
+  "_run_tests_kxr_controller_rostest_kxr_controller__namespace_""__use_rcb4_true__frame_count_5.test"
+  is reserved or not valid for certain CMake features, such as generator
+  expressions, and may result in undefined behavior.
+[36mCall Stack (most recent call first):[0m
+  /opt/ros/noetic/share/rostest/cmake/rostest-extras.cmake:52 (catkin_run_tests_target)
+  CMakeLists.txt:117 (add_rostest)
+This warning is for project developers.  Use -Wno-dev to suppress it.
+
+CMake Warning (dev) at /opt/ros/noetic/share/catkin/cmake/test/tests.cmake:163 (add_custom_target):
+  Policy CMP0037 is not set: Target names should not be reserved and should
+  match a validity pattern.  Run "cmake --help-policy CMP0037" for policy
+  details.  Use the cmake_policy command to set the policy and suppress this
+  warning.
+
+  The target name
+  "run_tests_kxr_controller_rostest_kxr_controller__namespace_"robot_a"__use_rcb4_true__frame_count_5.test"
+  is reserved or not valid for certain CMake features, such as generator
+  expressions, and may result in undefined behavior.
+[36mCall Stack (most recent call first):[0m
+  /opt/ros/noetic/share/rostest/cmake/rostest-extras.cmake:52 (catkin_run_tests_target)
+  CMakeLists.txt:118 (add_rostest)
+This warning is for project developers.  Use -Wno-dev to suppress it.
+
+CMake Warning (dev) at /opt/ros/noetic/share/catkin/cmake/test/tests.cmake:177 (add_custom_target):
+  Policy CMP0037 is not set: Target names should not be reserved and should
+  match a validity pattern.  Run "cmake --help-policy CMP0037" for policy
+  details.  Use the cmake_policy command to set the policy and suppress this
+  warning.
+
+  The target name
+  "_run_tests_kxr_controller_rostest_kxr_controller__namespace_"robot_a"__use_rcb4_true__frame_count_5.test"
+  is reserved or not valid for certain CMake features, such as generator
+  expressions, and may result in undefined behavior.
+[36mCall Stack (most recent call first):[0m
+  /opt/ros/noetic/share/rostest/cmake/rostest-extras.cmake:52 (catkin_run_tests_target)
+  CMakeLists.txt:118 (add_rostest)
+This warning is for project developers.  Use -Wno-dev to suppress it.
+

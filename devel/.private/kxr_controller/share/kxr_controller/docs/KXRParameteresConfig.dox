@@ -1,0 +1,9 @@
+\subsubsection parameters ROS parameters
+
+Reads and maintains the following parameters on the ROS server
+
+- \b "~frame_count" : \b [int] Frame Count min: 1, default: 50, max: 255
+- \b "~wheel_frame_count" : \b [int] Frame Count for Wheel min: 1, default: 1, max: 255
+- \b "~temperature_limit" : \b [double] Temperature limit in celsius min: 0.0, default: 80.0, max: 120.0
+- \b "~current_limit" : \b [double] Current limit in Amp min: 0.0, default: 4.0, max: 6.0
+

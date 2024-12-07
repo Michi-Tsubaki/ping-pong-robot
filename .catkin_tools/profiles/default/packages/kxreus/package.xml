@@ -1,0 +1,33 @@
+<package format="3">
+
+  <name>kxreus</name>
+  <version>0.0.5</version>
+  <description>
+    roseus interface for kxr robots.
+  </description>
+
+  <license>MIT</license>
+  <maintainer email="yanokura@jsk.imi.i.u-tokyo.ac.jp">Iori Yanokura</maintainer>
+  <author email="yanokura@jsk.imi.i.u-tokyo.ac.jp">Iori Yanokura</author>
+
+  <buildtool_depend>catkin</buildtool_depend>
+  <build_depend>catkin_virtualenv</build_depend>
+
+  <!-- ALPHABETICAL ORDER -->
+  <build_depend>kxr_controller</build_depend>
+  <build_depend>kxr_models</build_depend>
+  <!-- ALPHABETICAL ORDER -->
+
+  <!-- ALPHABETICAL ORDER -->
+  <exec_depend>kxr_controller</exec_depend>
+  <exec_depend>kxr_models</exec_depend>
+  <exec_depend>pr2eus</exec_depend>
+  <exec_depend>roseus</exec_depend>
+  <exec_depend>wget</exec_depend>
+  <!-- ALPHABETICAL ORDER -->
+
+  <export>
+    <pip_requirements>requirements.txt</pip_requirements>
+  </export>
+
+</package>

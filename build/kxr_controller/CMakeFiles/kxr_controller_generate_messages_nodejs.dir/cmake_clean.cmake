@@ -1,0 +1,41 @@
+file(REMOVE_RECURSE
+  "/home/mech-user/ping-pong-robot/devel/.private/kxr_controller/share/gennodejs/ros/kxr_controller/msg/AdjustAngleVectorAction.js"
+  "/home/mech-user/ping-pong-robot/devel/.private/kxr_controller/share/gennodejs/ros/kxr_controller/msg/AdjustAngleVectorActionFeedback.js"
+  "/home/mech-user/ping-pong-robot/devel/.private/kxr_controller/share/gennodejs/ros/kxr_controller/msg/AdjustAngleVectorActionGoal.js"
+  "/home/mech-user/ping-pong-robot/devel/.private/kxr_controller/share/gennodejs/ros/kxr_controller/msg/AdjustAngleVectorActionResult.js"
+  "/home/mech-user/ping-pong-robot/devel/.private/kxr_controller/share/gennodejs/ros/kxr_controller/msg/AdjustAngleVectorFeedback.js"
+  "/home/mech-user/ping-pong-robot/devel/.private/kxr_controller/share/gennodejs/ros/kxr_controller/msg/AdjustAngleVectorGoal.js"
+  "/home/mech-user/ping-pong-robot/devel/.private/kxr_controller/share/gennodejs/ros/kxr_controller/msg/AdjustAngleVectorResult.js"
+  "/home/mech-user/ping-pong-robot/devel/.private/kxr_controller/share/gennodejs/ros/kxr_controller/msg/PressureControl.js"
+  "/home/mech-user/ping-pong-robot/devel/.private/kxr_controller/share/gennodejs/ros/kxr_controller/msg/PressureControlAction.js"
+  "/home/mech-user/ping-pong-robot/devel/.private/kxr_controller/share/gennodejs/ros/kxr_controller/msg/PressureControlActionFeedback.js"
+  "/home/mech-user/ping-pong-robot/devel/.private/kxr_controller/share/gennodejs/ros/kxr_controller/msg/PressureControlActionGoal.js"
+  "/home/mech-user/ping-pong-robot/devel/.private/kxr_controller/share/gennodejs/ros/kxr_controller/msg/PressureControlActionResult.js"
+  "/home/mech-user/ping-pong-robot/devel/.private/kxr_controller/share/gennodejs/ros/kxr_controller/msg/PressureControlFeedback.js"
+  "/home/mech-user/ping-pong-robot/devel/.private/kxr_controller/share/gennodejs/ros/kxr_controller/msg/PressureControlGoal.js"
+  "/home/mech-user/ping-pong-robot/devel/.private/kxr_controller/share/gennodejs/ros/kxr_controller/msg/PressureControlResult.js"
+  "/home/mech-user/ping-pong-robot/devel/.private/kxr_controller/share/gennodejs/ros/kxr_controller/msg/ServoOnOff.js"
+  "/home/mech-user/ping-pong-robot/devel/.private/kxr_controller/share/gennodejs/ros/kxr_controller/msg/ServoOnOffAction.js"
+  "/home/mech-user/ping-pong-robot/devel/.private/kxr_controller/share/gennodejs/ros/kxr_controller/msg/ServoOnOffActionFeedback.js"
+  "/home/mech-user/ping-pong-robot/devel/.private/kxr_controller/share/gennodejs/ros/kxr_controller/msg/ServoOnOffActionGoal.js"
+  "/home/mech-user/ping-pong-robot/devel/.private/kxr_controller/share/gennodejs/ros/kxr_controller/msg/ServoOnOffActionResult.js"
+  "/home/mech-user/ping-pong-robot/devel/.private/kxr_controller/share/gennodejs/ros/kxr_controller/msg/ServoOnOffFeedback.js"
+  "/home/mech-user/ping-pong-robot/devel/.private/kxr_controller/share/gennodejs/ros/kxr_controller/msg/ServoOnOffGoal.js"
+  "/home/mech-user/ping-pong-robot/devel/.private/kxr_controller/share/gennodejs/ros/kxr_controller/msg/ServoOnOffResult.js"
+  "/home/mech-user/ping-pong-robot/devel/.private/kxr_controller/share/gennodejs/ros/kxr_controller/msg/ServoState.js"
+  "/home/mech-user/ping-pong-robot/devel/.private/kxr_controller/share/gennodejs/ros/kxr_controller/msg/ServoStateArray.js"
+  "/home/mech-user/ping-pong-robot/devel/.private/kxr_controller/share/gennodejs/ros/kxr_controller/msg/Stretch.js"
+  "/home/mech-user/ping-pong-robot/devel/.private/kxr_controller/share/gennodejs/ros/kxr_controller/msg/StretchAction.js"
+  "/home/mech-user/ping-pong-robot/devel/.private/kxr_controller/share/gennodejs/ros/kxr_controller/msg/StretchActionFeedback.js"
+  "/home/mech-user/ping-pong-robot/devel/.private/kxr_controller/share/gennodejs/ros/kxr_controller/msg/StretchActionGoal.js"
+  "/home/mech-user/ping-pong-robot/devel/.private/kxr_controller/share/gennodejs/ros/kxr_controller/msg/StretchActionResult.js"
+  "/home/mech-user/ping-pong-robot/devel/.private/kxr_controller/share/gennodejs/ros/kxr_controller/msg/StretchFeedback.js"
+  "/home/mech-user/ping-pong-robot/devel/.private/kxr_controller/share/gennodejs/ros/kxr_controller/msg/StretchGoal.js"
+  "/home/mech-user/ping-pong-robot/devel/.private/kxr_controller/share/gennodejs/ros/kxr_controller/msg/StretchResult.js"
+  "CMakeFiles/kxr_controller_generate_messages_nodejs"
+)
+
+# Per-language clean rules from dependency scanning.
+foreach(lang )
+  include(CMakeFiles/kxr_controller_generate_messages_nodejs.dir/cmake_clean_${lang}.cmake OPTIONAL)
+endforeach()

@@ -1,0 +1,161 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<robot name="HARIMOTO">
+  <link name="base_link">
+    <inertial>
+      <origin xyz="0.0 0.0 0.0" rpy="0.0 -0.0 0.0"/>
+      <mass value="0.0468580060932661"/>
+      <inertia ixx="1.56534574192188e-05" ixy="6.61087369064978e-07" ixz="-7.21642700260539e-07" iyy="1.29229800207445e-05" iyz="5.02340603686712e-06" izz="1.41194963510472e-05"/>
+    </inertial>
+    <visual>
+      <geometry>
+        <mesh filename="package://HARIMOTO/meshes/base_link.dae"/>
+      </geometry>
+      <material name=""/>
+      <origin xyz="-0.07 -0.02 0.59" rpy="-2.641592653589793 1.541592653589793 -1.791592653589793"/>
+    </visual>
+    <collision>
+      <geometry>
+        <mesh filename="package://HARIMOTO/meshes/base_link.dae"/>
+      </geometry>
+      <origin xyz="0.0 0.0 0.0" rpy="0.0 -0.0 0.0"/>
+    </collision>
+  </link>
+  <link name="upper_shoulder">
+    <inertial>
+      <origin xyz="0.0129549305137396 -0.0148664141809147 -0.0276892742587567" rpy="0.0 -0.0 0.0"/>
+      <mass value="0.0335476434855063"/>
+      <inertia ixx="3.81490155615431e-06" ixy="1.21543917806917e-08" ixz="2.11998108883291e-08" iyy="4.64648709409639e-06" iyz="9.45842330050794e-09" izz="3.45395092938991e-06"/>
+    </inertial>
+    <visual>
+      <geometry>
+        <mesh filename="package://HARIMOTO/meshes/upper_shoulder.dae"/>
+      </geometry>
+      <material name=""/>
+      <origin xyz="0.0 0.0 0.0" rpy="0.0 -0.0 0.0"/>
+    </visual>
+    <collision>
+      <geometry>
+        <mesh filename="package://HARIMOTO/meshes/upper_shoulder.dae"/>
+      </geometry>
+      <origin xyz="0.0 0.0 0.0" rpy="0.0 -0.0 0.0"/>
+    </collision>
+  </link>
+  <link name="lower_shoulder">
+    <inertial>
+      <origin xyz="-6.29007393652889e-05 -0.0773879745241495 -2.62161943492267e-05" rpy="0.0 -0.0 0.0"/>
+      <mass value="0.0576719241727569"/>
+      <inertia ixx="1.7120909538195e-05" ixy="9.45797260721662e-09" ixz="-1.21542702244487e-08" iyy="4.4501235896574e-06" iyz="-2.11998275069902e-08" izz="1.64179743238391e-05"/>
+    </inertial>
+    <visual>
+      <geometry>
+        <mesh filename="package://HARIMOTO/meshes/lower_shoulder.dae"/>
+      </geometry>
+      <material name=""/>
+      <origin xyz="0.0 0.0 0.0" rpy="0.0 -0.0 0.0"/>
+    </visual>
+    <collision>
+      <geometry>
+        <mesh filename="package://HARIMOTO/meshes/lower_shoulder.dae"/>
+      </geometry>
+      <origin xyz="0.0 0.0 0.0" rpy="0.0 -0.0 0.0"/>
+    </collision>
+  </link>
+  <link name="upper_arm">
+    <inertial>
+      <origin xyz="-0.00733809185080686 9.50609948116299e-05 -0.00741154132403037" rpy="0.0 -0.0 0.0"/>
+      <mass value="0.0214573443165031"/>
+      <inertia ixx="2.31688951311032e-06" ixy="3.18660578583586e-09" ixz="2.10545109019354e-08" iyy="3.0075651917683e-06" iyz="1.16767658606973e-08" izz="2.83620449126694e-06"/>
+    </inertial>
+    <visual>
+      <geometry>
+        <mesh filename="package://HARIMOTO/meshes/upper_arm.dae"/>
+      </geometry>
+      <material name=""/>
+      <origin xyz="0.0 0.0 0.0" rpy="0.0 -0.0 0.0"/>
+    </visual>
+    <collision>
+      <geometry>
+        <mesh filename="package://HARIMOTO/meshes/upper_arm.dae"/>
+      </geometry>
+      <origin xyz="0.0 0.0 0.0" rpy="0.0 -0.0 0.0"/>
+    </collision>
+  </link>
+  <link name="lower_arm">
+    <inertial>
+      <origin xyz="0.0905172935969401 0.0166000014024307 0.0144645438816075" rpy="0.0 -0.0 0.0"/>
+      <mass value="0.00518942527154281"/>
+      <inertia ixx="1.15670084412165e-07" ixy="5.45570467748176e-14" ixz="6.63380350348761e-09" iyy="9.48396463628822e-07" iyz="-5.87125231080151e-15" izz="1.02989357855173e-06"/>
+    </inertial>
+    <visual>
+      <geometry>
+        <mesh filename="package://HARIMOTO/meshes/lower_arm.dae"/>
+      </geometry>
+      <material name=""/>
+      <origin xyz="1.0 1.0 1.0" rpy="0.0 -0.0 0.0"/>
+    </visual>
+    <collision>
+      <geometry>
+        <mesh filename="package://HARIMOTO/meshes/lower_arm.dae"/>
+      </geometry>
+      <origin xyz="0.0 0.0 0.0" rpy="0.0 -0.0 0.0"/>
+    </collision>
+  </link>
+  <link name="hand">
+    <inertial>
+      <origin xyz="-1.0 0.0165410815195246 0.0167804968470659" rpy="0.0 -0.0 0.0"/>
+      <mass value="0.0425234840552025"/>
+      <inertia ixx="5.46948254274658e-06" ixy="-4.38387714935454e-10" ixz="9.10215745459036e-07" iyy="2.00650338164068e-05" iyz="1.25447234705641e-09" izz="1.69147927720201e-05"/>
+    </inertial>
+    <visual>
+      <geometry>
+        <mesh filename="package://HARIMOTO/meshes/hand.dae"/>
+      </geometry>
+      <material name=""/>
+      <origin xyz="0.0 0.0 0.0" rpy="0.0 -0.0 0.0"/>
+    </visual>
+    <collision>
+      <geometry>
+        <mesh filename="package://HARIMOTO/meshes/hand.dae"/>
+      </geometry>
+      <origin xyz="0.0 0.0 0.0" rpy="0.0 -0.0 0.0"/>
+    </collision>
+  </link>
+  <joint name="upper_shoulder" type="revolute">
+    <limit effort="0.48" velocity="6.55" lower="-1.0" upper="0.0"/>
+    <parent link="base_link"/>
+    <child link="upper_shoulder"/>
+    <axis xyz="0. 0. 1."/>
+    <origin xyz="0.0 0.0 0.3" rpy="-1.57 -1.57 0.0"/>
+  </joint>
+  <joint name="lower_shoulder" type="revolute">
+    <limit effort="0.48" velocity="6.55" lower="-2.7" upper="0.75"/>
+    <parent link="upper_shoulder"/>
+    <child link="lower_shoulder"/>
+    <axis xyz="0. 1. 0."/>
+    <origin xyz="0.033 -0.0145 -0.041" rpy="0.7915926535897934 -1.5707926535897934 3.141592653589793"/>
+  </joint>
+  <joint name="upper_arm" type="revolute">
+    <limit effort="0.48" velocity="6.55" lower="-0.7" upper="0.7"/>
+    <parent link="lower_shoulder"/>
+    <child link="upper_arm"/>
+    <axis xyz=" 0. -1.  0."/>
+    <origin xyz="0.0 -0.1 0.0" rpy="-1.5708 -0.0 -1.5708"/>
+  </joint>
+  <joint name="lower_arm" type="revolute">
+    <limit effort="0.48" velocity="6.55" lower="-1.5" upper="1.5"/>
+    <parent link="upper_arm"/>
+    <child link="lower_arm"/>
+    <axis xyz=" 0.  0. -1."/>
+    <origin xyz="0.0 0.0 -0.02" rpy="0.0 -0.0 -3.1415853071795867"/>
+  </joint>
+  <joint name="hand" type="fixed">
+    <limit effort="0.0" velocity="0.0"/>
+    <parent link="lower_arm"/>
+    <child link="hand"/>
+    <axis xyz="0. 0. 0."/>
+    <origin xyz="-0.11 0.0 0.0" rpy="0.0 -0.0 0.0"/>
+  </joint>
+  <material name="">
+    <color rgba="1. 1. 1. 1."/>
+  </material>
+</robot>

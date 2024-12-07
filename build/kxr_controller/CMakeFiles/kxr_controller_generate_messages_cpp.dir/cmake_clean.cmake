@@ -1,0 +1,41 @@
+file(REMOVE_RECURSE
+  "/home/mech-user/ping-pong-robot/devel/.private/kxr_controller/include/kxr_controller/AdjustAngleVectorAction.h"
+  "/home/mech-user/ping-pong-robot/devel/.private/kxr_controller/include/kxr_controller/AdjustAngleVectorActionFeedback.h"
+  "/home/mech-user/ping-pong-robot/devel/.private/kxr_controller/include/kxr_controller/AdjustAngleVectorActionGoal.h"
+  "/home/mech-user/ping-pong-robot/devel/.private/kxr_controller/include/kxr_controller/AdjustAngleVectorActionResult.h"
+  "/home/mech-user/ping-pong-robot/devel/.private/kxr_controller/include/kxr_controller/AdjustAngleVectorFeedback.h"
+  "/home/mech-user/ping-pong-robot/devel/.private/kxr_controller/include/kxr_controller/AdjustAngleVectorGoal.h"
+  "/home/mech-user/ping-pong-robot/devel/.private/kxr_controller/include/kxr_controller/AdjustAngleVectorResult.h"
+  "/home/mech-user/ping-pong-robot/devel/.private/kxr_controller/include/kxr_controller/PressureControl.h"
+  "/home/mech-user/ping-pong-robot/devel/.private/kxr_controller/include/kxr_controller/PressureControlAction.h"
+  "/home/mech-user/ping-pong-robot/devel/.private/kxr_controller/include/kxr_controller/PressureControlActionFeedback.h"
+  "/home/mech-user/ping-pong-robot/devel/.private/kxr_controller/include/kxr_controller/PressureControlActionGoal.h"
+  "/home/mech-user/ping-pong-robot/devel/.private/kxr_controller/include/kxr_controller/PressureControlActionResult.h"
+  "/home/mech-user/ping-pong-robot/devel/.private/kxr_controller/include/kxr_controller/PressureControlFeedback.h"
+  "/home/mech-user/ping-pong-robot/devel/.private/kxr_controller/include/kxr_controller/PressureControlGoal.h"
+  "/home/mech-user/ping-pong-robot/devel/.private/kxr_controller/include/kxr_controller/PressureControlResult.h"
+  "/home/mech-user/ping-pong-robot/devel/.private/kxr_controller/include/kxr_controller/ServoOnOff.h"
+  "/home/mech-user/ping-pong-robot/devel/.private/kxr_controller/include/kxr_controller/ServoOnOffAction.h"
+  "/home/mech-user/ping-pong-robot/devel/.private/kxr_controller/include/kxr_controller/ServoOnOffActionFeedback.h"
+  "/home/mech-user/ping-pong-robot/devel/.private/kxr_controller/include/kxr_controller/ServoOnOffActionGoal.h"
+  "/home/mech-user/ping-pong-robot/devel/.private/kxr_controller/include/kxr_controller/ServoOnOffActionResult.h"
+  "/home/mech-user/ping-pong-robot/devel/.private/kxr_controller/include/kxr_controller/ServoOnOffFeedback.h"
+  "/home/mech-user/ping-pong-robot/devel/.private/kxr_controller/include/kxr_controller/ServoOnOffGoal.h"
+  "/home/mech-user/ping-pong-robot/devel/.private/kxr_controller/include/kxr_controller/ServoOnOffResult.h"
+  "/home/mech-user/ping-pong-robot/devel/.private/kxr_controller/include/kxr_controller/ServoState.h"
+  "/home/mech-user/ping-pong-robot/devel/.private/kxr_controller/include/kxr_controller/ServoStateArray.h"
+  "/home/mech-user/ping-pong-robot/devel/.private/kxr_controller/include/kxr_controller/Stretch.h"
+  "/home/mech-user/ping-pong-robot/devel/.private/kxr_controller/include/kxr_controller/StretchAction.h"
+  "/home/mech-user/ping-pong-robot/devel/.private/kxr_controller/include/kxr_controller/StretchActionFeedback.h"
+  "/home/mech-user/ping-pong-robot/devel/.private/kxr_controller/include/kxr_controller/StretchActionGoal.h"
+  "/home/mech-user/ping-pong-robot/devel/.private/kxr_controller/include/kxr_controller/StretchActionResult.h"
+  "/home/mech-user/ping-pong-robot/devel/.private/kxr_controller/include/kxr_controller/StretchFeedback.h"
+  "/home/mech-user/ping-pong-robot/devel/.private/kxr_controller/include/kxr_controller/StretchGoal.h"
+  "/home/mech-user/ping-pong-robot/devel/.private/kxr_controller/include/kxr_controller/StretchResult.h"
+  "CMakeFiles/kxr_controller_generate_messages_cpp"
+)
+
+# Per-language clean rules from dependency scanning.
+foreach(lang )
+  include(CMakeFiles/kxr_controller_generate_messages_cpp.dir/cmake_clean_${lang}.cmake OPTIONAL)
+endforeach()

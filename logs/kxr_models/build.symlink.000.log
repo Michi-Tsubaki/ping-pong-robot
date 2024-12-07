@@ -1,0 +1,8 @@
+Symlinking /home/mech-user/ping-pong-robot/devel/share/kxr_models/cmake/kxr_modelsConfig.cmake
+Symlinking /home/mech-user/ping-pong-robot/devel/share/kxr_models/cmake/kxr_modelsConfig-version.cmake
+Symlinking /home/mech-user/ping-pong-robot/devel/lib/kxr_models/get_urdf_model.py
+Symlinking /home/mech-user/ping-pong-robot/devel/lib/kxr_models/cmake.lock
+Symlinking /home/mech-user/ping-pong-robot/devel/lib/kxr_models/urdf_model_server.py
+Symlinking /home/mech-user/ping-pong-robot/devel/lib/kxr_models/http_server_node.py
+Symlinking /home/mech-user/ping-pong-robot/devel/lib/pkgconfig/kxr_models.pc
+Symlinking /home/mech-user/ping-pong-robot/devel/lib/python3/dist-packages/kxr_models/__init__.py

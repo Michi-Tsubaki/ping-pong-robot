@@ -1,0 +1,10 @@
+\subsubsection usage Usage
+\verbatim
+<node name="kxr_controller" pkg="kxr_controller" type="kxr_controller">
+  <param name="frame_count" type="int" value="50" />
+  <param name="wheel_frame_count" type="int" value="1" />
+  <param name="temperature_limit" type="double" value="80.0" />
+  <param name="current_limit" type="double" value="4.0" />
+</node>
+\endverbatim
+

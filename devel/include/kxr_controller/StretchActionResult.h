@@ -1,0 +1,1 @@
+/home/mech-user/ping-pong-robot/devel/.private/kxr_controller/include/kxr_controller/StretchActionResult.h

@@ -8,7 +8,7 @@
     name="base_link">
     <inertial>
       <origin
-        xyz="0.287280488181305 0.119758135093113 0.0120759441708456"
+        xyz="0 0 0"
         rpy="0 0 0" />
       <mass
         value="0.0468580060932661" />
@@ -22,8 +22,8 @@
     </inertial>
     <visual>
       <origin
-        xyz="0 0 0"
-        rpy="0 0 0" />
+        xyz="-0.09 -0.04 0.605"
+        rpy="0.45 1.6 1.35" />
       <geometry>
         <mesh
           filename="package://HARIMOTO/meshes/base_link.STL" />
@@ -88,8 +88,8 @@
     name="upper_shoulder"
     type="revolute">
     <origin
-      xyz="0.27658 -0.037897 0.095074"
-      rpy="0.18413 0.71623 2.0474" />
+      xyz="0 0 0.3"
+      rpy="-1.57 -1.57 0" />
     <parent
       link="base_link" />
     <child
@@ -97,7 +97,7 @@
     <axis
       xyz="0 0 1" />
     <limit
-      lower="-1.2"
+      lower="-1"
       upper="0"
       effort="0"
       velocity="10" />
@@ -146,8 +146,8 @@
     name="lower_shoulder"
     type="revolute">
     <origin
-      xyz="-0.005 -0.0145 -0.041"
-      rpy="1.5708 -1.5708 0" />
+      xyz="0.033 -0.0145 -0.041"
+      rpy="-2.35 -1.5708 0" />
     <parent
       link="upper_shoulder" />
     <child
@@ -204,7 +204,7 @@
     name="upper_arm"
     type="revolute">
     <origin
-      xyz="-0.0275 -0.124 0"
+      xyz="0 -0.1 0"
       rpy="-1.5708 0 -1.5708" />
     <parent
       link="lower_shoulder" />
@@ -236,7 +236,7 @@
     </inertial>
     <visual>
       <origin
-        xyz="0 0 0"
+        xyz="1 1 1"
         rpy="0 0 0" />
       <geometry>
         <mesh
@@ -262,7 +262,7 @@
     name="lower_arm"
     type="revolute">
     <origin
-      xyz="0.1085 0.0166 0.0151"
+      xyz="0 0 -0.02"
       rpy="0 0 3.1416" />
     <parent
       link="upper_arm" />
@@ -280,7 +280,7 @@
     name="hand">
     <inertial>
       <origin
-        xyz="0.0362224472631212 0.0165410815195246 0.0167804968470659"
+        xyz="-1 0.0165410815195246 0.0167804968470659"
         rpy="0 0 0" />
       <mass
         value="0.0425234840552025" />
@@ -320,7 +320,7 @@
     name="hand"
     type="fixed">
     <origin
-      xyz="0 0 0"
+      xyz="-0.11 0 0"
       rpy="0 0 0" />
     <parent
       link="lower_arm" />

@@ -1,0 +1,42 @@
+file(REMOVE_RECURSE
+  "/home/mech-user/ping-pong-robot/devel/.private/kxr_controller/lib/python3/dist-packages/kxr_controller/msg/_AdjustAngleVectorAction.py"
+  "/home/mech-user/ping-pong-robot/devel/.private/kxr_controller/lib/python3/dist-packages/kxr_controller/msg/_AdjustAngleVectorActionFeedback.py"
+  "/home/mech-user/ping-pong-robot/devel/.private/kxr_controller/lib/python3/dist-packages/kxr_controller/msg/_AdjustAngleVectorActionGoal.py"
+  "/home/mech-user/ping-pong-robot/devel/.private/kxr_controller/lib/python3/dist-packages/kxr_controller/msg/_AdjustAngleVectorActionResult.py"
+  "/home/mech-user/ping-pong-robot/devel/.private/kxr_controller/lib/python3/dist-packages/kxr_controller/msg/_AdjustAngleVectorFeedback.py"
+  "/home/mech-user/ping-pong-robot/devel/.private/kxr_controller/lib/python3/dist-packages/kxr_controller/msg/_AdjustAngleVectorGoal.py"
+  "/home/mech-user/ping-pong-robot/devel/.private/kxr_controller/lib/python3/dist-packages/kxr_controller/msg/_AdjustAngleVectorResult.py"
+  "/home/mech-user/ping-pong-robot/devel/.private/kxr_controller/lib/python3/dist-packages/kxr_controller/msg/_PressureControl.py"
+  "/home/mech-user/ping-pong-robot/devel/.private/kxr_controller/lib/python3/dist-packages/kxr_controller/msg/_PressureControlAction.py"
+  "/home/mech-user/ping-pong-robot/devel/.private/kxr_controller/lib/python3/dist-packages/kxr_controller/msg/_PressureControlActionFeedback.py"
+  "/home/mech-user/ping-pong-robot/devel/.private/kxr_controller/lib/python3/dist-packages/kxr_controller/msg/_PressureControlActionGoal.py"
+  "/home/mech-user/ping-pong-robot/devel/.private/kxr_controller/lib/python3/dist-packages/kxr_controller/msg/_PressureControlActionResult.py"
+  "/home/mech-user/ping-pong-robot/devel/.private/kxr_controller/lib/python3/dist-packages/kxr_controller/msg/_PressureControlFeedback.py"
+  "/home/mech-user/ping-pong-robot/devel/.private/kxr_controller/lib/python3/dist-packages/kxr_controller/msg/_PressureControlGoal.py"
+  "/home/mech-user/ping-pong-robot/devel/.private/kxr_controller/lib/python3/dist-packages/kxr_controller/msg/_PressureControlResult.py"
+  "/home/mech-user/ping-pong-robot/devel/.private/kxr_controller/lib/python3/dist-packages/kxr_controller/msg/_ServoOnOff.py"
+  "/home/mech-user/ping-pong-robot/devel/.private/kxr_controller/lib/python3/dist-packages/kxr_controller/msg/_ServoOnOffAction.py"
+  "/home/mech-user/ping-pong-robot/devel/.private/kxr_controller/lib/python3/dist-packages/kxr_controller/msg/_ServoOnOffActionFeedback.py"
+  "/home/mech-user/ping-pong-robot/devel/.private/kxr_controller/lib/python3/dist-packages/kxr_controller/msg/_ServoOnOffActionGoal.py"
+  "/home/mech-user/ping-pong-robot/devel/.private/kxr_controller/lib/python3/dist-packages/kxr_controller/msg/_ServoOnOffActionResult.py"
+  "/home/mech-user/ping-pong-robot/devel/.private/kxr_controller/lib/python3/dist-packages/kxr_controller/msg/_ServoOnOffFeedback.py"
+  "/home/mech-user/ping-pong-robot/devel/.private/kxr_controller/lib/python3/dist-packages/kxr_controller/msg/_ServoOnOffGoal.py"
+  "/home/mech-user/ping-pong-robot/devel/.private/kxr_controller/lib/python3/dist-packages/kxr_controller/msg/_ServoOnOffResult.py"
+  "/home/mech-user/ping-pong-robot/devel/.private/kxr_controller/lib/python3/dist-packages/kxr_controller/msg/_ServoState.py"
+  "/home/mech-user/ping-pong-robot/devel/.private/kxr_controller/lib/python3/dist-packages/kxr_controller/msg/_ServoStateArray.py"
+  "/home/mech-user/ping-pong-robot/devel/.private/kxr_controller/lib/python3/dist-packages/kxr_controller/msg/_Stretch.py"
+  "/home/mech-user/ping-pong-robot/devel/.private/kxr_controller/lib/python3/dist-packages/kxr_controller/msg/_StretchAction.py"
+  "/home/mech-user/ping-pong-robot/devel/.private/kxr_controller/lib/python3/dist-packages/kxr_controller/msg/_StretchActionFeedback.py"
+  "/home/mech-user/ping-pong-robot/devel/.private/kxr_controller/lib/python3/dist-packages/kxr_controller/msg/_StretchActionGoal.py"
+  "/home/mech-user/ping-pong-robot/devel/.private/kxr_controller/lib/python3/dist-packages/kxr_controller/msg/_StretchActionResult.py"
+  "/home/mech-user/ping-pong-robot/devel/.private/kxr_controller/lib/python3/dist-packages/kxr_controller/msg/_StretchFeedback.py"
+  "/home/mech-user/ping-pong-robot/devel/.private/kxr_controller/lib/python3/dist-packages/kxr_controller/msg/_StretchGoal.py"
+  "/home/mech-user/ping-pong-robot/devel/.private/kxr_controller/lib/python3/dist-packages/kxr_controller/msg/_StretchResult.py"
+  "/home/mech-user/ping-pong-robot/devel/.private/kxr_controller/lib/python3/dist-packages/kxr_controller/msg/__init__.py"
+  "CMakeFiles/kxr_controller_generate_messages_py"
+)
+
+# Per-language clean rules from dependency scanning.
+foreach(lang )
+  include(CMakeFiles/kxr_controller_generate_messages_py.dir/cmake_clean_${lang}.cmake OPTIONAL)
+endforeach()
