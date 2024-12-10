@@ -374,6 +374,9 @@ UBUNTU:BOOL=TRUE
 UBUNTU_FOCAL:BOOL=TRUE
 
 //Path to a file.
+_file_name:FILEPATH=/home/mech-user/ping-pong-robot/src/rcb4/ros/kxreus/test/kxreus.test
+
+//Path to a file.
 _gmock_INCLUDES:FILEPATH=/usr/src/googletest/googlemock/include/gmock/gmock.h
 
 //Path to a file.
@@ -445,6 +448,12 @@ kxreus_BINARY_DIR:STATIC=/home/mech-user/ping-pong-robot/build/kxreus
 
 //Value Computed by CMake
 kxreus_SOURCE_DIR:STATIC=/home/mech-user/ping-pong-robot/src/rcb4/ros/kxreus
+
+//The directory containing a CMake configuration file for roslaunch.
+roslaunch_DIR:PATH=/opt/ros/noetic/share/roslaunch/cmake
+
+//The directory containing a CMake configuration file for rostest.
+rostest_DIR:PATH=/opt/ros/noetic/share/rostest/cmake
 
 
 ########################

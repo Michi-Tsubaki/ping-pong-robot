@@ -1,0 +1,77 @@
+<launch>
+	<group ns="detect_ball">
+          <node name="image_decompresser"
+                pkg="image_transport" type="republish"
+                args="compressed raw" respawn="true">
+            <remap from="in" to="/camera/color/image_raw"/>
+            <remap from="out" to="decompressed_image"/>
+          </node>
+
+          <node name="depth_decompresser"
+                pkg="image_transport" type="republish"
+                args="compressedDepth raw" respawn="true">
+            <remap from="in" to="/camera/aligned_depth_to_color/image_raw"/>
+            <remap from="out" to="decompressed_depth"/>
+          </node>
+
+          <node pkg="jsk_topic_tools" type="synchronize_republish.py" name="synchronize_republish">
+            <param name="topics" value="[/detect_ball/decompressed_image, /detect_ball/decompressed_depth]" type="yaml"/>
+            <param name="approximate_sync" value="true" />
+          </node>
+
+          <arg name="manager" value="detect_ball" />
+
+          <node pkg="nodelet" type="nodelet" name="$(arg manager)"
+                args="manager" output="screen"/>
+
+          <node pkg="nodelet" type="nodelet" name="decompress_points"
+                args="load depth_image_proc/point_cloud_xyzrgb $(arg manager)">
+            <remap from="rgb/camera_info" to="/camera/depth/camera_info"/>
+            <remap from="rgb/image_rect_color" to="synchronize_republish/pub_00"/>
+            <remap from="depth_registered/image_rect" to="synchronize_republish/pub_01"/>
+            <rosparam>
+              queue_size: 100
+            </rosparam>
+          </node>
+
+          <node pkg="nodelet" type="nodelet" name="hsi_filter"
+                args="load jsk_pcl/HSIColorFilter $(arg manager)" output="screen">
+            <remap from="~input" to="depth_registered/points" />
+            <rosparam>
+              use_indices: false
+              keep_organized: true
+              h_limit_max: 11
+              h_limit_min: -8
+              s_limit_max: 255
+              s_limit_min: 104
+              i_limit_max: 255
+              i_limit_min: 0
+            </rosparam>
+          </node>
+
+          <node pkg="nodelet" type="nodelet" name="euclidean_clustering"
+                args="load jsk_pcl/EuclideanClustering $(arg manager)" output="screen">
+            <remap from="~input" to="hsi_filter/output" />
+            <rosparam>
+              tolerance: 0.02
+              min_size: 20 
+            </rosparam>
+          </node>
+
+          <node pkg="nodelet" type="nodelet"
+                name="cluster_decomposer"
+                args="load jsk_pcl/ClusterPointIndicesDecomposer $(arg manager)"
+                output="screen" clear_params="true">
+            <remap from="~input" to="hsi_filter/output" />
+            <remap from="~target" to="euclidean_clustering/output" />
+            <rosparam>
+              align_boxes: true
+              align_boxes_with_plane: false
+              force_to_flip_z_axis: false
+              use_pca: false
+              target_frame_id: camera_link
+            </rosparam>
+          </node>
+
+        </group>
+</launch>

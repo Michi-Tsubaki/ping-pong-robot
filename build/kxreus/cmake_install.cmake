@@ -143,6 +143,18 @@ if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_
   file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/kxreus" TYPE FILE FILES "/home/mech-user/ping-pong-robot/src/rcb4/ros/kxreus/package.xml")
 endif()
 
+if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/kxreus" TYPE DIRECTORY FILES "/home/mech-user/ping-pong-robot/build/kxreus/install/venv" USE_SOURCE_PERMISSIONS)
+endif()
+
+if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/kxreus/catkin_virtualenv_scripts" TYPE FILE FILES "/home/mech-user/ping-pong-robot/src/rcb4/ros/kxreus/node_scripts/eus_model_server.py")
+endif()
+
+if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/kxreus" TYPE PROGRAM FILES "/home/mech-user/ping-pong-robot/build/kxreus/eus_model_server.py")
+endif()
+
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for each subdirectory.
   include("/home/mech-user/ping-pong-robot/build/kxreus/gtest/cmake_install.cmake")

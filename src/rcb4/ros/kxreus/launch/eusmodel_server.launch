@@ -1,0 +1,28 @@
+<launch>
+
+  <arg name="namespace" default="" />
+  <arg name="model_server_port" default="8123" />
+  <arg name="launch_model_server" default="false" />
+
+  <group if="$(arg launch_model_server)" >
+    <param name="/model_server_port" value="$(arg model_server_port)" />
+    <node name="http_server_node"
+          pkg="kxr_models" type="http_server_node.py" >
+    </node>
+  </group>
+
+  <group if="$(eval len(arg('namespace')) > 0)" ns="$(arg namespace)" >
+    <node name="eusmodel_server"
+          pkg="kxreus" type="eus_model_server.py"
+          output="screen" >
+    </node>
+  </group>
+
+  <group unless="$(eval len(arg('namespace')) > 0)">
+    <node name="eusmodel_server"
+          pkg="kxreus" type="eus_model_server.py"
+          output="screen" >
+    </node>
+  </group>
+
+</launch>

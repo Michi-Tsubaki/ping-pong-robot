@@ -1,0 +1,1 @@
+/home/mech-user/ping-pong-robot/devel/.private/realsense2_camera/share/gennodejs/ros/realsense2_camera/msg/Metadata.js

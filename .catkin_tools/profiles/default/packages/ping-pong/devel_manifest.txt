@@ -1,5 +1,0 @@
-ping-pong
-/home/mech-user/ping-pong-robot/devel/.private/ping-pong/cmake.lock /home/mech-user/ping-pong-robot/devel/./cmake.lock
-/home/mech-user/ping-pong-robot/devel/.private/ping-pong/share/ping-pong/cmake/ping-pongConfig-version.cmake /home/mech-user/ping-pong-robot/devel/share/ping-pong/cmake/ping-pongConfig-version.cmake
-/home/mech-user/ping-pong-robot/devel/.private/ping-pong/share/ping-pong/cmake/ping-pongConfig.cmake /home/mech-user/ping-pong-robot/devel/share/ping-pong/cmake/ping-pongConfig.cmake
-/home/mech-user/ping-pong-robot/devel/.private/ping-pong/lib/pkgconfig/ping-pong.pc /home/mech-user/ping-pong-robot/devel/lib/pkgconfig/ping-pong.pc

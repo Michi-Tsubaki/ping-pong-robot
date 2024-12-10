@@ -1,1 +1,0 @@
-/home/mech-user/ping-pong-robot/devel/.private/ping-pong/share/ping-pong/cmake/ping-pongConfig.cmake

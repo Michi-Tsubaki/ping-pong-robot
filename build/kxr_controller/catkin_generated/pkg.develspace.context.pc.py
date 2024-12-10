@@ -5,4 +5,4 @@ PROJECT_CATKIN_DEPENDS = "roscpp;controller_manager;hardware_interface;angles;ur
 PKG_CONFIG_LIBRARIES_WITH_PREFIX = "".split(';') if "" != "" else []
 PROJECT_NAME = "kxr_controller"
 PROJECT_SPACE_DIR = "/home/mech-user/ping-pong-robot/devel/.private/kxr_controller"
-PROJECT_VERSION = "0.0.5"
+PROJECT_VERSION = "0.0.7"

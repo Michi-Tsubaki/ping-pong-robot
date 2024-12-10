@@ -1,5 +1,5 @@
 set(_CATKIN_CURRENT_PACKAGE "kxr_controller")
-set(kxr_controller_VERSION "0.0.5")
+set(kxr_controller_VERSION "0.0.7")
 set(kxr_controller_MAINTAINER "Iori Yanokura <yanokura@jsk.imi.i.u-tokyo.ac.jp>")
 set(kxr_controller_PACKAGE_FORMAT "2")
 set(kxr_controller_BUILD_DEPENDS "catkin_virtualenv" "roscpp" "controller_manager" "dynamic_reconfigure" "hardware_interface" "angles" "urdf" "cmake_modules" "actionlib" "actionlib_msgs" "kxr_models" "git")

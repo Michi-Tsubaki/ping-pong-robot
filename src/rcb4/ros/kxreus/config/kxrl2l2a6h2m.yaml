@@ -1,0 +1,76 @@
+rleg:
+ - RLEG_JOINT0 : rleg-crotch-y
+ - RLEG_JOINT1 : rleg-crotch-r
+lleg:
+ - LLEG_JOINT0 : lleg-crotch-y
+ - LLEG_JOINT1 : lleg-crotch-r
+rarm:
+ - RARM_JOINT0 : rarm-shoulder-p
+ - RARM_JOINT1 : rarm-shoulder-r
+ - RARM_JOINT2 : rarm-shoulder-y
+ - RARM_JOINT3 : rarm-elbow-p
+ - RARM_JOINT4 : rarm-wrist-p
+ - RARM_JOINT5 : rarm-wrist-r
+ - RARM_JOINT6 : rarm-gripper-r
+ - RARM_JOINT7 : rarm-gripper2-r
+larm:
+ - LARM_JOINT0 : larm-shoulder-p
+ - LARM_JOINT1 : larm-shoulder-r
+ - LARM_JOINT2 : larm-shoulder-y
+ - LARM_JOINT3 : larm-elbow-p
+ - LARM_JOINT4 : larm-wrist-p
+ - LARM_JOINT5 : larm-wrist-r
+ - LARM_JOINT6 : larm-gripper-r
+ - LARM_JOINT7 : larm-gripper2-r
+head:
+ - HEAD_JOINT0 : head-neck-y
+ - HEAD_JOINT1 : head-neck-p
+#
+# end-coords
+#
+rleg-end-coords:
+  translate : [0.0, 0.0, 0.0]
+  rotate : [1.0, 0.0, 0.0, 0.0]
+  parent : RLEG_LINK1
+lleg-end-coords:
+  translate : [0.0, 0.0, 0.0]
+  rotate : [1.0, 0.0, 0.0, 0.0]
+  parent : LLEG_LINK1
+rarm-end-coords:
+  translate : [0.0765, 0.001239, -7.105427e-18]
+  rotate : [1.0, 0.0, 0.0, 0.0]
+  parent : RARM_LINK5
+larm-end-coords:
+  translate : [0.0765, -0.001239, -1.421085e-17]
+  rotate : [1.0, 0.0, 0.0, 0.0]
+  parent : LARM_LINK5
+head-end-coords:
+  translate : [0.0, -3.673940e-19, 0.08]
+  rotate : [-0.57735, 0.57735, -0.57735, 120.0]
+  parent : HEAD_LINK1
+
+angle-vector:
+     reset-pose: [
+             0.0, 0, ## :rleg
+             0.0, 0, ## :lleg
+             0, 0, 0.0, 0, 0, 0, 0.0, 0.0, ## :rarm
+             0, 0, 0.0, 0, 0, 0, 0.0, 0.0, ## :larm
+             0.0, 0.0, ## :head
+             ## :torso
+             ]
+     reset-manip-pose: [
+             0.0, 0, ## :rleg
+             0.0, 0, ## :lleg
+             0, 0, 0.0, 0, 0, 0, 0.0, 0.0, ## :rarm
+             0, 0, 0.0, 0, 0, 0, 0.0, 0.0, ## :larm
+             0.0, 0.0, ## :head
+             ## :torso
+             ]
+     neutral: [
+             0.0, 0.0, ## :rleg
+             0.0, 0.0, ## :lleg
+             0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, ## :rarm
+             0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, ## :larm
+             0.0, 0.0, ## :head
+             ## :torso
+             ]

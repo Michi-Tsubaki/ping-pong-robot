@@ -1,0 +1,1 @@
+/home/mech-user/ping-pong-robot/devel/.private/realsense2_camera/include/realsense2_camera/Metadata.h

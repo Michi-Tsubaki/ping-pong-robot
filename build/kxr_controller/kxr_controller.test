@@ -1,0 +1,2 @@
+#!/usr/bin/env bash
+exec /home/mech-user/ping-pong-robot/install/share/kxr_controller/venv/bin/python /home/mech-user/ping-pong-robot/install/share/kxr_controller/catkin_virtualenv_scripts/kxr_controller.test "$@"

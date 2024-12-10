@@ -1,0 +1,17 @@
+<launch>
+
+  <arg name="connect_tf" default="true" />
+
+  <node name="get_urdf_model"
+        pkg="kxr_models" type="get_urdf_model.py" >
+    <rosparam subst_value="true">
+      connect_tf: $(arg connect_tf)
+    </rosparam>
+  </node>
+
+  <node name="$(anon rviz)"
+       pkg="rviz" type="rviz"
+       args="-d $(find kxr_controller)/launch/rviz/viewer.rviz" >
+  </node>
+
+</launch>

@@ -11,7 +11,7 @@
  (setq r4 #f(-56.3962 7.15501 26.46 46.3725))
  (setq r5 #f(-56.7337 7.15501 40.107 44.0775))
 
- (setq tm 50)
+ (setq tm 100)
  (send *ri* :angle-vector-sequence (list r1 r2 r3 r4 r5 r1) (list tm tm tm tm tm 1000)
        :default-controller 0.001
        :min-time 0.0001
@@ -20,4 +20,4 @@
  (send *ri* :wait-interpolation)
  (send *irtviewer* :draw-objects)
  )
-(send *ri* :servo-on)
+(send *ri* :servo-off)

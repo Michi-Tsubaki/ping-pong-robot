@@ -1,0 +1,1 @@
+/home/mech-user/ping-pong-robot/devel/.private/kxr_controller/share/kxr_controller/venv/share/doc/networkx-3.1/examples/drawing/plot_custom_node_icons.py
