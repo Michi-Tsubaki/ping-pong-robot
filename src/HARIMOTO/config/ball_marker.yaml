@@ -1,0 +1,16 @@
+boxes:
+- dimensions:
+  - 0.5
+  - 0.3
+  - 0.2
+  frame_id: camera_link
+  name: ball
+  orientation:
+  - 0.0
+  - 0.0
+  - 0.0
+  - 1.0
+  position:
+  - 0.25045210123062134
+  - -0.00965726375579834
+  - -0.008359670639038086

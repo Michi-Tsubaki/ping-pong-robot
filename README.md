@@ -2,7 +2,6 @@
 機械情報工学科自主プロジェクト 2024
 03240281　椿道智
 
-
 計画
 https://www.notion.so/145dafda806a80a8ab18c543b17ef1e0
 
@@ -10,19 +9,32 @@ https://www.notion.so/145dafda806a80a8ab18c543b17ef1e0
 
 ### 0. 準備
 ```
+roscore
+```
+を当然立ち上げながら，
+
+```
 cd ~/ping-pong-robot
 source devel/setup.bash
 roslaunch HARIMOTO minimal.launch #サーボが動くようになる
 ```
-別terminalで
+別のterminalで
 ```
 cd ~/ping-pong-robot
 source devel/setup.bash
-roslaunch realsense2_camera rs_rgbd.launch #realsenseが動くようになる
+roslaunch realsense2_camera rs_rgbd.launch
+```
+をするとRealSenseを起動できる．また別のterminalで
 ```
 cd ~/ping-pong-robot
 source devel/setup.bash
 rslaunch HARIMOTO detect_ball.launch
+```
+を起動すると，赤いボールが起動できる．
+```
+roslun rqt_reconfigure rqt_reconfigure
+```
+でHSIのパラメタを調整できる．
 
 ### 1. 動かす
 ```
