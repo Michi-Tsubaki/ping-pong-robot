@@ -33,7 +33,7 @@
 ;;認識系
 (defun search-ball()
   (format t "search-ball~%")
-  (ros::rate 10000)
+  (ros::rate 100)
   (ros::subscribe "/detect_ball/cluster_decomposer/boxes" jsk_recognition_msgs::BoundingBoxArray #'search-ball-cb)
   (ros::spin-once)
   )
@@ -51,7 +51,6 @@
     )
   )
 
-
 ;;motion
 (defun back-drive() ;;TODO: yとzを引数にしてもう少し複雑にする
   (setq r1 #f(-29.5312 35.2688 -32.5687 54.54))
@@ -60,7 +59,7 @@
   (setq r4 #f(-30 7.15501 26.46 46.3725))
   (setq r5 #f(-30 7.15501 40.107 44.0775))
   (setq r6 #f(-70 28 -44 70))
-  (setq tm 80)
+  (setq tm 60)
   (send *ri* :angle-vector-sequence (list r1 r2 r3 r4 r5 r6) (list tm tm tm tm tm 1500)
 	:default-controller 0.001
 	:min-time 0.0001
@@ -74,6 +73,12 @@
 (defun chorei()
     ;;
     )
+;;Initialize
+(setq *ball-xpos* 0)
+(setq *ball-ypos* 0)
+(setq *ball-zpos* 0)
+
+
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -81,17 +86,38 @@
 (hari-init)
 (on)
 (setq *ball-lost* 1)
+(unix:sleep 1)
 (wait-pose)
 (search-ball)
-(while (= *ball-lost* 1)
-  (progn (search-ball)
-	 (format t "aa")
-  (setq *ball-xpos-tmp* *ball-xpos*)
-  (setq *ball-ypos-tmp* *ball-ypos*)
-  (setq *ball-zpos-tmp* *ball-zpos*)
-  (format t "x: ~A, y: ~A, x: ~A~%" *ball-xpos-tmp* *ball-ypos-tmp* *ball-zpos-tmp*)
-  (if (and (> *ball-xpos-tmp* 0.16) (< *ball-xpos-tmp* 0.20) (> *ball-ypos-tmp* -0.02) (< *ball-ypos-tmp* 0.02) (> *ball-zpos-tmp* -0.10) (< *ball-zpos-tmp* 0.10)) (setq *ball-lost* 0))
-  (unix:usleep 10000))
-  )
-(back-drive)
-(unix:sleep 3)
+(do-until-key
+ (setq *ball-lost* t)
+ (setq *ball-xpos-tmp* 0)
+ (setq *ball-ypos-tmp* 0)
+ (setq *ball-zpos-tmp* 0)
+ (setq *ball-xpos* 0)
+ (setq *ball-ypos* 0)
+ (setq *ball-zpos* 0)
+ (while *ball-lost*
+   (progn (ros::rate 1000)	  
+	  (ros::spin-once)
+	  (format t "aa")
+	  (setq *ball-xpos-tmp* *ball-xpos*)
+	  (setq *ball-ypos-tmp* *ball-ypos*)
+	  (setq *ball-zpos-tmp* *ball-zpos*)
+	  (format t "x: ~A, y: ~A, x: ~A~%" *ball-xpos-tmp* *ball-ypos-tmp* *ball-zpos-tmp*)
+	  (if (and (> *ball-xpos-tmp* 0.16)
+		   (< *ball-xpos-tmp* 0.20)
+		   (> *ball-ypos-tmp* -0.02)
+		   (< *ball-ypos-tmp* 0.02)
+		   (> *ball-zpos-tmp* -0.10)
+		   (< *ball-zpos-tmp* 0.10))
+	      
+	      (setq *ball-lost* nil)
+	    )
+	  )
+   )
+ (back-drive)
+ (ros::sleep)
+ (unix:sleep 1)
+ )
+(off)
