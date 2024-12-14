@@ -11,7 +11,7 @@ https://www.notion.so/145dafda806a80a8ab18c543b17ef1e0
 ```
 roscore
 ```
-を当然立ち上げながら，
+を立ち上げながら，
 
 ```
 cd ~/ping-pong-robot
@@ -28,11 +28,11 @@ roslaunch realsense2_camera rs_rgbd.launch
 ```
 cd ~/ping-pong-robot
 source devel/setup.bash
-rslaunch HARIMOTO detect_ball.launch
+roslaunch HARIMOTO detect_ball.launch
 ```
 を起動すると，赤いボールが起動できる．
 ```
-roslun rqt_reconfigure rqt_reconfigure
+rosrun rqt_reconfigure rqt_reconfigure
 ```
 でHSIのパラメタを調整できる．
 
