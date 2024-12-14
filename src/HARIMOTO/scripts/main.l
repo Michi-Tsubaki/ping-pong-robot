@@ -100,11 +100,10 @@
  (while *ball-lost*
    (progn (ros::rate 1000)	  
 	  (ros::spin-once)
-	  (format t "aa")
 	  (setq *ball-xpos-tmp* *ball-xpos*)
 	  (setq *ball-ypos-tmp* *ball-ypos*)
 	  (setq *ball-zpos-tmp* *ball-zpos*)
-	  (format t "x: ~A, y: ~A, x: ~A~%" *ball-xpos-tmp* *ball-ypos-tmp* *ball-zpos-tmp*)
+	  (format t "x: ~A, y: ~A, z: ~A~%" *ball-xpos-tmp* *ball-ypos-tmp* *ball-zpos-tmp*)
 	  (if (and (> *ball-xpos-tmp* 0.16)
 		   (< *ball-xpos-tmp* 0.20)
 		   (> *ball-ypos-tmp* -0.02)
