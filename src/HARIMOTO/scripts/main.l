@@ -1,5 +1,8 @@
 #!/usr/bin/env roseus
 
+;; SPDX-FileCopyrightText: 2024 Michitoshi Tsubaki <tsubaki@g.ecc.u-tokyo.ac.jp>
+;; SPDX-License-Identifier: BSD-3-Clause
+
 ;;build node ping-pong
 (ros::roseus "ping-pong")
 
