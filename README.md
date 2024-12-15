@@ -2,11 +2,12 @@
 機械情報工学科自主プロジェクト 2024
 03240281　椿道智
 
-計画
+## 計画
+### 自主プロジェクトの進捗及び計画
+自主プロジェクトの進捗及び計画は，このRepositoryのissueおよび以下のnotionによって管理されている．
 https://www.notion.so/145dafda806a80a8ab18c543b17ef1e0
 
 ## 卓球ロボットHARIMOTOの動かし方
-
 ### 0. 準備
 ```
 roscore
@@ -48,3 +49,7 @@ roseus
 load "main.l"
 ```
 ### 2. デバッグ画面(RVIZ)
+
+
+* このソフトウェアパッケージは，3条項BSDライセンスの下，再頒布および使用が許可されます．
+* (c) 2024 Michitoshi Tsubaki
