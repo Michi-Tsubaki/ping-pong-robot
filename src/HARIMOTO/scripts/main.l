@@ -1,19 +1,28 @@
 #!/usr/bin/env roseus
 
-;; SPDX-FileCopyrightText: 2024 Michitoshi Tsubaki <tsubaki@g.ecc.u-tokyo.ac.jp>
+;; SPDX-FileCopyrightText: 2024 Michitoshi Tsubaki <michi.tsubaki.tech@g.ecc.u-tokyo.ac.jp>
 ;; SPDX-License-Identifier: BSD-3-Clause
 
-;;build node ping-pong
+;; Build node ping-pong
 (ros::roseus "ping-pong")
 
-;;load packages
+;; Load packages
 (load "HARIMOTO-interface.l")
 (ros::load-ros-package "jsk_recognition_msgs")
 
-;;basic setting
+;; parameters
+(setq *ball-x-min-lim* 0.10) ;;奥行き方向
+(setq *ball-x-max-lim* 0.30)
+(setq *ball-y-min-lim* -0.15) ;;左右方向
+(setq *ball-y-max-lim* 0.15)
+(setq *ball-z-min-lim* 0.20) ;;上下方向
+(setq *ball-z-max-lim* -0.20)
+
+
+;; Basic setting
 (setq *ball-lost* t)
 
-;;basic function
+;; Basic function
 ;;サーボ系
 (defun on()
   (send *ri* :servo-on)
@@ -107,13 +116,12 @@
 	  (setq *ball-ypos-tmp* *ball-ypos*)
 	  (setq *ball-zpos-tmp* *ball-zpos*)
 	  (format t "x: ~A, y: ~A, z: ~A~%" *ball-xpos-tmp* *ball-ypos-tmp* *ball-zpos-tmp*)
-	  (if (and (> *ball-xpos-tmp* 0.16)
-		   (< *ball-xpos-tmp* 0.20)
-		   (> *ball-ypos-tmp* -0.02)
-		   (< *ball-ypos-tmp* 0.02)
-		   (> *ball-zpos-tmp* -0.10)
-		   (< *ball-zpos-tmp* 0.10))
-	      
+	  (if (and (> *ball-xpos-tmp* *ball-x-min-lim*)
+		   (< *ball-xpos-tmp* *ball-x-max-lim*)
+		   (> *ball-ypos-tmp* *ball-y-min-lim*)
+		   (< *ball-ypos-tmp* *ball-y-max-lim*)
+		   (> *ball-zpos-tmp* *ball-z-min-lim*)
+		   (< *ball-zpos-tmp* *ball-z-max-lim*))
 	      (setq *ball-lost* nil)
 	    )
 	  )
