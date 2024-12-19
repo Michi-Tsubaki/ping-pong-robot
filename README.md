@@ -49,7 +49,8 @@ roseus
 load "main.l"
 ```
 ### 2. デバッグ画面(RVIZ)
-
+最小限立ち上げておくべきRVizのtopic
+![Screenshot from 2024-12-19 22-35-51](https://github.com/user-attachments/assets/1886739c-169e-4016-ac21-9994564df0b1)
 
 * このソフトウェアパッケージは，3条項BSDライセンスの下，再頒布および使用が許可されます．
 * (c) 2024 Michitoshi Tsubaki
