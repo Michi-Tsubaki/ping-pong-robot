@@ -177,12 +177,9 @@ class ARMH7Interface:
         except serial.SerialException as e:
             print(f"Error opening serial port: {e}")
             raise serial.SerialException(e)
-        # After powering on, the ACK value becomes unstable for some reason,
-        # so the process is repeated several times.
-        for _ in range(10):
-            ack = self.check_ack()
-            if ack is True:
-                break
+        ack = self.check_ack()
+        if ack is not True:
+            return False
         self.check_firmware_version()
         self.copy_worm_params_from_flash()
         self.search_worm_ids()

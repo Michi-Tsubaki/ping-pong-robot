@@ -329,4 +329,181 @@
     <axis
       xyz="0 0 0" />
   </joint>
+  <joint name="front_right_wheel_joint" type="continuous">
+    <!-- <limit effort="0.48" velocity="6.55"/> -->
+    <limit effort="100" velocity="6.55"/>
+    <parent link="base_link"/>
+    <child link="front_right_wheel_link"/>
+    <axis xyz="1. 0. 0."/>
+    <origin xyz="-0.0505 -0.097 0.0435" rpy="0.0 -0.0 0.0"/>
+  </joint>
+  <joint name="front_left_wheel_joint" type="continuous">
+    <!-- <limit effort="0.48" velocity="6.55"/> -->
+    <limit effort="100" velocity="6.55"/>
+    <parent link="base_link"/>
+    <child link="front_left_wheel_link"/>
+    <axis xyz="1. 0. 0."/>
+    <origin xyz="0.0505 -0.097 0.0435" rpy="0.0 -0.0 0.0"/>
+  </joint>
+  <joint name="rear_right_wheel_joint" type="continuous">
+    <!-- <limit effort="0.48" velocity="6.55"/> -->
+    <limit effort="100" velocity="6.55"/>
+    <parent link="base_link"/>
+    <child link="rear_right_wheel_link"/>
+    <axis xyz="1. 0. 0."/>
+    <origin xyz="-0.0505 -0.097 -0.0435" rpy="0.0 -0.0 0.0"/>
+  </joint>
+  <joint name="rear_left_wheel_joint" type="continuous">
+    <!-- <limit effort="0.48" velocity="6.55"/> -->
+    <limit effort="100" velocity="6.55"/>
+    <parent link="base_link"/>
+    <child link="rear_left_wheel_link"/>
+    <axis xyz="1. 0. 0."/>
+    <origin xyz="0.0505 -0.097 -0.0435" rpy="0.0 -0.0 0.0"/>
+  </joint>
+  <link name="front_right_wheel_link">
+    <inertial>
+      <!-- <origin xyz="0.0344932842136683 0.0970000970916309 -0.0435000024416005" rpy="0.0 -0.0 0.0"/> -->
+      <!-- <mass value="0.0620356799852319"/> -->
+      <!-- <!-\- <inertia ixx="1.17891072454946e-05" ixy="-4.41939757993746e-11" ixz="2.8155029764713e-12" iyy="9.70723532361731e-06" iyz="2.3526216007568e-12" izz="9.707219297398e-06"/> -\-> -->
+      <!-- <inertia ixx="1.000000e-04" ixy="-4.41939757993746e-11" ixz="2.8155029764713e-12" iyy="1.000000e-04" iyz="2.3526216007568e-12" izz="1.000000e-04"/> -->
+      <mass value="0.095024" />
+      <origin xyz="-6.93889e-18 0.016915 0" rpy="0 -0 0"/>
+      <inertia ixx="0.000174" ixy="5.9261e-22" ixz="5.04911e-20" iyy="0.000173" iyz="-1.9762e-20" izz="0.000262"/>
+
+    </inertial>
+    <visual>
+      <geometry>
+        <mesh filename="package://HARIMOTO/meshes/front_right_wheel_link.dae"/>
+      </geometry>
+      <material name=""/>
+      <origin xyz="0.0505000000000009 0.097 -0.0434999999999994" rpy="0.0 -0.0 0.0"/>
+      <!-- <origin xyz="-0.02 0 0" rpy="0 1.5707963267948966 0"/> -->
+      <!-- <geometry> -->
+      <!--   <cylinder radius="0.03" length="0.02"/> -->
+      <!-- </geometry> -->
+    </visual>
+    <!-- <collision> -->
+    <!--   <geometry> -->
+    <!--     <mesh filename="package://jedy_description/meshes/front_right_wheel_link.stl"/> -->
+    <!--   </geometry> -->
+    <!--   <origin xyz="0.0505000000000009 0.097 -0.0434999999999994" rpy="0.0 -0.0 0.0"/> -->
+    <!-- </collision> -->
+    <collision>
+      <origin xyz="-0.02 0 0" rpy="0 1.5707963267948966 0"/>
+      <geometry>
+        <cylinder radius="0.03" length="0.02"/>
+      </geometry>
+      <self_collide>false</self_collide>
+    </collision>
+  </link>
+  <link name="front_left_wheel_link">
+    <inertial>
+      <!-- <origin xyz="-0.0344932901302818 0.0969999049831629 -0.0435000004047774" rpy="0.0 -0.0 0.0"/> -->
+      <!-- <mass value="0.0620331863909222"/> -->
+      <!-- <!-\- <inertia ixx="1.17881307318182e-05" ixy="-4.52960489509934e-11" ixz="2.33278294698924e-12" iyy="9.70649490175883e-06" iyz="3.34165767029261e-12" izz="9.7064772842312e-06"/> -\-> -->
+      <!-- <inertia ixx="1.000000e-04" ixy="-4.52960489509934e-11" ixz="2.33278294698924e-12" iyy="1.000000e-04" iyz="3.34165767029261e-12" izz="1.000000e-04"/> -->
+      <mass value="0.095024" />
+      <origin xyz="-6.93889e-18 0.016915 0" rpy="0 -0 0"/>
+      <inertia ixx="0.000174" ixy="5.9261e-22" ixz="5.04911e-20" iyy="0.000173" iyz="-1.9762e-20" izz="0.000262"/>
+
+    </inertial>
+    <visual>
+      <geometry>
+        <mesh filename="package://HARIMOTO/meshes/front_left_wheel_link.dae"/>
+      </geometry>
+      <material name=""/>
+      <origin xyz="-0.0504999999999993 0.0970000000000006 -0.0434999999999985" rpy="0.0 -0.0 0.0"/>
+      <!-- <origin xyz="0.02 0 0" rpy="0 1.5707963267948966 0"/> -->
+      <!-- <geometry> -->
+      <!--   <cylinder radius="0.03" length="0.02"/> -->
+      <!-- </geometry> -->
+    </visual>
+    <!-- <collision> -->
+    <!--   <geometry> -->
+    <!--     <mesh filename="package://jedy_description/meshes/front_left_wheel_link.stl"/> -->
+    <!--   </geometry> -->
+    <!--   <origin xyz="-0.0504999999999993 0.0970000000000006 -0.0434999999999985" rpy="0.0 -0.0 0.0"/> -->
+    <!-- </collision> -->
+    <collision>
+      <origin xyz="0.02 0 0" rpy="0 1.5707963267948966 0"/>
+      <geometry>
+        <cylinder radius="0.03" length="0.02"/>
+      </geometry>
+      <self_collide>false</self_collide>
+    </collision>
+  </link>
+  <link name="rear_right_wheel_link">
+    <inertial>
+      <mass value="0.095024" />
+      <origin xyz="-6.93889e-18 0.016915 0" rpy="0 -0 0"/>
+      <inertia ixx="0.000174" ixy="5.9261e-22" ixz="5.04911e-20" iyy="0.000173" iyz="-1.9762e-20" izz="0.000262"/>
+
+      <!-- <origin xyz="0.0344932842136686 0.0970000970916324 0.0434999975583993" rpy="0.0 -0.0 0.0"/> -->
+      <!-- <mass value="0.0620356799852319"/> -->
+      <!-- <!-\- <inertia ixx="1.17891072454946e-05" ixy="-4.41939758006981e-11" ixz="2.81550297072405e-12" iyy="9.70723532361731e-06" iyz="2.35262160013476e-12" izz="9.707219297398e-06"/> -\-> -->
+      <!-- <inertia ixx="1.000000e-04" ixy="-4.41939758006981e-11" ixz="2.81550297072405e-12" iyy="1.000000e-04" iyz="2.35262160013476e-12" izz="1.000000e-04"/> -->
+    </inertial>
+    <visual>
+      <geometry>
+        <mesh filename="package://HARIMOTO/meshes/rear_right_wheel_link.dae"/>
+      </geometry>
+      <material name=""/>
+      <origin xyz="0.0505000000000012 0.0969999999999992 0.0435000000000006" rpy="0.0 -0.0 0.0"/>
+      <!-- <origin xyz="-0.02 0 0" rpy="0 1.5707963267948966 0"/> -->
+      <!-- <geometry> -->
+      <!--   <cylinder radius="0.03" length="0.02"/> -->
+      <!-- </geometry> -->
+    </visual>
+    <!-- <collision> -->
+    <!--   <geometry> -->
+    <!--     <mesh filename="package://jedy_description/meshes/rear_right_wheel_link.stl"/> -->
+    <!--   </geometry> -->
+    <!--   <origin xyz="0.0505000000000012 0.0969999999999992 0.0435000000000006" rpy="0.0 -0.0 0.0"/> -->
+    <!-- </collision> -->
+    <collision>
+      <origin xyz="-0.02 0 0" rpy="0 1.5707963267948966 0"/>
+      <geometry>
+        <cylinder radius="0.03" length="0.02"/>
+      </geometry>
+      <self_collide>false</self_collide>
+    </collision>
+  </link>
+  <link name="rear_left_wheel_link">
+    <inertial>
+      <!-- <origin xyz="-0.0344932901302836 0.0969999049831609 0.0434999995952184" rpy="0.0 -0.0 0.0"/> -->
+      <!-- <mass value="0.0620331863909222"/> -->
+      <!-- <!-\- <inertia ixx="1.17881307318182e-05" ixy="-4.52960489535212e-11" ixz="2.33278294290793e-12" iyy="9.70649490175883e-06" iyz="3.34165766872427e-12" izz="9.70647728423119e-06"/> -\-> -->
+      <!-- <inertia ixx="1.000000e-04" ixy="-4.52960489535212e-11" ixz="2.33278294290793e-12" iyy="1.000000e-04" iyz="3.34165766872427e-12" izz="1.000000e-04"/> -->
+      <mass value="0.095024" />
+      <origin xyz="-6.93889e-18 0.016915 0" rpy="0 -0 0"/>
+      <inertia ixx="0.000174" ixy="5.9261e-22" ixz="5.04911e-20" iyy="0.000173" iyz="-1.9762e-20" izz="0.000262"/>
+
+    </inertial>
+    <visual>
+      <geometry>
+        <mesh filename="package://HARIMOTO/meshes/rear_left_wheel_link.dae"/>
+      </geometry>
+      <material name=""/>
+      <origin xyz="-0.0504999999999999 0.0969999999999994 0.0435000000000005" rpy="0.0 -0.0 0.0"/>
+      <!-- <origin xyz="0.02 0 0" rpy="0 1.5707963267948966 0"/> -->
+      <!-- <geometry> -->
+      <!--   <cylinder radius="0.03" length="0.02"/> -->
+      <!-- </geometry> -->
+    </visual>
+    <!-- <collision> -->
+    <!--   <geometry> -->
+    <!--     <mesh filename="package://jedy_description/meshes/rear_left_wheel_link.stl"/> -->
+    <!--   </geometry> -->
+    <!--   <origin xyz="-0.0504999999999999 0.0969999999999994 0.0435000000000005" rpy="0.0 -0.0 0.0"/> -->
+    <!-- </collision> -->
+    <collision>
+      <origin xyz="0.02 0 0" rpy="0 1.5707963267948966 0"/>
+      <geometry>
+        <cylinder radius="0.03" length="0.02"/>
+      </geometry>
+      <self_collide>false</self_collide>
+    </collision>
+  </link>
+
 </robot>

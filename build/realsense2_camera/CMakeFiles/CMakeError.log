@@ -1,21 +1,21 @@
 Performing C SOURCE FILE Test CMAKE_HAVE_LIBC_PTHREAD failed with the following output:
 Change Dir: /home/mech-user/ping-pong-robot/build/realsense2_camera/CMakeFiles/CMakeTmp
 
-Run Build Command(s):/usr/bin/make cmTC_80eb0/fast && /usr/bin/make -f CMakeFiles/cmTC_80eb0.dir/build.make CMakeFiles/cmTC_80eb0.dir/build
+Run Build Command(s):/usr/bin/make cmTC_876b0/fast && /usr/bin/make -f CMakeFiles/cmTC_876b0.dir/build.make CMakeFiles/cmTC_876b0.dir/build
 make[1]: Entering directory '/home/mech-user/ping-pong-robot/build/realsense2_camera/CMakeFiles/CMakeTmp'
-Building C object CMakeFiles/cmTC_80eb0.dir/src.c.o
-/usr/bin/cc   -DCMAKE_HAVE_LIBC_PTHREAD   -o CMakeFiles/cmTC_80eb0.dir/src.c.o   -c /home/mech-user/ping-pong-robot/build/realsense2_camera/CMakeFiles/CMakeTmp/src.c
-Linking C executable cmTC_80eb0
-/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_80eb0.dir/link.txt --verbose=1
-/usr/bin/cc  -DCMAKE_HAVE_LIBC_PTHREAD    -rdynamic CMakeFiles/cmTC_80eb0.dir/src.c.o  -o cmTC_80eb0 
-/usr/bin/ld: CMakeFiles/cmTC_80eb0.dir/src.c.o: in function `main':
+Building C object CMakeFiles/cmTC_876b0.dir/src.c.o
+/usr/bin/cc   -DCMAKE_HAVE_LIBC_PTHREAD   -o CMakeFiles/cmTC_876b0.dir/src.c.o   -c /home/mech-user/ping-pong-robot/build/realsense2_camera/CMakeFiles/CMakeTmp/src.c
+Linking C executable cmTC_876b0
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_876b0.dir/link.txt --verbose=1
+/usr/bin/cc  -DCMAKE_HAVE_LIBC_PTHREAD    -rdynamic CMakeFiles/cmTC_876b0.dir/src.c.o  -o cmTC_876b0 
+/usr/bin/ld: CMakeFiles/cmTC_876b0.dir/src.c.o: in function `main':
 src.c:(.text+0x46): undefined reference to `pthread_create'
 /usr/bin/ld: src.c:(.text+0x52): undefined reference to `pthread_detach'
 /usr/bin/ld: src.c:(.text+0x63): undefined reference to `pthread_join'
 collect2: error: ld returned 1 exit status
-make[1]: *** [CMakeFiles/cmTC_80eb0.dir/build.make:87: cmTC_80eb0] Error 1
+make[1]: *** [CMakeFiles/cmTC_876b0.dir/build.make:87: cmTC_876b0] Error 1
 make[1]: Leaving directory '/home/mech-user/ping-pong-robot/build/realsense2_camera/CMakeFiles/CMakeTmp'
-make: *** [Makefile:121: cmTC_80eb0/fast] Error 2
+make: *** [Makefile:121: cmTC_876b0/fast] Error 2
 
 
 Source file was:
@@ -41,18 +41,18 @@ int main(void)
 Determining if the function pthread_create exists in the pthreads failed with the following output:
 Change Dir: /home/mech-user/ping-pong-robot/build/realsense2_camera/CMakeFiles/CMakeTmp
 
-Run Build Command(s):/usr/bin/make cmTC_e68f8/fast && /usr/bin/make -f CMakeFiles/cmTC_e68f8.dir/build.make CMakeFiles/cmTC_e68f8.dir/build
+Run Build Command(s):/usr/bin/make cmTC_1cead/fast && /usr/bin/make -f CMakeFiles/cmTC_1cead.dir/build.make CMakeFiles/cmTC_1cead.dir/build
 make[1]: Entering directory '/home/mech-user/ping-pong-robot/build/realsense2_camera/CMakeFiles/CMakeTmp'
-Building C object CMakeFiles/cmTC_e68f8.dir/CheckFunctionExists.c.o
-/usr/bin/cc   -DCHECK_FUNCTION_EXISTS=pthread_create   -o CMakeFiles/cmTC_e68f8.dir/CheckFunctionExists.c.o   -c /usr/share/cmake-3.16/Modules/CheckFunctionExists.c
-Linking C executable cmTC_e68f8
-/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_e68f8.dir/link.txt --verbose=1
-/usr/bin/cc  -DCHECK_FUNCTION_EXISTS=pthread_create    -rdynamic CMakeFiles/cmTC_e68f8.dir/CheckFunctionExists.c.o  -o cmTC_e68f8  -lpthreads 
+Building C object CMakeFiles/cmTC_1cead.dir/CheckFunctionExists.c.o
+/usr/bin/cc   -DCHECK_FUNCTION_EXISTS=pthread_create   -o CMakeFiles/cmTC_1cead.dir/CheckFunctionExists.c.o   -c /usr/share/cmake-3.16/Modules/CheckFunctionExists.c
+Linking C executable cmTC_1cead
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_1cead.dir/link.txt --verbose=1
+/usr/bin/cc  -DCHECK_FUNCTION_EXISTS=pthread_create    -rdynamic CMakeFiles/cmTC_1cead.dir/CheckFunctionExists.c.o  -o cmTC_1cead  -lpthreads 
 /usr/bin/ld: cannot find -lpthreads
 collect2: error: ld returned 1 exit status
-make[1]: *** [CMakeFiles/cmTC_e68f8.dir/build.make:87: cmTC_e68f8] Error 1
+make[1]: *** [CMakeFiles/cmTC_1cead.dir/build.make:87: cmTC_1cead] Error 1
 make[1]: Leaving directory '/home/mech-user/ping-pong-robot/build/realsense2_camera/CMakeFiles/CMakeTmp'
-make: *** [Makefile:121: cmTC_e68f8/fast] Error 2
+make: *** [Makefile:121: cmTC_1cead/fast] Error 2
 
 
 

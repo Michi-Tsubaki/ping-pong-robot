@@ -68,6 +68,18 @@ install/strip/fast: preinstall/fast
 	/usr/bin/cmake -DCMAKE_INSTALL_DO_STRIP=1 -P cmake_install.cmake
 .PHONY : install/strip/fast
 
+# Special rule for the target install/local
+install/local: preinstall
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing only the local directory..."
+	/usr/bin/cmake -DCMAKE_INSTALL_LOCAL_ONLY=1 -P cmake_install.cmake
+.PHONY : install/local
+
+# Special rule for the target install/local
+install/local/fast: preinstall/fast
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing only the local directory..."
+	/usr/bin/cmake -DCMAKE_INSTALL_LOCAL_ONLY=1 -P cmake_install.cmake
+.PHONY : install/local/fast
+
 # Special rule for the target install
 install: preinstall
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Install the project..."
@@ -80,16 +92,15 @@ install/fast: preinstall/fast
 	/usr/bin/cmake -P cmake_install.cmake
 .PHONY : install/fast
 
-# Special rule for the target edit_cache
-edit_cache:
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "No interactive CMake dialog available..."
-	/usr/bin/cmake -E echo No\ interactive\ CMake\ dialog\ available.
-.PHONY : edit_cache
+# Special rule for the target list_install_components
+list_install_components:
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Available install components are: \"Unspecified\""
+.PHONY : list_install_components
 
-# Special rule for the target edit_cache
-edit_cache/fast: edit_cache
+# Special rule for the target list_install_components
+list_install_components/fast: list_install_components
 
-.PHONY : edit_cache/fast
+.PHONY : list_install_components/fast
 
 # Special rule for the target rebuild_cache
 rebuild_cache:
@@ -102,27 +113,16 @@ rebuild_cache/fast: rebuild_cache
 
 .PHONY : rebuild_cache/fast
 
-# Special rule for the target list_install_components
-list_install_components:
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Available install components are: \"Unspecified\""
-.PHONY : list_install_components
+# Special rule for the target edit_cache
+edit_cache:
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "No interactive CMake dialog available..."
+	/usr/bin/cmake -E echo No\ interactive\ CMake\ dialog\ available.
+.PHONY : edit_cache
 
-# Special rule for the target list_install_components
-list_install_components/fast: list_install_components
+# Special rule for the target edit_cache
+edit_cache/fast: edit_cache
 
-.PHONY : list_install_components/fast
-
-# Special rule for the target install/local
-install/local: preinstall
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing only the local directory..."
-	/usr/bin/cmake -DCMAKE_INSTALL_LOCAL_ONLY=1 -P cmake_install.cmake
-.PHONY : install/local
-
-# Special rule for the target install/local
-install/local/fast: preinstall/fast
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing only the local directory..."
-	/usr/bin/cmake -DCMAKE_INSTALL_LOCAL_ONLY=1 -P cmake_install.cmake
-.PHONY : install/local/fast
+.PHONY : edit_cache/fast
 
 # Special rule for the target test
 test:
@@ -168,82 +168,17 @@ depend:
 .PHONY : depend
 
 #=============================================================================
-# Target rules for targets named run_tests_kxreus_roslaunch-check__home_mech-user_ping-pong-robot_src_rcb4_ros_kxreus_launch_eusmodel_server.launch
+# Target rules for targets named _catkin_empty_exported_target
 
 # Build rule for target.
-run_tests_kxreus_roslaunch-check__home_mech-user_ping-pong-robot_src_rcb4_ros_kxreus_launch_eusmodel_server.launch: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 run_tests_kxreus_roslaunch-check__home_mech-user_ping-pong-robot_src_rcb4_ros_kxreus_launch_eusmodel_server.launch
-.PHONY : run_tests_kxreus_roslaunch-check__home_mech-user_ping-pong-robot_src_rcb4_ros_kxreus_launch_eusmodel_server.launch
+_catkin_empty_exported_target: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 _catkin_empty_exported_target
+.PHONY : _catkin_empty_exported_target
 
 # fast build rule for target.
-run_tests_kxreus_roslaunch-check__home_mech-user_ping-pong-robot_src_rcb4_ros_kxreus_launch_eusmodel_server.launch/fast:
-	$(MAKE) -f CMakeFiles/run_tests_kxreus_roslaunch-check__home_mech-user_ping-pong-robot_src_rcb4_ros_kxreus_launch_eusmodel_server.launch.dir/build.make CMakeFiles/run_tests_kxreus_roslaunch-check__home_mech-user_ping-pong-robot_src_rcb4_ros_kxreus_launch_eusmodel_server.launch.dir/build
-.PHONY : run_tests_kxreus_roslaunch-check__home_mech-user_ping-pong-robot_src_rcb4_ros_kxreus_launch_eusmodel_server.launch/fast
-
-#=============================================================================
-# Target rules for targets named run_tests_kxreus_roslaunch-check
-
-# Build rule for target.
-run_tests_kxreus_roslaunch-check: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 run_tests_kxreus_roslaunch-check
-.PHONY : run_tests_kxreus_roslaunch-check
-
-# fast build rule for target.
-run_tests_kxreus_roslaunch-check/fast:
-	$(MAKE) -f CMakeFiles/run_tests_kxreus_roslaunch-check.dir/build.make CMakeFiles/run_tests_kxreus_roslaunch-check.dir/build
-.PHONY : run_tests_kxreus_roslaunch-check/fast
-
-#=============================================================================
-# Target rules for targets named _run_tests_kxreus
-
-# Build rule for target.
-_run_tests_kxreus: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 _run_tests_kxreus
-.PHONY : _run_tests_kxreus
-
-# fast build rule for target.
-_run_tests_kxreus/fast:
-	$(MAKE) -f CMakeFiles/_run_tests_kxreus.dir/build.make CMakeFiles/_run_tests_kxreus.dir/build
-.PHONY : _run_tests_kxreus/fast
-
-#=============================================================================
-# Target rules for targets named _run_tests_kxreus_rostest_kxreus__namespace_"".test
-
-# Build rule for target.
-_run_tests_kxreus_rostest_kxreus__namespace_"".test: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 _run_tests_kxreus_rostest_kxreus__namespace_\"\".test
-.PHONY : _run_tests_kxreus_rostest_kxreus__namespace_"".test
-
-# fast build rule for target.
-_run_tests_kxreus_rostest_kxreus__namespace_"".test/fast:
-	$(MAKE) -f CMakeFiles/_run_tests_kxreus_rostest_kxreus__namespace_\"\".test.dir/build.make CMakeFiles/_run_tests_kxreus_rostest_kxreus__namespace_\"\".test.dir/build
-.PHONY : _run_tests_kxreus_rostest_kxreus__namespace_"".test/fast
-
-#=============================================================================
-# Target rules for targets named venv_lock
-
-# Build rule for target.
-venv_lock: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 venv_lock
-.PHONY : venv_lock
-
-# fast build rule for target.
-venv_lock/fast:
-	$(MAKE) -f CMakeFiles/venv_lock.dir/build.make CMakeFiles/venv_lock.dir/build
-.PHONY : venv_lock/fast
-
-#=============================================================================
-# Target rules for targets named kxreus_generate_virtualenv
-
-# Build rule for target.
-kxreus_generate_virtualenv: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 kxreus_generate_virtualenv
-.PHONY : kxreus_generate_virtualenv
-
-# fast build rule for target.
-kxreus_generate_virtualenv/fast:
-	$(MAKE) -f CMakeFiles/kxreus_generate_virtualenv.dir/build.make CMakeFiles/kxreus_generate_virtualenv.dir/build
-.PHONY : kxreus_generate_virtualenv/fast
+_catkin_empty_exported_target/fast:
+	$(MAKE) -f CMakeFiles/_catkin_empty_exported_target.dir/build.make CMakeFiles/_catkin_empty_exported_target.dir/build
+.PHONY : _catkin_empty_exported_target/fast
 
 #=============================================================================
 # Target rules for targets named doxygen
@@ -259,19 +194,6 @@ doxygen/fast:
 .PHONY : doxygen/fast
 
 #=============================================================================
-# Target rules for targets named download_extra_data
-
-# Build rule for target.
-download_extra_data: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 download_extra_data
-.PHONY : download_extra_data
-
-# fast build rule for target.
-download_extra_data/fast:
-	$(MAKE) -f CMakeFiles/download_extra_data.dir/build.make CMakeFiles/download_extra_data.dir/build
-.PHONY : download_extra_data/fast
-
-#=============================================================================
 # Target rules for targets named run_tests
 
 # Build rule for target.
@@ -283,19 +205,6 @@ run_tests: cmake_check_build_system
 run_tests/fast:
 	$(MAKE) -f CMakeFiles/run_tests.dir/build.make CMakeFiles/run_tests.dir/build
 .PHONY : run_tests/fast
-
-#=============================================================================
-# Target rules for targets named _catkin_empty_exported_target
-
-# Build rule for target.
-_catkin_empty_exported_target: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 _catkin_empty_exported_target
-.PHONY : _catkin_empty_exported_target
-
-# fast build rule for target.
-_catkin_empty_exported_target/fast:
-	$(MAKE) -f CMakeFiles/_catkin_empty_exported_target.dir/build.make CMakeFiles/_catkin_empty_exported_target.dir/build
-.PHONY : _catkin_empty_exported_target/fast
 
 #=============================================================================
 # Target rules for targets named clean_test_results
@@ -311,45 +220,6 @@ clean_test_results/fast:
 .PHONY : clean_test_results/fast
 
 #=============================================================================
-# Target rules for targets named clean_test_results_kxreus
-
-# Build rule for target.
-clean_test_results_kxreus: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 clean_test_results_kxreus
-.PHONY : clean_test_results_kxreus
-
-# fast build rule for target.
-clean_test_results_kxreus/fast:
-	$(MAKE) -f CMakeFiles/clean_test_results_kxreus.dir/build.make CMakeFiles/clean_test_results_kxreus.dir/build
-.PHONY : clean_test_results_kxreus/fast
-
-#=============================================================================
-# Target rules for targets named _run_tests_kxreus_rostest_kxreus__namespace_""__use_rcb4_true.test
-
-# Build rule for target.
-_run_tests_kxreus_rostest_kxreus__namespace_""__use_rcb4_true.test: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 _run_tests_kxreus_rostest_kxreus__namespace_\"\"__use_rcb4_true.test
-.PHONY : _run_tests_kxreus_rostest_kxreus__namespace_""__use_rcb4_true.test
-
-# fast build rule for target.
-_run_tests_kxreus_rostest_kxreus__namespace_""__use_rcb4_true.test/fast:
-	$(MAKE) -f CMakeFiles/_run_tests_kxreus_rostest_kxreus__namespace_\"\"__use_rcb4_true.test.dir/build.make CMakeFiles/_run_tests_kxreus_rostest_kxreus__namespace_\"\"__use_rcb4_true.test.dir/build
-.PHONY : _run_tests_kxreus_rostest_kxreus__namespace_""__use_rcb4_true.test/fast
-
-#=============================================================================
-# Target rules for targets named run_tests_kxreus_rostest
-
-# Build rule for target.
-run_tests_kxreus_rostest: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 run_tests_kxreus_rostest
-.PHONY : run_tests_kxreus_rostest
-
-# fast build rule for target.
-run_tests_kxreus_rostest/fast:
-	$(MAKE) -f CMakeFiles/run_tests_kxreus_rostest.dir/build.make CMakeFiles/run_tests_kxreus_rostest.dir/build
-.PHONY : run_tests_kxreus_rostest/fast
-
-#=============================================================================
 # Target rules for targets named tests
 
 # Build rule for target.
@@ -363,134 +233,17 @@ tests/fast:
 .PHONY : tests/fast
 
 #=============================================================================
-# Target rules for targets named _run_tests_kxreus_roslaunch-check__home_mech-user_ping-pong-robot_src_rcb4_ros_kxreus_launch_eusmodel_server.launch
+# Target rules for targets named download_extra_data
 
 # Build rule for target.
-_run_tests_kxreus_roslaunch-check__home_mech-user_ping-pong-robot_src_rcb4_ros_kxreus_launch_eusmodel_server.launch: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 _run_tests_kxreus_roslaunch-check__home_mech-user_ping-pong-robot_src_rcb4_ros_kxreus_launch_eusmodel_server.launch
-.PHONY : _run_tests_kxreus_roslaunch-check__home_mech-user_ping-pong-robot_src_rcb4_ros_kxreus_launch_eusmodel_server.launch
+download_extra_data: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 download_extra_data
+.PHONY : download_extra_data
 
 # fast build rule for target.
-_run_tests_kxreus_roslaunch-check__home_mech-user_ping-pong-robot_src_rcb4_ros_kxreus_launch_eusmodel_server.launch/fast:
-	$(MAKE) -f CMakeFiles/_run_tests_kxreus_roslaunch-check__home_mech-user_ping-pong-robot_src_rcb4_ros_kxreus_launch_eusmodel_server.launch.dir/build.make CMakeFiles/_run_tests_kxreus_roslaunch-check__home_mech-user_ping-pong-robot_src_rcb4_ros_kxreus_launch_eusmodel_server.launch.dir/build
-.PHONY : _run_tests_kxreus_roslaunch-check__home_mech-user_ping-pong-robot_src_rcb4_ros_kxreus_launch_eusmodel_server.launch/fast
-
-#=============================================================================
-# Target rules for targets named run_tests_kxreus_rostest_kxreus__namespace_"robot_a".test
-
-# Build rule for target.
-run_tests_kxreus_rostest_kxreus__namespace_"robot_a".test: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 run_tests_kxreus_rostest_kxreus__namespace_\"robot_a\".test
-.PHONY : run_tests_kxreus_rostest_kxreus__namespace_"robot_a".test
-
-# fast build rule for target.
-run_tests_kxreus_rostest_kxreus__namespace_"robot_a".test/fast:
-	$(MAKE) -f CMakeFiles/run_tests_kxreus_rostest_kxreus__namespace_\"robot_a\".test.dir/build.make CMakeFiles/run_tests_kxreus_rostest_kxreus__namespace_\"robot_a\".test.dir/build
-.PHONY : run_tests_kxreus_rostest_kxreus__namespace_"robot_a".test/fast
-
-#=============================================================================
-# Target rules for targets named _run_tests_kxreus_roslaunch-check
-
-# Build rule for target.
-_run_tests_kxreus_roslaunch-check: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 _run_tests_kxreus_roslaunch-check
-.PHONY : _run_tests_kxreus_roslaunch-check
-
-# fast build rule for target.
-_run_tests_kxreus_roslaunch-check/fast:
-	$(MAKE) -f CMakeFiles/_run_tests_kxreus_roslaunch-check.dir/build.make CMakeFiles/_run_tests_kxreus_roslaunch-check.dir/build
-.PHONY : _run_tests_kxreus_roslaunch-check/fast
-
-#=============================================================================
-# Target rules for targets named _run_tests_kxreus_rostest
-
-# Build rule for target.
-_run_tests_kxreus_rostest: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 _run_tests_kxreus_rostest
-.PHONY : _run_tests_kxreus_rostest
-
-# fast build rule for target.
-_run_tests_kxreus_rostest/fast:
-	$(MAKE) -f CMakeFiles/_run_tests_kxreus_rostest.dir/build.make CMakeFiles/_run_tests_kxreus_rostest.dir/build
-.PHONY : _run_tests_kxreus_rostest/fast
-
-#=============================================================================
-# Target rules for targets named run_tests_kxreus_rostest_kxreus__namespace_"".test
-
-# Build rule for target.
-run_tests_kxreus_rostest_kxreus__namespace_"".test: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 run_tests_kxreus_rostest_kxreus__namespace_\"\".test
-.PHONY : run_tests_kxreus_rostest_kxreus__namespace_"".test
-
-# fast build rule for target.
-run_tests_kxreus_rostest_kxreus__namespace_"".test/fast:
-	$(MAKE) -f CMakeFiles/run_tests_kxreus_rostest_kxreus__namespace_\"\".test.dir/build.make CMakeFiles/run_tests_kxreus_rostest_kxreus__namespace_\"\".test.dir/build
-.PHONY : run_tests_kxreus_rostest_kxreus__namespace_"".test/fast
-
-#=============================================================================
-# Target rules for targets named run_tests_kxreus_rostest_kxreus__namespace_""__use_rcb4_true.test
-
-# Build rule for target.
-run_tests_kxreus_rostest_kxreus__namespace_""__use_rcb4_true.test: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 run_tests_kxreus_rostest_kxreus__namespace_\"\"__use_rcb4_true.test
-.PHONY : run_tests_kxreus_rostest_kxreus__namespace_""__use_rcb4_true.test
-
-# fast build rule for target.
-run_tests_kxreus_rostest_kxreus__namespace_""__use_rcb4_true.test/fast:
-	$(MAKE) -f CMakeFiles/run_tests_kxreus_rostest_kxreus__namespace_\"\"__use_rcb4_true.test.dir/build.make CMakeFiles/run_tests_kxreus_rostest_kxreus__namespace_\"\"__use_rcb4_true.test.dir/build
-.PHONY : run_tests_kxreus_rostest_kxreus__namespace_""__use_rcb4_true.test/fast
-
-#=============================================================================
-# Target rules for targets named run_tests_kxreus_rostest_kxreus__namespace_"robot_a"__use_rcb4_true.test
-
-# Build rule for target.
-run_tests_kxreus_rostest_kxreus__namespace_"robot_a"__use_rcb4_true.test: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 run_tests_kxreus_rostest_kxreus__namespace_\"robot_a\"__use_rcb4_true.test
-.PHONY : run_tests_kxreus_rostest_kxreus__namespace_"robot_a"__use_rcb4_true.test
-
-# fast build rule for target.
-run_tests_kxreus_rostest_kxreus__namespace_"robot_a"__use_rcb4_true.test/fast:
-	$(MAKE) -f CMakeFiles/run_tests_kxreus_rostest_kxreus__namespace_\"robot_a\"__use_rcb4_true.test.dir/build.make CMakeFiles/run_tests_kxreus_rostest_kxreus__namespace_\"robot_a\"__use_rcb4_true.test.dir/build
-.PHONY : run_tests_kxreus_rostest_kxreus__namespace_"robot_a"__use_rcb4_true.test/fast
-
-#=============================================================================
-# Target rules for targets named _run_tests_kxreus_rostest_kxreus__namespace_"robot_a".test
-
-# Build rule for target.
-_run_tests_kxreus_rostest_kxreus__namespace_"robot_a".test: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 _run_tests_kxreus_rostest_kxreus__namespace_\"robot_a\".test
-.PHONY : _run_tests_kxreus_rostest_kxreus__namespace_"robot_a".test
-
-# fast build rule for target.
-_run_tests_kxreus_rostest_kxreus__namespace_"robot_a".test/fast:
-	$(MAKE) -f CMakeFiles/_run_tests_kxreus_rostest_kxreus__namespace_\"robot_a\".test.dir/build.make CMakeFiles/_run_tests_kxreus_rostest_kxreus__namespace_\"robot_a\".test.dir/build
-.PHONY : _run_tests_kxreus_rostest_kxreus__namespace_"robot_a".test/fast
-
-#=============================================================================
-# Target rules for targets named _run_tests_kxreus_rostest_kxreus__namespace_"robot_a"__use_rcb4_true.test
-
-# Build rule for target.
-_run_tests_kxreus_rostest_kxreus__namespace_"robot_a"__use_rcb4_true.test: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 _run_tests_kxreus_rostest_kxreus__namespace_\"robot_a\"__use_rcb4_true.test
-.PHONY : _run_tests_kxreus_rostest_kxreus__namespace_"robot_a"__use_rcb4_true.test
-
-# fast build rule for target.
-_run_tests_kxreus_rostest_kxreus__namespace_"robot_a"__use_rcb4_true.test/fast:
-	$(MAKE) -f CMakeFiles/_run_tests_kxreus_rostest_kxreus__namespace_\"robot_a\"__use_rcb4_true.test.dir/build.make CMakeFiles/_run_tests_kxreus_rostest_kxreus__namespace_\"robot_a\"__use_rcb4_true.test.dir/build
-.PHONY : _run_tests_kxreus_rostest_kxreus__namespace_"robot_a"__use_rcb4_true.test/fast
-
-#=============================================================================
-# Target rules for targets named run_tests_kxreus
-
-# Build rule for target.
-run_tests_kxreus: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 run_tests_kxreus
-.PHONY : run_tests_kxreus
-
-# fast build rule for target.
-run_tests_kxreus/fast:
-	$(MAKE) -f CMakeFiles/run_tests_kxreus.dir/build.make CMakeFiles/run_tests_kxreus.dir/build
-.PHONY : run_tests_kxreus/fast
+download_extra_data/fast:
+	$(MAKE) -f CMakeFiles/download_extra_data.dir/build.make CMakeFiles/download_extra_data.dir/build
+.PHONY : download_extra_data/fast
 
 #=============================================================================
 # Target rules for targets named gmock_main
@@ -551,37 +304,18 @@ help:
 	@echo "... clean"
 	@echo "... depend"
 	@echo "... install/strip"
-	@echo "... install"
-	@echo "... run_tests_kxreus_roslaunch-check__home_mech-user_ping-pong-robot_src_rcb4_ros_kxreus_launch_eusmodel_server.launch"
-	@echo "... run_tests_kxreus_roslaunch-check"
-	@echo "... _run_tests_kxreus"
-	@echo "... edit_cache"
-	@echo "... rebuild_cache"
-	@echo "... _run_tests_kxreus_rostest_kxreus__namespace_\"\".test"
-	@echo "... venv_lock"
-	@echo "... kxreus_generate_virtualenv"
-	@echo "... doxygen"
-	@echo "... download_extra_data"
-	@echo "... run_tests"
-	@echo "... _catkin_empty_exported_target"
-	@echo "... clean_test_results"
-	@echo "... clean_test_results_kxreus"
-	@echo "... _run_tests_kxreus_rostest_kxreus__namespace_\"\"__use_rcb4_true.test"
-	@echo "... list_install_components"
-	@echo "... run_tests_kxreus_rostest"
-	@echo "... tests"
-	@echo "... _run_tests_kxreus_roslaunch-check__home_mech-user_ping-pong-robot_src_rcb4_ros_kxreus_launch_eusmodel_server.launch"
-	@echo "... run_tests_kxreus_rostest_kxreus__namespace_\"robot_a\".test"
-	@echo "... _run_tests_kxreus_roslaunch-check"
-	@echo "... _run_tests_kxreus_rostest"
 	@echo "... install/local"
-	@echo "... run_tests_kxreus_rostest_kxreus__namespace_\"\".test"
-	@echo "... run_tests_kxreus_rostest_kxreus__namespace_\"\"__use_rcb4_true.test"
-	@echo "... run_tests_kxreus_rostest_kxreus__namespace_\"robot_a\"__use_rcb4_true.test"
-	@echo "... _run_tests_kxreus_rostest_kxreus__namespace_\"robot_a\".test"
-	@echo "... _run_tests_kxreus_rostest_kxreus__namespace_\"robot_a\"__use_rcb4_true.test"
-	@echo "... run_tests_kxreus"
+	@echo "... install"
+	@echo "... list_install_components"
+	@echo "... rebuild_cache"
+	@echo "... edit_cache"
 	@echo "... test"
+	@echo "... _catkin_empty_exported_target"
+	@echo "... doxygen"
+	@echo "... run_tests"
+	@echo "... clean_test_results"
+	@echo "... tests"
+	@echo "... download_extra_data"
 	@echo "... gmock_main"
 	@echo "... gmock"
 	@echo "... gtest_main"

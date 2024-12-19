@@ -51,8 +51,8 @@ def main():
     image_raw = None
     img = None
     rospy.init_node("falling_estimation", anonymous = True)
-    #rospy.Subscriber("/camera/color/image_raw", Image, image_cb)
-    rospy.Subscriber("/usb_cam/image_raw", Image, image_cb)
+    rospy.Subscriber("/camera/color/image_raw", Image, image_cb)
+    #rospy.Subscriber("/usb_cam/image_raw", Image, image_cb)
     rate = rospy.Rate(90)
     while not rospy.is_shutdown():
         if image_raw is not None:

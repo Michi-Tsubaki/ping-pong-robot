@@ -5,4 +5,4 @@ PROJECT_CATKIN_DEPENDS = "".replace(';', ' ')
 PKG_CONFIG_LIBRARIES_WITH_PREFIX = "-lkxreus".split(';') if "-lkxreus" != "" else []
 PROJECT_NAME = "kxreus"
 PROJECT_SPACE_DIR = "/home/mech-user/ping-pong-robot/devel/.private/kxreus"
-PROJECT_VERSION = "0.0.7"
+PROJECT_VERSION = "0.0.5"

@@ -54,7 +54,7 @@ CMAKE_BINARY_DIR = /home/mech-user/ping-pong-robot/build/kxr_controller
 include CMakeFiles/_kxr_controller_generate_messages_check_deps_StretchAction.dir/progress.make
 
 CMakeFiles/_kxr_controller_generate_messages_check_deps_StretchAction:
-	catkin_generated/env_cached.sh /usr/bin/python3 /opt/ros/noetic/share/genmsg/cmake/../../../lib/genmsg/genmsg_check_deps.py kxr_controller /home/mech-user/ping-pong-robot/devel/.private/kxr_controller/share/kxr_controller/msg/StretchAction.msg actionlib_msgs/GoalStatus:kxr_controller/StretchGoal:actionlib_msgs/GoalID:kxr_controller/StretchActionGoal:kxr_controller/StretchActionFeedback:std_msgs/Header:kxr_controller/StretchFeedback:kxr_controller/StretchActionResult:kxr_controller/StretchResult
+	catkin_generated/env_cached.sh /usr/bin/python3 /opt/ros/noetic/share/genmsg/cmake/../../../lib/genmsg/genmsg_check_deps.py kxr_controller /home/mech-user/ping-pong-robot/devel/.private/kxr_controller/share/kxr_controller/msg/StretchAction.msg kxr_controller/StretchResult:std_msgs/Header:actionlib_msgs/GoalStatus:kxr_controller/StretchActionFeedback:kxr_controller/StretchActionResult:kxr_controller/StretchActionGoal:actionlib_msgs/GoalID:kxr_controller/StretchFeedback:kxr_controller/StretchGoal
 
 _kxr_controller_generate_messages_check_deps_StretchAction: CMakeFiles/_kxr_controller_generate_messages_check_deps_StretchAction
 _kxr_controller_generate_messages_check_deps_StretchAction: CMakeFiles/_kxr_controller_generate_messages_check_deps_StretchAction.dir/build.make

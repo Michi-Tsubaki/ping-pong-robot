@@ -1,0 +1,24 @@
+riberry/ros/riberry_startup
+/home/mech-user/ping-pong-robot/devel/.private/riberry_startup/cmake.lock /home/mech-user/ping-pong-robot/devel/./cmake.lock
+/home/mech-user/ping-pong-robot/devel/.private/riberry_startup/share/riberry_startup/cmake/riberry_startup-msg-extras.cmake /home/mech-user/ping-pong-robot/devel/share/riberry_startup/cmake/riberry_startup-msg-extras.cmake
+/home/mech-user/ping-pong-robot/devel/.private/riberry_startup/share/riberry_startup/cmake/riberry_startupConfig.cmake /home/mech-user/ping-pong-robot/devel/share/riberry_startup/cmake/riberry_startupConfig.cmake
+/home/mech-user/ping-pong-robot/devel/.private/riberry_startup/share/riberry_startup/cmake/riberry_startupConfig-version.cmake /home/mech-user/ping-pong-robot/devel/share/riberry_startup/cmake/riberry_startupConfig-version.cmake
+/home/mech-user/ping-pong-robot/devel/.private/riberry_startup/share/riberry_startup/cmake/riberry_startup-msg-paths.cmake /home/mech-user/ping-pong-robot/devel/share/riberry_startup/cmake/riberry_startup-msg-paths.cmake
+/home/mech-user/ping-pong-robot/devel/.private/riberry_startup/share/gennodejs/ros/riberry_startup/_index.js /home/mech-user/ping-pong-robot/devel/share/gennodejs/ros/riberry_startup/_index.js
+/home/mech-user/ping-pong-robot/devel/.private/riberry_startup/share/gennodejs/ros/riberry_startup/msg/ImuFace.js /home/mech-user/ping-pong-robot/devel/share/gennodejs/ros/riberry_startup/msg/ImuFace.js
+/home/mech-user/ping-pong-robot/devel/.private/riberry_startup/share/gennodejs/ros/riberry_startup/msg/_index.js /home/mech-user/ping-pong-robot/devel/share/gennodejs/ros/riberry_startup/msg/_index.js
+/home/mech-user/ping-pong-robot/devel/.private/riberry_startup/share/roseus/ros/riberry_startup/manifest.l /home/mech-user/ping-pong-robot/devel/share/roseus/ros/riberry_startup/manifest.l
+/home/mech-user/ping-pong-robot/devel/.private/riberry_startup/share/roseus/ros/riberry_startup/msg/ImuFace.l /home/mech-user/ping-pong-robot/devel/share/roseus/ros/riberry_startup/msg/ImuFace.l
+/home/mech-user/ping-pong-robot/devel/.private/riberry_startup/share/common-lisp/ros/riberry_startup/msg/_package.lisp /home/mech-user/ping-pong-robot/devel/share/common-lisp/ros/riberry_startup/msg/_package.lisp
+/home/mech-user/ping-pong-robot/devel/.private/riberry_startup/share/common-lisp/ros/riberry_startup/msg/riberry_startup-msg.asd /home/mech-user/ping-pong-robot/devel/share/common-lisp/ros/riberry_startup/msg/riberry_startup-msg.asd
+/home/mech-user/ping-pong-robot/devel/.private/riberry_startup/share/common-lisp/ros/riberry_startup/msg/_package_ImuFace.lisp /home/mech-user/ping-pong-robot/devel/share/common-lisp/ros/riberry_startup/msg/_package_ImuFace.lisp
+/home/mech-user/ping-pong-robot/devel/.private/riberry_startup/share/common-lisp/ros/riberry_startup/msg/ImuFace.lisp /home/mech-user/ping-pong-robot/devel/share/common-lisp/ros/riberry_startup/msg/ImuFace.lisp
+/home/mech-user/ping-pong-robot/devel/.private/riberry_startup/lib/riberry_startup/mpu6886_imu_publisher_node /home/mech-user/ping-pong-robot/devel/lib/riberry_startup/mpu6886_imu_publisher_node
+/home/mech-user/ping-pong-robot/devel/.private/riberry_startup/lib/riberry_startup/i2c_button_state_publisher /home/mech-user/ping-pong-robot/devel/lib/riberry_startup/i2c_button_state_publisher
+/home/mech-user/ping-pong-robot/devel/.private/riberry_startup/lib/riberry_startup/i2c_audio_publisher /home/mech-user/ping-pong-robot/devel/lib/riberry_startup/i2c_audio_publisher
+/home/mech-user/ping-pong-robot/devel/.private/riberry_startup/lib/riberry_startup/imu_filter /home/mech-user/ping-pong-robot/devel/lib/riberry_startup/imu_filter
+/home/mech-user/ping-pong-robot/devel/.private/riberry_startup/lib/pkgconfig/riberry_startup.pc /home/mech-user/ping-pong-robot/devel/lib/pkgconfig/riberry_startup.pc
+/home/mech-user/ping-pong-robot/devel/.private/riberry_startup/lib/python3/dist-packages/riberry_startup/__init__.py /home/mech-user/ping-pong-robot/devel/lib/python3/dist-packages/riberry_startup/__init__.py
+/home/mech-user/ping-pong-robot/devel/.private/riberry_startup/lib/python3/dist-packages/riberry_startup/msg/_ImuFace.py /home/mech-user/ping-pong-robot/devel/lib/python3/dist-packages/riberry_startup/msg/_ImuFace.py
+/home/mech-user/ping-pong-robot/devel/.private/riberry_startup/lib/python3/dist-packages/riberry_startup/msg/__init__.py /home/mech-user/ping-pong-robot/devel/lib/python3/dist-packages/riberry_startup/msg/__init__.py
+/home/mech-user/ping-pong-robot/devel/.private/riberry_startup/include/riberry_startup/ImuFace.h /home/mech-user/ping-pong-robot/devel/include/riberry_startup/ImuFace.h

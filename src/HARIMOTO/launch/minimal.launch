@@ -1,5 +1,4 @@
 <launch>
-
   <arg name="urdf_path" default="$(find HARIMOTO)/urdf/HARIMOTO.urdf" />
   <arg name="servo_config_path" default="$(find HARIMOTO)/config/HARIMOTO_servo_config.yaml" />
   <arg name="publish_imu" default="true" />
@@ -33,4 +32,12 @@
     <arg name="read_current" value="$(arg read_current)" />
     <arg name="read_temperature" value="$(arg read_temperature)" />
   </include>
+  
+  <group if="$(eval len(arg('namespace')) > 0)" ns="$(arg namespace)" >
+    <include file="$(find HARIMOTO)/launch/diff_drive_controller.launch" />
+  </group>
+
+  <group unless="$(eval len(arg('namespace')) > 0)">
+    <include file="$(find HARIMOTO)/launch/diff_drive_controller.launch" />
+  </group>
 </launch>

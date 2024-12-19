@@ -1,0 +1,1 @@
+/home/mech-user/ping-pong-robot/devel/.private/riberry_startup/lib/python3/dist-packages/riberry_startup/msg/_ImuFace.py

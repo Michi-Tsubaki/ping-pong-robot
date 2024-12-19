@@ -263,39 +263,19 @@ if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/kxr_controller" TYPE DIRECTORY FILES "/home/mech-user/ping-pong-robot/build/kxr_controller/install/venv" USE_SOURCE_PERMISSIONS)
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/kxr_controller" TYPE PROGRAM FILES "/home/mech-user/ping-pong-robot/build/kxr_controller/catkin_generated/installspace/rcb4_ros_bridge.py")
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/kxr_controller/catkin_virtualenv_scripts" TYPE FILE FILES "/home/mech-user/ping-pong-robot/src/rcb4/ros/kxr_controller/node_scripts/rcb4_ros_bridge.py")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/kxr_controller" TYPE PROGRAM FILES "/home/mech-user/ping-pong-robot/build/kxr_controller/catkin_generated/installspace/interface.py")
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/kxr_controller" TYPE PROGRAM FILES "/home/mech-user/ping-pong-robot/build/kxr_controller/rcb4_ros_bridge.py")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/kxr_controller" TYPE PROGRAM FILES "/home/mech-user/ping-pong-robot/build/kxr_controller/catkin_generated/installspace/kxr_controller.test")
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/kxr_controller/catkin_virtualenv_scripts" TYPE FILE FILES "/home/mech-user/ping-pong-robot/src/rcb4/ros/kxr_controller/scripts/interface.py")
-endif()
-
-if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/kxr_controller" TYPE PROGRAM FILES "/home/mech-user/ping-pong-robot/build/kxr_controller/interface.py")
-endif()
-
-if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/kxr_controller/catkin_virtualenv_scripts" TYPE FILE FILES "/home/mech-user/ping-pong-robot/src/rcb4/ros/kxr_controller/test/kxr_controller.test")
-endif()
-
-if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/kxr_controller" TYPE PROGRAM FILES "/home/mech-user/ping-pong-robot/build/kxr_controller/kxr_controller.test")
-endif()
-
-if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/kxr_controller/catkin_virtualenv_scripts" TYPE FILE FILES "/home/mech-user/ping-pong-robot/src/rcb4/ros/kxr_controller/test/test_kxr_controller.py")
-endif()
-
-if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/kxr_controller" TYPE PROGRAM FILES "/home/mech-user/ping-pong-robot/build/kxr_controller/test_kxr_controller.py")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/kxr_controller" TYPE PROGRAM FILES "/home/mech-user/ping-pong-robot/build/kxr_controller/catkin_generated/installspace/test_kxr_controller.py")
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)

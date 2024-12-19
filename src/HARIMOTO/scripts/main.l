@@ -46,7 +46,7 @@
 (defun search-ball()
   (format t "search-ball~%")
   (ros::rate 100)
-  (ros::subscribe "/detect_ball/cluster_decomposer/boxes" jsk_recognition_msgs::BoundingBoxArray #'search-ball-cb)
+  (ros::subscribe "/detect_ball/cluster_decomposer/boxes" jsk_recognition_msgs::BoundingBoxArray #'search-ball-cb 1)
   (ros::spin-once)
   )
 

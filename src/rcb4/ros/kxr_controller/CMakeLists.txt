@@ -29,21 +29,6 @@ file(APPEND ${CMAKE_CURRENT_SOURCE_DIR}/requirements.in.with_rcb4 "${RCB4_DIR}\n
 # Add a CMake option for enabling/disabling virtualenv
 option(USE_VIRTUALENV "Use Python virtual environment" ON)
 
-if(USE_VIRTUALENV)
-  find_package(catkin REQUIRED COMPONENTS
-    catkin_virtualenv
-    actionlib
-    actionlib_msgs
-    dynamic_reconfigure
-    std_msgs
-    roscpp
-    cmake_modules
-    controller_manager
-    hardware_interface
-    angles
-    urdf
-  )
-else()
   find_package(catkin REQUIRED COMPONENTS
     actionlib
     actionlib_msgs
@@ -57,7 +42,6 @@ else()
     urdf
   )
   message(STATUS "Not using catkin_virtualenv as USE_VIRTUALENV is OFF.")
-endif()
 
 find_package(Eigen REQUIRED)
 
@@ -85,16 +69,6 @@ catkin_package(
   INCLUDE_DIRS include
   CATKIN_DEPENDS roscpp controller_manager hardware_interface angles urdf
 )
-
-if(USE_VIRTUALENV)
-  catkin_generate_virtualenv(
-    INPUT_REQUIREMENTS requirements.in.with_rcb4
-    PYTHON_INTERPRETER python3
-    USE_SYSTEM_PACKAGES TRUE
-    ISOLATE_REQUIREMENTS FALSE
-    CHECK_VENV FALSE
-  )
-endif()
 
 include_directories(
   include

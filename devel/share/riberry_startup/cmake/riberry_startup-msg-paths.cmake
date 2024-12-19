@@ -1,0 +1,1 @@
+/home/mech-user/ping-pong-robot/devel/.private/riberry_startup/share/riberry_startup/cmake/riberry_startup-msg-paths.cmake

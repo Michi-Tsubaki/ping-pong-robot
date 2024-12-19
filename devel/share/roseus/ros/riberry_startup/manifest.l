@@ -1,0 +1,1 @@
+/home/mech-user/ping-pong-robot/devel/.private/riberry_startup/share/roseus/ros/riberry_startup/manifest.l

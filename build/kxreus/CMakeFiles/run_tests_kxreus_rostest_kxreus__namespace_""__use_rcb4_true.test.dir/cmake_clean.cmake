@@ -1,8 +1,0 @@
-file(REMOVE_RECURSE
-  "CMakeFiles/run_tests_kxreus_rostest_kxreus__namespace_\"\"__use_rcb4_true.test"
-)
-
-# Per-language clean rules from dependency scanning.
-foreach(lang )
-  include(CMakeFiles/run_tests_kxreus_rostest_kxreus__namespace_""__use_rcb4_true.test.dir/cmake_clean_${lang}.cmake OPTIONAL)
-endforeach()

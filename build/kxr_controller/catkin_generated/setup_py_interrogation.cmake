@@ -1,5 +1,5 @@
 set(kxr_controller_SETUP_PY_SETUP_MODULE "setuptools")
-set(kxr_controller_SETUP_PY_VERSION "0.0.7")
+set(kxr_controller_SETUP_PY_VERSION "0.0.5")
 set(kxr_controller_SETUP_PY_SCRIPTS "")
 set(kxr_controller_SETUP_PY_PACKAGES "kxr_controller")
 set(kxr_controller_SETUP_PY_PACKAGE_DIRS "python/kxr_controller")

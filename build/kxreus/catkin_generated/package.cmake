@@ -1,5 +1,5 @@
 set(_CATKIN_CURRENT_PACKAGE "kxreus")
-set(kxreus_VERSION "0.0.7")
+set(kxreus_VERSION "0.0.5")
 set(kxreus_MAINTAINER "Iori Yanokura <yanokura@jsk.imi.i.u-tokyo.ac.jp>")
 set(kxreus_PACKAGE_FORMAT "3")
 set(kxreus_BUILD_DEPENDS "catkin_virtualenv" "kxr_controller" "kxr_models")
