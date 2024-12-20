@@ -161,3 +161,14 @@
  (unix:sleep 1)
  )
 (off)
+
+;;(send *ri* :send-cmd-vel-raw 10 0 0)
+
+
+(send *ri* :send-cmd-vel-raw 10 0 0)
+(unix:sleep 1)
+(send *ri* :send-cmd-vel-raw -10 0 0)
+(unix:sleep 1)
+(send *ri* :send-cmd-vel-raw 0 0 10)
+(unix:sleep 1)
+(send *ri* :send-cmd-vel-raw 0 0 -10)

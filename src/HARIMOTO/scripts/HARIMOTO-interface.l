@@ -75,7 +75,6 @@
     (unless (boundp '*ri*)
       (setq *ri* (instance hari-interface :init *hari* :namespace namespace
                            :controller-name controller-name)))
-
     (ros::spin-once)
     (send *ri* :spin-once)
     (send *hari* :angle-vector (send *ri* :state :potentio-vector)))
