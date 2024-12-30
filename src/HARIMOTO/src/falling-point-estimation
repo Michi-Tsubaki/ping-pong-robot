@@ -9,7 +9,7 @@ import cv2
 import numpy as np
 import time
 from sensor_msgs.msg import Image
-from cv_bridge import CvBridge
+from cv_bridge import CvBridge #rosのimage型からopencvの型に変換するブリッジ
 
 d435_path = "/camera/color/image_raw"
 usb_path = "/usb_cam/image_raw"
@@ -35,14 +35,15 @@ def image_cb(msg):
 
 def hsv_color_filter(img):
     hsvdata = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
-    lower_hsv1 = np.array([0, 0, 0])
-    upper_hsv1 = np.array([30, 255, 255])
+    lower_hsv1 = np.array([0, 0, 170]) #0 0 0 
+    upper_hsv1 = np.array([180, 70, 255]) #30 255 255
     img_mask1 = cv2.inRange(hsvdata, lower_hsv1, upper_hsv1)
-    lower_hsv2 = np.array([150, 0, 0])
-    upper_hsv2 = np.array([180, 255, 255])
+    lower_hsv2 = np.array([0, 0, 200]) #150 0 0
+    upper_hsv2 = np.array([0, 50, 255]) #180 255 255
     img_mask2 = cv2.inRange(hsvdata, lower_hsv2, upper_hsv2)
     img_mask = img_mask1 + img_mask2
-    filtered_img = cv2.bitwise_and(img, img, mask=img_mask)
+    filtered_img = cv2.bitwise_and(hsvdata, hsvdata, mask=img_mask)
+    hsvdata = cv2.cvtColor(img, cv2.COLOR_HSV2BGR)
     return filtered_img
 
 def moving_object_extractor(previmg,nextimg):
@@ -61,7 +62,9 @@ def dilation_image(dilationSize, kernelSize, img):
 
 ##重心計算
 def find_balls(img):
-    image, contours, hierarchy = cv2.findContours(img, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE) #物体の境界線を検出する
+    retval, black_diff = cv2.threshold(img, 30, 255, cv2.THRESH_BINARY) 
+    contours, hierarchy = cv2.findContours(black_diff, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+    print(contours)
     ball_pos = []
     for i in range(len(contours)):  # 重心位置
         count = len(contours[i])
@@ -78,6 +81,27 @@ def find_balls(img):
         ball_pos.append([x, y])
     return ball_pos
 
+def displayCircle(img, ballList, thickness=5):
+    for i in range(len(ballList)):
+        x = int(ballList[i][0])
+        y = int(ballList[i][1])
+        cv2.circle(img, (x, y), 10, (0, 0, 255), thickness)
+    return img
+
+def black2color(bImage):
+    colorImage = np.array((bImage, bImage, bImage))
+    print(colorImage.shape)
+    print(colorImage.dtype)
+    colorImage = colorImage[0:2]
+    colorImage = colorImage.transpose(1, 2, 0)
+    return colorImage
+
+def resizeImage(image, w=2, h=2):
+    height = image.shape[0]
+    width = image.shape[1]
+    resizedImage = cv2.resize(image, (int(width / w), int(height / h)))
+    return resizedImage
+
 def image_by_d435():
     rospy.Subscriber(d435_path, Image, image_cb)
 
@@ -91,6 +115,8 @@ def image_by_video():
 def is_topic_alive(topic_name):
     published_topics = rospy.get_published_topics()
     return any(topic_name == topic[0] for topic in published_topics)
+
+
 
 def main():
     global image_raw
@@ -112,13 +138,12 @@ def main():
         print("rosmode now\n")
         while not rospy.is_shutdown():
             if image_raw is not None:
-                previmg = nextimg
+                previmg = img
                 img = hsv_color_filter(image_raw)
                 nextimg = img
                 if not previmg is None:
                     diff = moving_object_extractor(previmg, nextimg)
                     output = dilation_image(20,3,diff)
-                    find_ball
                     cv2.imshow("image_raw", output)
                     key = cv2.waitKey(1) #1ms待機=ほぼリアルタイムで表示できるはず
                     if key == 27:
@@ -131,18 +156,28 @@ def main():
             ret, image_raw = cap.read()
             if image_raw is not None:
                 previmg = img
-                ## img = hsv_color_filter(image_raw)
-                img = image_raw
+                img = hsv_color_filter(image_raw)
+                ##img = image_raw
                 nextimg = img
                 if not(previmg is None):
                     diff = moving_object_extractor(previmg, nextimg)
-                    output = dilation_image(20,3,diff)
+                    output = dilation_image(25,10,diff)
                     ball_pos = find_balls(output) #list
+                    ##print("ballpos: ",ball_pos)
+                    output = displayCircle(image_raw, ball_pos, 2)
+                    #cImage = black2color(output)
+                    #im1 = resizeImage(output, 2, 2)
+                    #im2 = resizeImage(cImage, 2, 2)
+                    #print(im1.shape)
+                    #print(im1.dtype)
+                    #print(im2.shape)
+                    #print(im2.dtype)
+                    #im_h = cv2.hconcat([im1, im2])
                     cv2.imshow("image_raw", output)
                     key = cv2.waitKey(1) #1ms待機=ほぼリアルタイムで表示できるはず
                     if key == 27:
                         break
-            time.sleep(0.1)
+            time.sleep(0.01)
         cv2.destroyAllWindows()
 
 if __name__ == '__main__':
