@@ -8,6 +8,7 @@
 
 ;; Load packages
 (load "HARIMOTO-interface.l")
+(load "HARIMOTO-speak.l")
 (ros::load-ros-package "jsk_recognition_msgs")
 
 ;; parameters
@@ -19,11 +20,15 @@
 (setq *ball-z-max-lim* 0.20)
 
 
+;; setup-position
+(setq *basic-pose1* #f(-110.0 0.0 -40 70))
+(setq *basic-pose2* #f(-140 25 -40 75)) 
+
 ;; Basic setting
 (setq *ball-lost* t)
 
 ;; Basic function
-;;サーボ系
+;; Servo(サーボ系)
 (defun on()
   (send *ri* :servo-on)
   )
@@ -31,7 +36,7 @@
   (send *ri* :servo-off)
   )
 (defun wait-pose()
-  (send *ri* :angle-vector #f(-70 28 -44 70) 5000)
+  (send *ri* :angle-vector *basic-pose2* 5000)
   ;;0.0 39.1838 17.955 85.9437
   ;;-70 28 -44 70
   ;;0 40 10 50
@@ -45,7 +50,9 @@
   (send *irtviewer* :draw-objects)
   (send *ri* :servo-on)
   )
-;;認識系
+
+
+;; Recognition(認識系)
 (defun search-ball()
   (format t "search-ball~%")
   (ros::rate 100000)
@@ -66,23 +73,24 @@
     )
   )
 
-;;motion
 
+;; Hitting(打撃系)
 (defun hit()
-  (setq r1 #f(-70 28 -44 60))
+  (setq r1 *basic-pose2*)
   (setq r2 #f(-60 31 -31 60))
   (setq r3 #f(-54 34 -20  60))
   (setq r4 #f(-52 36 0 60))
   (setq r5 #f(-50 20 20 60))
   (setq r6 #f(-50 10 50 60))
-  (setq r7 #f(-70 28 -44 60))
+  (setq r7 *basic-pose2*)
   (setq tm 40)
   (send *ri* :angle-vector-sequence (list r1 r2 r3 r4 r5 r6 r7) (list tm tm tm tm tm tm 5000)
 	:default-controller 0.001
 	:min-time 0.0001
 	:minjerk-interpolation nil
 	)
-  (send *ri* :wait-interpolation)
+  (chorei)
+  ;;(send *ri* :wait-interpolation)
   (send *irtviewer* :draw-objects)
   )
 
@@ -111,17 +119,64 @@
   (send *irtviewer* :draw-objects)
   )
   
-;;音声系
-(defun chorei()
-    ;;
-    )
+
+;; Move(移動)
+;; 以下の移動関数はデフォルトで， [10cm]が単位になっている．単位換算に注意．
+(defun move-to (target-x target-y &key (vel-scale 2) (pos-threshold 0.01))
+  "現在位置から相対的な距離(target-x, target-y)だけ移動する
+   vel-scale: 並進速度のスケール係数(デフォルト: 2)"
+  
+  (let ((moved-x 0.0)  ; 既に移動した距離x
+        (moved-y 0.0)  ; 既に移動した距離y
+        (dt 0.05))     ; 制御周期[s]
+    
+    (do-until-key
+     (let* ((remaining-x (- target-x moved-x))
+            (remaining-y (- target-y moved-y)))
+       
+       ;; check
+       (when (and (< (abs remaining-x) pos-threshold)
+                 (< (abs remaining-y) pos-threshold))
+         ;; send stop
+         (send *ri* :send-cmd-vel-raw 0 0 0)
+         (return-from move-to t))
+       
+       ;; calculate velocity
+       (let ((vx (* vel-scale (if (> (abs remaining-x) pos-threshold)
+                                 (/ remaining-x (abs remaining-x))
+                                 0)))
+             (vy (* vel-scale (if (> (abs remaining-y) pos-threshold)
+                                 (/ remaining-y (abs remaining-y))
+                                 0))))
+         
+         ;; send control
+         (send *ri* :send-cmd-vel-raw vx vy 0)
+         
+         ;; update distance
+         (setq moved-x (+ moved-x (* vx dt)))
+         (setq moved-y (+ moved-y (* vy dt)))
+         
+         ;; wait for control
+         (unix:usleep (round (* dt 1000000)))))) ;; usleepがintergerしか受け付けないので，roundで丸めたが，どうやらここにバグがあるっぽい．(Dec 30 Michi-Tsubaki)
+    ))
+
+
+
+;; AUDIO Function
+(defun chorei() ;;「チョレイ」と言う
+  (send *ri* :play-sound #P"~/ping-pong-robot/src/HARIMOTO/srv/chorei.mp3" :wait nil)
+  ) ;;メインでこっちを使う．張本選手の肉声を取ってきた．
+
+(defun chorei2() ;;「チョレイ」と言う
+  (send *ri* :speak "cho-rei" :wait nil)
+  ) ;;音声合成に時間がかかるのかこっちは少し遅くて，使い物にならない．
+     
+
+
 ;;Initialize
 (setq *ball-xpos* 0)
 (setq *ball-ypos* 0)
 (setq *ball-zpos* 0)
-
-
-
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;;main
@@ -164,6 +219,8 @@
 
 ;;(send *ri* :send-cmd-vel-raw 10 0 0)
 
+(defun move-to(x,y)
+  
 
 (send *ri* :send-cmd-vel-raw 10 0 0)
 (unix:sleep 1)

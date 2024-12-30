@@ -26,17 +26,17 @@ ridgeback_control:
   linear:
     x:
       has_velocity_limits    : true
-      max_velocity           : 0.1   # m/s
+      max_velocity           : 0.2   # m/s
       has_acceleration_limits: true
-      max_acceleration       : 20.0   # m/s^2
+      max_acceleration       : 40.0   # m/s^2
     y:
       has_velocity_limits    : true
-      max_velocity           : 0.1   # m/s
+      max_velocity           : 0.2   # m/s
       has_acceleration_limits: true
-      max_acceleration       : 20.0   # m/s^2
+      max_acceleration       : 40.0   # m/s^2
   angular:
     z:
       has_velocity_limits    : true
-      max_velocity           : 4.0   # rad/s
+      max_velocity           : 8.0   # rad/s
       has_acceleration_limits: true
-      max_acceleration       : 25.0   # rad/s^2
+      max_acceleration       : 50.0   # rad/s^2
