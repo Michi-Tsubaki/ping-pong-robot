@@ -13,12 +13,12 @@
 
 ;; parameters
 (setq *ball-x-min-lim* 0.18) ;;奥行き方向
-(setq *ball-x-max-lim* 0.22)
+(setq *ball-x-max-lim* 0.20)
 (setq *ball-y-min-lim* -0.15) ;;左右方向
 (setq *ball-y-max-lim* 0.15)
 (setq *ball-z-min-lim* -0.20) ;;上下方向
 (setq *ball-z-max-lim* 0.20)
-
+(setq *timer* 2) ;;*timer*秒間以上 *ball-?pos-tmp*が同一なら無効化(=0)する． ;;nilにするとバグる．
 
 ;; setup-position
 (setq *basic-pose1* #f(-110.0 0.0 -40 70))
@@ -32,9 +32,17 @@
 (defun on()
   (send *ri* :servo-on)
   )
+  
 (defun off()
   (send *ri* :servo-off)
   )
+  
+(defun move(angle-vector)
+  (send *ri* :angle-vector angle-vector 1000)
+  (send *ri* :wait-interpolation)
+  (send *irtviewer* :draw-objects)
+  )
+
 (defun wait-pose()
   (send *ri* :angle-vector *basic-pose2* 5000)
   ;;0.0 39.1838 17.955 85.9437
@@ -43,6 +51,7 @@
   (send *ri* :wait-interpolation)
   (send *irtviewer* :draw-objects)
   )
+  
 (defun keep()
   (setq *tmp* (send *ri* :state :angle-vector))
   (send *ri* :angle-vector (send *ri* :state :angle-vector) 100)
@@ -94,7 +103,28 @@
   (send *irtviewer* :draw-objects)
   )
 
-(defun back-drive() ;;TODO: yとzを引数にしてもう少し複雑にする
+(defun hit2() ;;とりあえず温泉卓球のように返球するhit関数
+  ;;TODO: yとzを引数にしてもう少し複雑にする
+  (setq r1 *basic-pose2*)
+  (setq r2 #f(-110 60 -40 75))
+  (setq r3 #f(-110 70 -20  75))
+  (setq r4 #f(-120 60 0 75))
+  (setq r5 #f(-120 40 20 75))
+  (setq r6 #f(-120 10 40 70))
+  (setq r7 *basic-pose2*)
+  (setq tm 40)
+  (send *ri* :angle-vector-sequence (list r1 r2 r3 r4 r5 r6 r7) (list tm tm tm tm tm tm 5000)
+	:default-controller 0.0001
+	:min-time 0.00001
+	:minjerk-interpolation nil ;;trueにするとバグので注意
+	)
+  (chorei)
+  ;;(send *ri* :wait-interpolation)
+  (send *irtviewer* :draw-objects)
+  )
+
+
+(defun back-drive() 
   (setq r1 #f(0 42 25 95))
   (setq r2 #f(-10 38 20 90))
   (setq r3 #f(-20 30 20 80))
@@ -157,27 +187,61 @@
          (setq moved-y (+ moved-y (* vy dt)))
          
          ;; wait for control
-         (unix:usleep (round (* dt 1000000)))))) ;; usleepがintergerしか受け付けないので，roundで丸めたが，どうやらここにバグがあるっぽい．(Dec 30 Michi-Tsubaki)
+         (unix:usleep (round (* dt 1000000)))))) ;; usleepがintergerしか受け付けないので，roundで丸めたが，どうやらここにバグがあるっぽい．(Dec 30 @Michi-Tsubaki) 数値計算難しいね．
     ))
 
+;; ボールの位置(or予測地位)に追従するように機体が動くようにする関数 (Jan 1)
+(defun move-follow(x y)
+  (setq *y-threshold-left* 0.03) ;;横方向
+  (setq *y-threshold-right* -0.03)
+  (setq *x-threshold-front* 18.0) ;;前後方向
+  (setq *x-threshold-back* 20.0)
+  (cond ((and (> x *x-threshold-front*) (< x *x-threshold-back*) (> y *y-threshold-left*)) (send *ri* :send-cmd-vel-raw 0 0.5 0))
+	((and (> x *x-threshold-front*) (< x *x-threshold-back*) (< y *y-threshold-right*)) (send *ri* :send-cmd-vel-raw 0 -0.5 0))
+	((and (> x *x-threshold-front*) (< x *x-threshold-back*) (> y *y-threshold-right*) (< y *y-threshold-left*)) (send *ri* :send-cmd-vel-raw 0 0 0))
+	((and (< x *x-threshold-front*)  (> y *y-threshold-left*)) (send *ri* :send-cmd-vel-raw -0.5 0.5 0))
+	((and (> x *x-threshold-back*)  (> y *y-threshold-left*)) (send *ri* :send-cmd-vel-raw 0.5 0.5 0))
+	((and (< x *x-threshold-front*) (< y *y-threshold-right*)) (send *ri* :send-cmd-vel-raw -0.5 -0.5 0))
+	((and (> x *x-threshold-back*) (< y *y-threshold-right*)) (send *ri* :send-cmd-vel-raw 0.5 -0.5 0))
+	((and (> x *x-threshold-back*) (< y *y-threshold-left*) (> y *y-threshold-right*)) (send *ri* :send-cmd-vel-raw 0.5 0 0))
+	((and (< x *x-threshold-front*) (< y *y-threshold-left*) (> y *y-threshold-right*)) (send *ri* :send-cmd-vel-raw -0.5 0 0))
+	(t (send *ri* :send-cmd-vel-raw 0 0 0)))
+  )
 
 
 ;; AUDIO Function
 (defun chorei() ;;「チョレイ」と言う
   (send *ri* :play-sound #P"~/ping-pong-robot/src/HARIMOTO/srv/chorei.mp3" :wait nil)
-  ) ;;メインでこっちを使う．張本選手の肉声を取ってきた．
+  ) ;;メインでこっちを使う．肉声．
 
 (defun chorei2() ;;「チョレイ」と言う
   (send *ri* :speak "cho-rei" :wait nil)
   ) ;;音声合成に時間がかかるのかこっちは少し遅くて，使い物にならない．
      
 
+;; TIMER Function (変数の時間管理)
+(defun monitor-value (var-symbol timeout)
+  (let ((start-time (get-universal-time))
+        (last-value (symbol-value var-symbol)))
+    (loop
+     (when (not (eq last-value (symbol-value var-symbol)))
+       (setf start-time (get-universal-time))
+       (setf last-value (symbol-value var-symbol)))
+     (when (>= (- (get-universal-time) start-time) timeout)
+       (setf (symbol-value var-symbol) nil)))))
+
+
+(defun get-universal-time()
+  (+ (elt (unix:localtime) 0) (* (elt (unix:localtime) 1) 60))
+  )
+	 
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;;Initialize
 (setq *ball-xpos* 0)
 (setq *ball-ypos* 0)
 (setq *ball-zpos* 0)
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;;main
 (hari-init)
@@ -194,38 +258,61 @@
  (setq *ball-xpos* 0)
  (setq *ball-ypos* 0)
  (setq *ball-zpos* 0)
- (while *ball-lost*
-   (progn (ros::rate 1000000)	  
-	  (ros::spin-once)
-	  (setq *ball-xpos-tmp* *ball-xpos*)
-	  (setq *ball-ypos-tmp* *ball-ypos*)
-	  (setq *ball-zpos-tmp* *ball-zpos*)
-	  (format t "x: ~A, y: ~A, z: ~A~%" *ball-xpos-tmp* *ball-ypos-tmp* *ball-zpos-tmp*)
-	  (if (and (> *ball-xpos-tmp* *ball-x-min-lim*)
-		   (< *ball-xpos-tmp* *ball-x-max-lim*)
-		   (> *ball-ypos-tmp* *ball-y-min-lim*)
-		   (< *ball-ypos-tmp* *ball-y-max-lim*)
-		   (> *ball-zpos-tmp* *ball-z-min-lim*)
-		   (< *ball-zpos-tmp* *ball-z-max-lim*))
-	      (print (setq *ball-lost* nil))
+ (let ((start-time-x (get-universal-time))
+       (start-time-y (get-universal-time))
+       (start-time-z (get-universal-time))
+       (last-x *ball-xpos-tmp*)
+       (last-y *ball-ypos-tmp*)
+       (last-z *ball-zpos-tmp*))
+   (while *ball-lost*
+     (progn (ros::rate 1000000)	  
+	    (ros::spin-once)
+	    (setq *ball-xpos-tmp* *ball-xpos*)
+	    (setq *ball-ypos-tmp* *ball-ypos*)
+	    (setq *ball-zpos-tmp* *ball-zpos*)
+	    
+	    ;; Monitor x position
+	    (if (not (eq last-x *ball-xpos-tmp*))
+		(progn 
+		  (setq start-time-x (get-universal-time))
+		  (setq last-x *ball-xpos-tmp*)))
+	    (when (>= (- (get-universal-time) start-time-x) *timer*)
+	      (setq *ball-xpos-tmp* 19))
+	    
+	    ;; Monitor y position
+	    (if (not (eq last-y *ball-ypos-tmp*))
+		(progn
+		  (setq start-time-y (get-universal-time))
+		  (setq last-y *ball-ypos-tmp*)))
+	    (when (>= (- (get-universal-time) start-time-y) *timer*)
+	      (setq *ball-ypos-tmp* 0))
+	    
+	    ;; Monitor z position
+	    (if (not (eq last-z *ball-zpos-tmp*))
+		(progn
+		  (setq start-time-z (get-universal-time))
+		  (setq last-z *ball-zpos-tmp*)))
+	    (when (>= (- (get-universal-time) start-time-z) *timer*)
+	      (setq *ball-zpos-tmp* 0))
+	    
+	    (format t "x: ~A, y: ~A, z: ~A~%" *ball-xpos-tmp* *ball-ypos-tmp* *ball-zpos-tmp*)
+	    (if (and (> *ball-xpos-tmp* *ball-x-min-lim*)
+		     (< *ball-xpos-tmp* *ball-x-max-lim*)
+		     (> *ball-ypos-tmp* *ball-y-min-lim*)
+		     (< *ball-ypos-tmp* *ball-y-max-lim*)
+		     (> *ball-zpos-tmp* *ball-z-min-lim*)
+		     (< *ball-zpos-tmp* *ball-z-max-lim*))
+		(print (setq *ball-lost* nil))
+	      )
 	    )
-	  )
+     ;; follow-x,ypos (将来的に引数には着地予測地点を入れるが今の所tmpを使う)
+     (setq *estimete-falling-xpos* *ball-xpos-tmp*)
+     (setq *estimete-falling-ypos* *ball-ypos-tmp*)
+     (move-follow *ball-xpos-tmp* *ball-ypos-tmp*)
+     )
    )
- (hit) 
- (ros::sleep)
- (unix:sleep 1)
- )
+(hit2) 
+(ros::sleep)
+(unix:usleep 500000)
+)
 (off)
-
-;;(send *ri* :send-cmd-vel-raw 10 0 0)
-
-(defun move-to(x,y)
-  
-
-(send *ri* :send-cmd-vel-raw 10 0 0)
-(unix:sleep 1)
-(send *ri* :send-cmd-vel-raw -10 0 0)
-(unix:sleep 1)
-(send *ri* :send-cmd-vel-raw 0 0 10)
-(unix:sleep 1)
-(send *ri* :send-cmd-vel-raw 0 0 -10)
