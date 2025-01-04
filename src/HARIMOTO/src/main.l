@@ -20,9 +20,12 @@
 (setq *ball-z-max-lim* 0.20)
 (setq *timer* 2) ;;*timer*秒間以上 *ball-?pos-tmp*が同一なら無効化(=0)する． ;;nilにするとバグる．
 
+
+;; set-init-pos
+(setq *c-pose* #f(-70 40 0 0)) 
 ;; setup-position
-(setq *basic-pose1* #f(-110.0 0.0 -40 70))
-(setq *basic-pose2* #f(-140 25 -40 75)) 
+(setq *basic-pose1* (v+ *c-pose* #f(15.0 -40 -40 70)))
+(setq *basic-pose2* (v+ *c-pose* #f(-35.0 5 -40 75)))
 
 ;; Basic setting
 (setq *ball-lost* t)
@@ -84,7 +87,8 @@
 
 
 ;; Hitting(打撃系)
-(defun hit()
+;; かつての打撃関数
+(defun pre-hit()
   (setq r1 *basic-pose2*)
   (setq r2 #f(-60 31 -31 60))
   (setq r3 #f(-54 34 -20  60))
@@ -103,21 +107,48 @@
   (send *irtviewer* :draw-objects)
   )
 
+;;簡易的な打撃関数
 (defun hit2() ;;とりあえず温泉卓球のように返球するhit関数
   ;;TODO: yとzを引数にしてもう少し複雑にする
   (setq r1 *basic-pose2*)
-  (setq r2 #f(-110 60 -40 75))
-  (setq r3 #f(-110 70 -20  75))
-  (setq r4 #f(-120 60 0 75))
-  (setq r5 #f(-120 40 20 75))
-  (setq r6 #f(-120 10 40 70))
+  (setq r2 #f(-110 100 -40 75))
+  (setq r3 #f(-110 110 -20  75))
+  (setq r4 #f(-120 100 0 75))
+  (setq r5 #f(-120 80 20 75))
+  (setq r6 #f(-120 50 40 70))
   (setq r7 *basic-pose2*)
   (setq tm 40)
+    (send *ri* :angle-vector-sequence (list r1 r2 r3 r4 r5 r6 r7) (list tm tm tm tm tm tm 5000)
+	:default-controller 0.0001
+	:min-time 0.00001
+	:minjerk-interpolation nil ;;trueにするとバグので注意
+	)
+  ;;(move-to 1 1)
+  (chorei)
+  
+  ;;(send *ri* :wait-interpolation)
+  (send *irtviewer* :draw-objects)
+  )
+
+
+
+(defun hit(x) 
+  ;;TODO: yとzを引数にしてもう少し複雑にする
+  (setq r1 *basic-pose2*)
+  (setq r2 (float-vector (- -110 (* 2 x)) (+ 100 x) -40 (+ 75 (* x 0.5))))
+  (setq r3 (float-vector (- -110 (* 2 x)) (+ 110 x) -20  (+ 75 (* x 0.5))))
+  (setq r4 (float-vector (- -120 (* 2 x)) (+ 100 x) 0 (+ 75 (* x 0.5))))
+  (setq r5 (float-vector (- -120 (* 2 x)) (+ 80 x) 20 (+ 75 (* x 0.5))))
+  (setq r6 (float-vector (- -120 (* 2 x)) (+ 50 x) 40 (+ 70 (* x 0.5))))
+  (setq r7 *basic-pose2*)
+  (setq tm 30)
   (send *ri* :angle-vector-sequence (list r1 r2 r3 r4 r5 r6 r7) (list tm tm tm tm tm tm 5000)
 	:default-controller 0.0001
 	:min-time 0.00001
 	:minjerk-interpolation nil ;;trueにするとバグので注意
 	)
+  ;;(move-to 0.5 0)
+  (send *ri* :send-cmd-vel-raw 1 0 0)
   (chorei)
   ;;(send *ri* :wait-interpolation)
   (send *irtviewer* :draw-objects)
@@ -192,21 +223,45 @@
 
 ;; ボールの位置(or予測地位)に追従するように機体が動くようにする関数 (Jan 1)
 (defun move-follow(x y)
-  (setq *y-threshold-left* 0.03) ;;横方向
+  (setq *y-threshold-left* 0.03)
   (setq *y-threshold-right* -0.03)
-  (setq *x-threshold-front* 18.0) ;;前後方向
-  (setq *x-threshold-back* 20.0)
-  (cond ((and (> x *x-threshold-front*) (< x *x-threshold-back*) (> y *y-threshold-left*)) (send *ri* :send-cmd-vel-raw 0 0.5 0))
-	((and (> x *x-threshold-front*) (< x *x-threshold-back*) (< y *y-threshold-right*)) (send *ri* :send-cmd-vel-raw 0 -0.5 0))
-	((and (> x *x-threshold-front*) (< x *x-threshold-back*) (> y *y-threshold-right*) (< y *y-threshold-left*)) (send *ri* :send-cmd-vel-raw 0 0 0))
-	((and (< x *x-threshold-front*)  (> y *y-threshold-left*)) (send *ri* :send-cmd-vel-raw -0.5 0.5 0))
-	((and (> x *x-threshold-back*)  (> y *y-threshold-left*)) (send *ri* :send-cmd-vel-raw 0.5 0.5 0))
-	((and (< x *x-threshold-front*) (< y *y-threshold-right*)) (send *ri* :send-cmd-vel-raw -0.5 -0.5 0))
-	((and (> x *x-threshold-back*) (< y *y-threshold-right*)) (send *ri* :send-cmd-vel-raw 0.5 -0.5 0))
-	((and (> x *x-threshold-back*) (< y *y-threshold-left*) (> y *y-threshold-right*)) (send *ri* :send-cmd-vel-raw 0.5 0 0))
-	((and (< x *x-threshold-front*) (< y *y-threshold-left*) (> y *y-threshold-right*)) (send *ri* :send-cmd-vel-raw -0.5 0 0))
-	(t (send *ri* :send-cmd-vel-raw 0 0 0)))
-  )
+  (setq *x-threshold-front* 0.17)
+  (setq *x-threshold-back* 0.22)
+  
+  ;; まず x, y それぞれの方向の必要な移動を判定
+  (let ((x-move (cond ((= x 0) 0)
+		      ((< x *x-threshold-front*) -0.5)
+                      ((> x *x-threshold-back*) 0.5)
+                      (t 0)))
+        (y-move (cond ((= y 0) 0)
+		      ((> y *y-threshold-left*) 0.5)
+                      ((< y *y-threshold-right*) -0.5)
+                      (t 0))))
+    
+    ;; 斜め移動の場合は適切にスケール
+    (when (and (not (= x-move 0)) (not (= y-move 0)))
+      (setq x-move (* x-move 0.707)) ;; 1/√2
+      (setq y-move (* y-move 0.707)))
+    
+    (send *ri* :send-cmd-vel-raw x-move y-move 0)))
+
+
+;;(defun move-follow(x y)
+;;  (setq *y-threshold-left* 0.03) ;;横方向
+;;  (setq *y-threshold-right* -0.03)
+;;  (setq *x-threshold-front* 17.0) ;;前後方向
+;;  (setq *x-threshold-back* 22.0)
+;;  (cond ((and (> x *x-threshold-front*) (< x *x-threshold-back*) (> y *y-threshold-left*)) (send *ri* :send-cmd-vel-raw 0 0.5 0))
+;;	((and (> x *x-threshold-front*) (< x *x-threshold-back*) (< y *y-threshold-right*)) (send *ri* :send-cmd-vel-raw 0 -0.5 0))
+;;	((and (> x *x-threshold-front*) (< x *x-threshold-back*) (> y *y-threshold-right*) (< y *y-threshold-left*)) (send *ri* :send-cmd-vel-raw 0 0 0))
+;;	((and (< x *x-threshold-front*)  (> y *y-threshold-left*)) (send *ri* :send-cmd-vel-raw -0.5 0.5 0))
+;;	((and (> x *x-threshold-back*)  (> y *y-threshold-left*)) (send *ri* :send-cmd-vel-raw 0.5 0.5 0))
+;;	((and (< x *x-threshold-front*) (< y *y-threshold-right*)) (send *ri* :send-cmd-vel-raw -0.5 -0.5 0))
+;;	((and (> x *x-threshold-back*) (< y *y-threshold-right*)) (send *ri* :send-cmd-vel-raw 0.5 -0.5 0))
+;;	((and (> x *x-threshold-back*) (< y *y-threshold-left*) (> y *y-threshold-right*)) (send *ri* :send-cmd-vel-raw 0.5 0 0))
+;;	((and (< x *x-threshold-front*) (< y *y-threshold-left*) (> y *y-threshold-right*)) (send *ri* :send-cmd-vel-raw -0.5 0 0))
+;;	(t (send *ri* :send-cmd-vel-raw 0 0 0)))
+;;  )
 
 
 ;; AUDIO Function
@@ -252,7 +307,7 @@
 (search-ball)
 (do-until-key
  (setq *ball-lost* t)
- (setq *ball-xpos-tmp* 0)
+ (setq *ball-xpos-tmp* 0.19)
  (setq *ball-ypos-tmp* 0)
  (setq *ball-zpos-tmp* 0)
  (setq *ball-xpos* 0)
@@ -277,7 +332,7 @@
 		  (setq start-time-x (get-universal-time))
 		  (setq last-x *ball-xpos-tmp*)))
 	    (when (>= (- (get-universal-time) start-time-x) *timer*)
-	      (setq *ball-xpos-tmp* 19))
+	      (setq *ball-xpos-tmp* 0))
 	    
 	    ;; Monitor y position
 	    (if (not (eq last-y *ball-ypos-tmp*))
@@ -308,7 +363,7 @@
      ;; follow-x,ypos (将来的に引数には着地予測地点を入れるが今の所tmpを使う)
      (setq *estimete-falling-xpos* *ball-xpos-tmp*)
      (setq *estimete-falling-ypos* *ball-ypos-tmp*)
-     (move-follow *ball-xpos-tmp* *ball-ypos-tmp*)
+     (move-follow *ball-xpos-tmp* *ball-zpos-tmp*)
      )
    )
 (hit2) 
