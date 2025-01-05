@@ -25,7 +25,8 @@
 (setq *c-pose* #f(-70 40 0 0)) 
 ;; setup-position
 (setq *basic-pose1* (v+ *c-pose* #f(15.0 -40 -40 70)))
-(setq *basic-pose2* (v+ *c-pose* #f(-35.0 5 -40 75)))
+(setq *basic-pose3* (v+ *c-pose* #f(-35.0 5 -40 75)))
+(setq *basic-pose2* (float-vector -65 40 0 -60))
 
 ;; Basic setting
 (setq *ball-lost* t)
@@ -86,7 +87,55 @@
   )
 
 
-;; Hitting(打撃系)
+;; Hitting (打撃系)
+;; Current Version (現在のバージョン)
+;; 打撃関数1: ドライブ(バックハンド)
+(defun drive-hit(x) ;;<- x is height. 引数のxは高さ
+  (setq r1 *basic-pose2*)
+  (setq r2 (float-vector (- -110 (* 2 x)) (+ 100 x) -40 (+ 75 (* x 0.5))))
+  (setq r3 (float-vector (- -110 (* 2 x)) (+ 110 x) -20  (+ 75 (* x 0.5))))
+  (setq r4 (float-vector (- -120 (* 2 x)) (+ 100 x) 0 (+ 75 (* x 0.5))))
+  (setq r5 (float-vector (- -120 (* 2 x)) (+ 80 x) 20 (+ 75 (* x 0.5))))
+  (setq r6 (float-vector (- -120 (* 2 x)) (+ 40 x) 40 (+ 70 (* x 0.5))))
+  (setq r7 *basic-pose2*)
+  (setq tm 40)
+  (send *ri* :angle-vector-sequence (list r1 r2 r3 r4 r5 r6 r7) (list tm tm tm tm tm tm 5000)
+	:default-controller 0.0001
+	:min-time 0.00001
+	:minjerk-interpolation nil ;;trueにするとバグので注意
+	)
+  ;;(move-to 0.5 0)
+  (send *ri* :send-cmd-vel-raw 0.008 0 0)
+  (chorei)
+  ;;(send *ri* :wait-interpolation)
+  (send *irtviewer* :draw-objects)
+  )
+
+;; 打撃関数2: プッシュ（下の方のボールを押し出す．）
+(defun push-hit(x) ;;バックハンド
+  (let ((a (* x 1))
+        (b (* x 2)))
+    (setq p1 #f(-65 40 0 -60))
+    (setq p2 (float-vector (- -70 a) 30 15 (- -60 b)))
+    (setq p3 (float-vector (- -80 a) 20 15 (- -60 b)))
+    (setq p4 (float-vector (- -90 a) 0 15 (- -50 b)))
+    (setq p5 (float-vector (- -100 a) -10 15 (- -40 b)))
+    (setq p6 (float-vector (- -100 a) -20 20 (- -30 b)))
+    (setq p7 (float-vector (- -100 a) 0 15 (- -50 b)))
+    (setq tm 30)
+    (send *ri* :send-cmd-vel-raw 0.008 0 0)
+    (send *ri* :angle-vector-sequence (list p1 p2 p3 p4 p5 p6 p7 p1) (list tm tm tm tm tm tm 500 500)
+          :default-controller 0.001
+          :min-time 0.00001
+          :minjerk-interpolation nil
+          )
+    (chorei)
+    ;;(send *ri* :wait-interpolation)
+    (send *irtviewer* :draw-objects)
+    )
+  )
+
+
 ;; かつての打撃関数
 (defun pre-hit()
   (setq r1 *basic-pose2*)
@@ -139,20 +188,21 @@
   (setq r3 (float-vector (- -110 (* 2 x)) (+ 110 x) -20  (+ 75 (* x 0.5))))
   (setq r4 (float-vector (- -120 (* 2 x)) (+ 100 x) 0 (+ 75 (* x 0.5))))
   (setq r5 (float-vector (- -120 (* 2 x)) (+ 80 x) 20 (+ 75 (* x 0.5))))
-  (setq r6 (float-vector (- -120 (* 2 x)) (+ 50 x) 40 (+ 70 (* x 0.5))))
+  (setq r6 (float-vector (- -120 (* 2 x)) (+ 40 x) 40 (+ 70 (* x 0.5))))
   (setq r7 *basic-pose2*)
-  (setq tm 30)
+  (setq tm 40)
   (send *ri* :angle-vector-sequence (list r1 r2 r3 r4 r5 r6 r7) (list tm tm tm tm tm tm 5000)
 	:default-controller 0.0001
 	:min-time 0.00001
 	:minjerk-interpolation nil ;;trueにするとバグので注意
 	)
   ;;(move-to 0.5 0)
-  (send *ri* :send-cmd-vel-raw 1 0 0)
+  (send *ri* :send-cmd-vel-raw 0.008 0 0)
   (chorei)
   ;;(send *ri* :wait-interpolation)
   (send *irtviewer* :draw-objects)
   )
+
 
 
 (defun back-drive() 
@@ -163,7 +213,6 @@
   (setq r5 #f(-40 10 15 80))
   (setq r6 #f(-50 10 15 70))
   (setq r7 #f(-70 28 -44 70))
-
   ;;(setq r1 #f(-29.5312 35.2688 -32.5687 54.54))
   ;;(setq r2 #f(-29.1937 28.08 -12.7575 54.2363))
   ;;(setq r3 #f(-34.56 15.9975 9.45001 55.215))
@@ -180,6 +229,8 @@
   (send *irtviewer* :draw-objects)
   )
   
+
+
 
 ;; Move(移動)
 ;; 以下の移動関数はデフォルトで， [10cm]が単位になっている．単位換算に注意．
@@ -245,7 +296,7 @@
     
     (send *ri* :send-cmd-vel-raw x-move y-move 0)))
 
-
+;; Previous version of move-follow (independent(x,y) control)
 ;;(defun move-follow(x y)
 ;;  (setq *y-threshold-left* 0.03) ;;横方向
 ;;  (setq *y-threshold-right* -0.03)
@@ -272,8 +323,10 @@
 (defun chorei2() ;;「チョレイ」と言う
   (send *ri* :speak "cho-rei" :wait nil)
   ) ;;音声合成に時間がかかるのかこっちは少し遅くて，使い物にならない．
-     
 
+(defun start-voice()
+    (send *ri* :play-sound #P"~/ping-pong-robot/src/HARIMOTO/srv/start.mp3" :wait nil)
+  )
 ;; TIMER Function (変数の時間管理)
 (defun monitor-value (var-symbol timeout)
   (let ((start-time (get-universal-time))
@@ -297,13 +350,15 @@
 (setq *ball-xpos* 0)
 (setq *ball-ypos* 0)
 (setq *ball-zpos* 0)
+(setq *ball-lost* 1)
 
 ;;main
 (hari-init)
 (on)
-(setq *ball-lost* 1)
 (unix:sleep 1)
 (wait-pose)
+(start-voice)
+(unix:sleep 1)
 (search-ball)
 (do-until-key
  (setq *ball-lost* t)
