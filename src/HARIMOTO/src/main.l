@@ -15,16 +15,27 @@
 (setq *time-offset* 0.10) ;; 時間分の距離オフセット．少し前に打つ
 
 ;; BALL REGION SETTING
-(setq *ball-z-min-lim* (+ 0.18 *time-offset*)) ;; 奥行き方向
-(setq *ball-z-max-lim* (+ 0.22 *time-offset*))
-(setq *ball-y-min-lim* -0.10) ;; 上に 10cm ;; 上下方向 (上ー，下＋)
-(setq *ball-y-max-lim* 0.02)  ;; 下に  2cm
-(setq *ball-x-min-lim* -0.10) ;; 左に-10cm ;; 左右方向 (左ー，右＋)
-(setq *ball-x-max-lim* 0.10)  ;; 右に 10cm
+(setq *ball-x-min-lim* -0.05) ;; 左に-5cm ;; 左右方向 (左ー，右＋)
+(setq *ball-x-max-lim* 0.05)  ;; 右に 5cm
+(setq *ball-y-min-lim* -0.07) ;; 上に 7cm ;; 上下方向 (上ー，下＋)
+(setq *ball-y-max-lim* 0.07)  ;; 下に 7cm
+(setq *ball-z-min-lim* 0.25)  ;; 手前25cm ;; 奥行き方向
+(setq *ball-z-max-lim* 0.30)  ;; 奥に30cm
 
-;; ENV REGION SETTING
-(setq *space-z-min-lim* 0.10) ;;奥行き方向
-(setq *space-z-max-lim* 0.50)
+;; ENV REGION SETTING (just reference)
+(setq *env-x-min-lim* -0.20)
+(setq *env-x-max-lim* 0.20)
+(setq *env-y-min-lim* -0.20)
+(setq *env-y-max-lim* 0.10)
+(setq *env-z-min-lim* 0.15)
+(setq *env-z-max-lim* 1.00)
+
+;; ROBOT MOTION RESTRICTION (このセンサ値のときしかボールは追いません)
+(setq *space-x-min-lim* -0.15) ;;左に15cm (つまり+10cm)
+(setq *space-x-max-lim* 0.15) ;;右に15cm (つまり+10cm)
+(setq *space-z-min-lim* 0.10) ;;手前10cm ;;奥行き方向
+(setq *space-z-max-lim* 0.40) ;;奥に40cm
+
 
 ;; TIMER SETTING
 (setq *timer* 1) ;;*timer*秒間以上 *ball-?pos-tmp*が同一なら無効化(=0)する． ;;nilにするとバグる．
@@ -37,6 +48,13 @@
 (defvar vx nil)
 (defvar vy nil)
 (defvar vz nil)
+(defvar *velocity-list* nil) 
+
+;; Estimation Setting
+(defvar *predicted-x* nil)
+(defvar *predicted-y* nil)
+(defvar *predicted-z* nil)  ;; これは常に*ball-z-max-lim*と同じ値
+(defvar *time-to-arrival* nil)
 
 ;; set-init-pos
 (setq *c-pose* #f(-70 40 0 0))
@@ -87,6 +105,8 @@
   (format t "search-ball~%")
   (ros::rate 10000)
   (ros::subscribe "/centroid_publisher/output/point" geometry_msgs::PointStamped #'search-ball-cb 1)
+  ;; メッセージ型をPoseStampedに変更
+  (ros::advertise "/ball_prediction" geometry_msgs::PoseStamped 1)
   (ros::spin-once)
   )
 
@@ -125,6 +145,10 @@
             (if (>= (abs dy) 0.001) (setq vy (* (/ dy dt) 1000000000)))
             (if (>= (abs dz) 0.001) (setq vz (* (/ dz dt) 1000000000)))
             (ros::ros-info "ball velocity: vx:~A vy:~A vz:~A" vx vy vz)
+	    ;; 速度リストを更新し、3回分データが揃ったら予測を実行
+            (if (update-velocity-list vx vy vz)
+                (predict-ball-arrival x y z)
+	      )
 	    )
 	)
 
@@ -162,6 +186,60 @@
   (setq *prev-ball-zpos* z)
   (setq *prev-ball-time* time)
   )
+
+;; 速度リストを更新し、2回分のデータが揃っているかを確認する関数
+(defun update-velocity-list (vx vy vz)
+  (if (< vz 0) ;; zの速度が負（接近中）の場合のみ
+      (progn
+        (push (list vx vy vz) *velocity-list*)
+        (if (> (length *velocity-list*) 3)
+            (setq *velocity-list* (subseq *velocity-list* 0 2)))
+        (= (length *velocity-list*) 2))
+    (progn
+      (setq *velocity-list* nil)
+      nil)))
+
+
+;; 接近予測(defun predict-ball-arrival (current-x current-y current-z)
+(defun predict-ball-arrival (current-x current-y current-z)
+  (if (and *velocity-list* (= (length *velocity-list*) 2))
+      (let* ((avg-vx (/ (apply #'+ (mapcar #'car *velocity-list*)) 2))
+             (avg-vy (/ (apply #'+ (mapcar #'cadr *velocity-list*)) 2))
+             (avg-vz (/ (apply #'+ (mapcar #'caddr *velocity-list*)) 2))
+             (time-to-arrival (abs (/ (- current-z *ball-z-max-lim*) avg-vz)))
+             (predicted-x (+ current-x (* avg-vx time-to-arrival)))
+             (predicted-y (+ current-y (* avg-vy time-to-arrival))))
+        
+        ;; グローバル変数に予測結果を保存
+        (setq *predicted-x* predicted-x)
+        (setq *predicted-y* predicted-y)
+        (setq *predicted-z* *ball-x-max-lim*)
+        (setq *time-to-arrival* time-to-arrival)
+        
+        (ros::ros-info "Ball Arrival Prediction:")
+        (ros::ros-info "Time to arrival: ~A seconds" time-to-arrival)
+        (ros::ros-info "Predicted position - X: ~A, Y: ~A, Z: ~A"
+                      predicted-x predicted-y *ball-z-max-lim*)
+
+        ;; PoseStampedメッセージを作成してパブリッシュ
+        (let ((msg (instance geometry_msgs::PoseStamped :init)))
+          (send msg :header :stamp (ros::time-now))
+          (send msg :header :frame_id "camera_link")
+          (send (send (send msg :pose) :position) :x predicted-x)
+          (send (send (send msg :pose) :position) :y predicted-y)
+          (send (send (send msg :pose) :position) :z *ball-z-max-lim*)
+          (send (send (send msg :pose) :orientation) :w time-to-arrival)
+          (ros::publish "/ball_prediction" msg))
+
+        (list predicted-x predicted-y time-to-arrival))
+    (progn
+      (ros::ros-info "Not enough velocity data for prediction")
+      ;; 予測できない場合はグローバル変数をnilに設定
+      (setq *predicted-x* nil)
+      (setq *predicted-y* nil)
+      (setq *predicted-z* nil)
+      (setq *time-to-arrival* nil)
+      nil)))
 
 ;; Hitting (打撃系)
 ;; Current Version (現在のバージョン)
@@ -345,9 +423,8 @@
 
 ;; ボールの位置(or予測地位)に追従するように機体が動くようにする関数 (Jan 1)
 (defun move-follow(x y)
-  (setq y (- 0 y))
-  (setq *y-threshold-left* 0.02)
-  (setq *y-threshold-right* -0.05)
+  (setq *y-threshold-left* *ball-y-min-lim*)
+  (setq *y-threshold-right* *ball-y-max-lim*)
   (setq *x-threshold-front* *ball-z-min-lim*)
   (setq *x-threshold-back* *ball-z-max-lim*)
   
@@ -358,7 +435,7 @@
                       (t 0)))
         (y-move (cond ((= y 0) 0) ;;左右
 		      ((> y *y-threshold-left*) -0.5)
-                      ((< y *y-threshold-right*) -0.5)
+                      ((< y *y-threshold-right*) 0.5)
                       (t 0))))
 
     (format t "x:~A, y:~A ~%" x y)
@@ -502,6 +579,27 @@
      ;; Debag 
      ;;(format t "x: ~A, y: ~A, z: ~A~%" *ball-xpos-tmp* *ball-ypos-tmp* *ball-zpos-tmp*)
 
+     (if (and *predicted-x* *predicted-y* *time-to-arrival*  ; 予測値が存在する
+	      (< *time-to-arrival* 0.2)                      ; 到達時間が0.2秒以内
+	      (> *predicted-x* *ball-x-min-lim*)             ; x方向の予測位置が範囲内
+	      (< *predicted-x* *ball-x-max-lim*)
+	      (> *predicted-y* *ball-y-min-lim*)             ; y方向の予測位置が範囲内
+	      (< *predicted-y* *ball-y-max-lim*))
+	 (progn 
+	   (setq *ball-lost* nil)
+	   ;; 予測関連の変数をリセット
+	   (setq *velocity-list* nil)
+	   (setq *predicted-x* nil)
+	   (setq *predicted-y* nil)
+	   (setq *predicted-z* nil)
+	   (setq *time-to-arrival* nil)
+	   ;; 到達予測時間後に打つ
+	   ;;(ros::duration-sleep *time-to-arrival*)
+	   (push-hit 0)
+	   (return))                                         ; whileループを抜ける
+       )
+
+     
      ;; ボールの当たり判定
      (if (and (> *ball-xpos-tmp* *ball-x-min-lim*) ;;奥行き方向
 	      (< *ball-xpos-tmp* *ball-x-max-lim*)
@@ -514,17 +612,20 @@
      ;; follow-x,ypos (将来的に引数には着地予測地点を入れるが今の所tmpを使う)
      (setq *estimete-falling-xpos* *ball-xpos-tmp*)
      (setq *estimete-falling-ypos* *ball-ypos-tmp*)
-     (if (and (> *ball-zpos-tmp* *space-z-min-lim*) (< *ball-zpos-tmp* *space-z-max-lim*))
-	 (move-follow *ball-ypos-tmp* *ball-zpos-tmp*)
+     (if (and (> *ball-zpos-tmp* *space-z-min-lim*)
+	      (< *ball-zpos-tmp* *space-z-max-lim*)
+	      (> *ball-xpos-tmp* *space-x-min-lim*)
+	      (< *ball-xpos-tmp* *space-x-max-lim*))
+	;; (move-follow *ball-zpos-tmp* *ball-xpos-tmp*)
        )
      (ros::duration-sleep 0.001) ;; 1ms処理を休ませる
      ) ;;while
    ) ;;let
  ;;(push-hit 0)
- (push-hit (+ (* *ball-zpos-tmp* 2) 0.5)) 
+ (unless (and *predicted-x* *time-to-arrival* (< *time-to-arrival* 0.2))
+   (push-hit (+ (* *ball-zpos-tmp* 2) 0.5)))
  ;;(ros::sleep)
- (ros::duration-sleep 0.5) ;;Sleep 0.5 ms (unix:sleep)系よりも良いはず
- ;;(unix:usleep 500000) ;;Sleep 0.5 ms
- ) ;;do-until-key
-;; key操作をしたらoffにする
+ (ros::duration-sleep 0.2) ;;sleep 0.5 ms ;;(unix:usleep 500000) と違ってrosを止めない
+ ) ;;do-until-key ;; key操作をしたらoffにして安全に止まる
+
 (off)
