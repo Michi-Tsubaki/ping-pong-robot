@@ -1,6 +1,6 @@
 #!/usr/bin/env roseus
 
-;; SPDX-FileCopyrightText: 2024 Michitoshi Tsubaki <michi.tsubaki.tech@g.ecc.u-tokyo.ac.jp>
+;; SPDX-FileCopyrightText: 2024 Michitoshi Tsubaki <michi.tsubaki.tech@gmail.com>
 ;; SPDX-License-Identifier: BSD-3-Clause
 
 ;; Build node ping-pong
@@ -11,18 +11,36 @@
 (load "HARIMOTO-speak.l")
 (ros::load-ros-package "jsk_recognition_msgs")
 
-;; parameters
-(setq *ball-x-min-lim* 0.18) ;;奥行き方向
-(setq *ball-x-max-lim* 0.20)
-(setq *ball-y-min-lim* -0.15) ;;左右方向
-(setq *ball-y-max-lim* 0.15)
-(setq *ball-z-min-lim* -0.20) ;;上下方向
-(setq *ball-z-max-lim* 0.20)
-(setq *timer* 2) ;;*timer*秒間以上 *ball-?pos-tmp*が同一なら無効化(=0)する． ;;nilにするとバグる．
+;; Offset Parameters
+(setq *time-offset* 0.10) ;; 時間分の距離オフセット．少し前に打つ
 
+;; BALL REGION SETTING
+(setq *ball-z-min-lim* (+ 0.18 *time-offset*)) ;; 奥行き方向
+(setq *ball-z-max-lim* (+ 0.22 *time-offset*))
+(setq *ball-y-min-lim* -0.10) ;; 上に 10cm ;; 上下方向 (上ー，下＋)
+(setq *ball-y-max-lim* 0.02)  ;; 下に  2cm
+(setq *ball-x-min-lim* -0.10) ;; 左に-10cm ;; 左右方向 (左ー，右＋)
+(setq *ball-x-max-lim* 0.10)  ;; 右に 10cm
+
+;; ENV REGION SETTING
+(setq *space-z-min-lim* 0.10) ;;奥行き方向
+(setq *space-z-max-lim* 0.50)
+
+;; TIMER SETTING
+(setq *timer* 1) ;;*timer*秒間以上 *ball-?pos-tmp*が同一なら無効化(=0)する． ;;nilにするとバグる．
+
+;; SPEED SETTING
+(defvar *prev-ball-xpos* nil)
+(defvar *prev-ball-ypos* nil)
+(defvar *prev-ball-zpos* nil)
+(defvar *prev-ball-time* nil)
+(defvar vx nil)
+(defvar vy nil)
+(defvar vz nil)
 
 ;; set-init-pos
-(setq *c-pose* #f(-70 40 0 0)) 
+(setq *c-pose* #f(-70 40 0 0))
+
 ;; setup-position
 (setq *basic-pose1* (v+ *c-pose* #f(15.0 -40 -40 70)))
 (setq *basic-pose3* (v+ *c-pose* #f(-35.0 5 -40 75)))
@@ -64,52 +82,110 @@
   (send *ri* :servo-on)
   )
 
-
-;; Recognition(認識系)
+;; Recognition (認識系)
 (defun search-ball()
   (format t "search-ball~%")
-  (ros::rate 100000)
-  (ros::subscribe "/detect_ball/cluster_decomposer/boxes" jsk_recognition_msgs::BoundingBoxArray #'search-ball-cb 1)
+  (ros::rate 10000)
+  (ros::subscribe "/centroid_publisher/output/point" geometry_msgs::PointStamped #'search-ball-cb 1)
   (ros::spin-once)
   )
 
+(defun is-nan (a)
+  (and (> a 0) (< a 0))
+  )
+
 (defun search-ball-cb(msg)
-  (ros::ros-info "recog: ~A balls found!  ~%" (length (send msg :boxes)))
-  (if (and (> (length (send msg :boxes)) 0) (> (send (send (elt (send msg :boxes) 0) :dimensions) :x) 0) )
-      (progn (ros::ros-info "recog: ~A balls found!  ~%" (length (send msg :boxes)))
-	     (setq *ball-xpos* (send (send (send (elt (send msg :boxes) 0) :pose) :position) :x))
-	     (setq *ball-ypos* (send (send (send (elt (send msg :boxes) 0) :pose) :position) :y))
-	     (setq *ball-zpos* (send (send (send (elt (send msg :boxes) 0) :pose) :position) :z))
-	     (ros::ros-info "ball: x-pos:~A y-pos:~A z-pos:~A" *ball-xpos* *ball-ypos* *ball-zpos*)
-	     )
-    (ros::ros-info "no ball found! ~%")
+  (if (or (is-nan (send (send msg :point) :x))
+          (is-nan (send (send msg :point) :y))
+          (is-nan (send (send msg :point) :z)))
+      (ros::ros-info "ball not found ~%")
+    (progn
+      ;; 現在の値を取得
+      (setq x (send (send msg :point) :x))
+      (setq y (send (send msg :point) :y))
+      (setq z (send (send msg :point) :z))
+      (setq current-time (send (ros::time-now) :to-nsec))
+      (setq *ball-xpos* x)
+      (setq *ball-ypos* y)
+      (setq *ball-zpos* z)
+      (setq *ball-time* current-time)
+
+      ;; 速度計算部分
+      (if (and *prev-ball-xpos*
+               *prev-ball-ypos*
+               *prev-ball-zpos*
+               *prev-ball-time*
+               (> (abs (- current-time *prev-ball-time*)) 0.001))
+          (let* ((dt (- current-time *prev-ball-time*))
+                 (dx (- x *prev-ball-xpos*))
+                 (dy (- y *prev-ball-ypos*))
+                 (dz (- z *prev-ball-zpos*)))
+            ;; 位置の変化量が閾値以上の場合のみ更新
+            (if (>= (abs dx) 0.001) (setq vx (* (/ dx dt) 1000000000)))
+            (if (>= (abs dy) 0.001) (setq vy (* (/ dy dt) 1000000000)))
+            (if (>= (abs dz) 0.001) (setq vz (* (/ dz dt) 1000000000)))
+            (ros::ros-info "ball velocity: vx:~A vy:~A vz:~A" vx vy vz)
+	    )
+	)
+
+      ;; 位置情報の表示
+      (ros::ros-info "ball: x-pos:~A y-pos:~A z-pos:~A time:~A" x y z current-time)
+      
+      ;; Global変数に現在の値を保存
+      (setq *prev-ball-xpos* x)
+      (setq *prev-ball-ypos* y)
+      (setq *prev-ball-zpos* z)
+      (setq *prev-ball-time* current-time)
+      )
     )
   )
 
+;; Speed Calculation (速度計測)
+(defun calculate-ball-velocity (x y z time)
+  (if (and *prev-ball-xpos*
+           *prev-ball-ypos*
+           *prev-ball-zpos*
+           *prev-ball-time*
+           (> (abs (- time *prev-ball-time*)) 0.001)) ;; dtの閾値判定
+      (let* ((dt (- time *prev-ball-time*))
+             (dx (- x *prev-ball-xpos*))
+             (dy (- y *prev-ball-ypos*))
+             (dz (- z *prev-ball-zpos*)))
+        ;; 位置の変化量が閾値以上の場合のみ更新
+        (if (>= (abs dx) 0.001) (setq vx (/ dx dt)))
+        (if (>= (abs dy) 0.001) (setq vy (/ dy dt)))
+        (if (>= (abs dz) 0.001) (setq vz (/ dz dt)))
+        (ros::ros-info "ball velocity: vx:~A vy:~A vz:~A" vx vy vz)))
+  ;; Global変数に現在の値を保存
+  (setq *prev-ball-xpos* x)
+  (setq *prev-ball-ypos* y)
+  (setq *prev-ball-zpos* z)
+  (setq *prev-ball-time* time)
+  )
 
 ;; Hitting (打撃系)
 ;; Current Version (現在のバージョン)
 ;; 打撃関数1: ドライブ(バックハンド)
 (defun drive-hit(x) ;;<- x is height. 引数のxは高さ
-  (setq r1 *basic-pose2*)
-  (setq r2 (float-vector (- -110 (* 2 x)) (+ 100 x) -40 (+ 75 (* x 0.5))))
-  (setq r3 (float-vector (- -110 (* 2 x)) (+ 110 x) -20  (+ 75 (* x 0.5))))
-  (setq r4 (float-vector (- -120 (* 2 x)) (+ 100 x) 0 (+ 75 (* x 0.5))))
-  (setq r5 (float-vector (- -120 (* 2 x)) (+ 80 x) 20 (+ 75 (* x 0.5))))
-  (setq r6 (float-vector (- -120 (* 2 x)) (+ 40 x) 40 (+ 70 (* x 0.5))))
-  (setq r7 *basic-pose2*)
-  (setq tm 40)
-  (send *ri* :angle-vector-sequence (list r1 r2 r3 r4 r5 r6 r7) (list tm tm tm tm tm tm 5000)
-	:default-controller 0.0001
-	:min-time 0.00001
-	:minjerk-interpolation nil ;;trueにするとバグので注意
-	)
-  ;;(move-to 0.5 0)
-  (send *ri* :send-cmd-vel-raw 0.008 0 0)
-  (chorei)
-  ;;(send *ri* :wait-interpolation)
-  (send *irtviewer* :draw-objects)
-  )
+  (let ((r1 *basic-pose2*)
+        (r2 (float-vector (- -110 (* 2 x)) (+ 100 x) -40 (+ 75 (* x 0.5))))
+        (r3 (float-vector (- -110 (* 2 x)) (+ 110 x) -20  (+ 75 (* x 0.5))))
+        (r4 (float-vector (- -120 (* 2 x)) (+ 100 x) 0 (+ 75 (* x 0.5))))
+        (r5 (float-vector (- -120 (* 2 x)) (+ 80 x) 20 (+ 75 (* x 0.5))))
+        (r6 (float-vector (- -120 (* 2 x)) (+ 40 x) 40 (+ 70 (* x 0.5))))
+        (r7 *basic-pose2*)
+        (tm 40))
+    (send *ri* :angle-vector-sequence (list r1 r2 r3 r4 r5 r6 r7) (list tm tm tm tm tm tm 5000)
+          :default-controller 0.0001
+          :min-time 0.00001
+          :minjerk-interpolation nil) ;;trueにするとバグので注意
+    (send *ri* :send-cmd-vel-raw 0.008 0 0)
+    (chorei)
+    ;;(send *ri* :wait-interpolation)
+    (send *irtviewer* :draw-objects)
+    ) ;;hit
+  ) ;;defun
+
 
 ;; 打撃関数2: プッシュ（下の方のボールを押し出す．）
 (defun push-hit(x) ;;バックハンド
@@ -123,7 +199,7 @@
     (setq p6 (float-vector (- -100 a) -20 20 (- -30 b)))
     (setq p7 (float-vector (- -100 a) 0 15 (- -50 b)))
     (setq tm 30)
-    (send *ri* :send-cmd-vel-raw 0.008 0 0)
+    (send *ri* :send-cmd-vel-raw 0.01 0 0) ;0.008
     (send *ri* :angle-vector-sequence (list p1 p2 p3 p4 p5 p6 p7 p1) (list tm tm tm tm tm tm 500 500)
           :default-controller 0.001
           :min-time 0.00001
@@ -132,9 +208,34 @@
     (chorei)
     ;;(send *ri* :wait-interpolation)
     (send *irtviewer* :draw-objects)
-    )
-  )
+    ) ;;let
+  ) ;;defun
 
+;; 打撃関数3: フォアドライブ
+(defun fore-hit(x) ;;バックハンド
+ (let ((a (* x 1))
+       (b (* x 2))
+       (p1 #f(-65 40 0 -60))
+       (p2 (float-vector -50 -130 0 -20))
+       (p3 (float-vector -55 -120 2 -15))
+       (p4 (float-vector -60 -110 5 -10))
+       (p5 (float-vector -70 -100 10 0))
+       (p6 (float-vector -80 -90 15 20))
+       (p7 (float-vector -95 -80 20 25))
+       (tm 40))
+   (send *ri* :angle-vector-sequence 
+         (list p1 p2 p3 p4 p5 p6 p7 p1) 
+         (list 100 500 tm tm tm tm tm 2000)
+         :default-controller 0.001
+         :min-time 0.00001
+         :minjerk-interpolation nil)
+   ;;(send *ri* :send-cmd-vel-raw 0.01 0 0) ;0.008
+   (send *ri* :send-cmd-vel-raw 0.01 0 0) ;0.008
+   (chorei)
+   ;;(send *ri* :wait-interpolation)
+   (send *irtviewer* :draw-objects)
+   ) ;;let
+ ) ;;defun
 
 ;; かつての打撃関数
 (defun pre-hit()
@@ -157,7 +258,7 @@
   )
 
 ;;簡易的な打撃関数
-(defun hit2() ;;とりあえず温泉卓球のように返球するhit関数
+(defun pre-hit2() ;;とりあえず温泉卓球のように返球するhit関数
   ;;TODO: yとzを引数にしてもう少し複雑にする
   (setq r1 *basic-pose2*)
   (setq r2 #f(-110 100 -40 75))
@@ -178,8 +279,6 @@
   ;;(send *ri* :wait-interpolation)
   (send *irtviewer* :draw-objects)
   )
-
-
 
 (defun hit(x) 
   ;;TODO: yとzを引数にしてもう少し複雑にする
@@ -202,34 +301,6 @@
   ;;(send *ri* :wait-interpolation)
   (send *irtviewer* :draw-objects)
   )
-
-
-
-(defun back-drive() 
-  (setq r1 #f(0 42 25 95))
-  (setq r2 #f(-10 38 20 90))
-  (setq r3 #f(-20 30 20 80))
-  (setq r4 #f(-30 20 15 80))
-  (setq r5 #f(-40 10 15 80))
-  (setq r6 #f(-50 10 15 70))
-  (setq r7 #f(-70 28 -44 70))
-  ;;(setq r1 #f(-29.5312 35.2688 -32.5687 54.54))
-  ;;(setq r2 #f(-29.1937 28.08 -12.7575 54.2363))
-  ;;(setq r3 #f(-34.56 15.9975 9.45001 55.215))
-  ;;(setq r4 #f(-30 7.15501 26.46 46.3725))
-  ;;(setq r5 #f(-30 7.15501 40.107 44.0775))
-  ;;(setq r6 #f(-70 28 -44 70))
-  ;;(setq tm 60)
-  (send *ri* :angle-vector-sequence (list r1 r2 r3 r4 r5 r6 r7) (list 100 100 100 100 100 150 2000)
-	:default-controller 0.001
-	:min-time 0.0001
-	:minjerk-interpolation nil
-	)
-  (send *ri* :wait-interpolation)
-  (send *irtviewer* :draw-objects)
-  )
-  
-
 
 
 ;; Move(移動)
@@ -274,27 +345,31 @@
 
 ;; ボールの位置(or予測地位)に追従するように機体が動くようにする関数 (Jan 1)
 (defun move-follow(x y)
-  (setq *y-threshold-left* 0.03)
-  (setq *y-threshold-right* -0.03)
-  (setq *x-threshold-front* 0.17)
-  (setq *x-threshold-back* 0.22)
+  (setq y (- 0 y))
+  (setq *y-threshold-left* 0.02)
+  (setq *y-threshold-right* -0.05)
+  (setq *x-threshold-front* *ball-z-min-lim*)
+  (setq *x-threshold-back* *ball-z-max-lim*)
   
   ;; まず x, y それぞれの方向の必要な移動を判定
-  (let ((x-move (cond ((= x 0) 0)
+  (let ((x-move (cond ((= x 0) 0) ;;上下
 		      ((< x *x-threshold-front*) -0.5)
                       ((> x *x-threshold-back*) 0.5)
                       (t 0)))
-        (y-move (cond ((= y 0) 0)
-		      ((> y *y-threshold-left*) 0.5)
+        (y-move (cond ((= y 0) 0) ;;左右
+		      ((> y *y-threshold-left*) -0.5)
                       ((< y *y-threshold-right*) -0.5)
                       (t 0))))
-    
+
+    (format t "x:~A, y:~A ~%" x y)
     ;; 斜め移動の場合は適切にスケール
-    (when (and (not (= x-move 0)) (not (= y-move 0)))
+    (when (and (not (= x-move 0)) (not (= y-move 0))) ;;xは前
       (setq x-move (* x-move 0.707)) ;; 1/√2
       (setq y-move (* y-move 0.707)))
     
-    (send *ri* :send-cmd-vel-raw x-move y-move 0)))
+    (send *ri* :send-cmd-vel-raw x-move y-move 0)
+    )
+  )
 
 ;; Previous version of move-follow (independent(x,y) control)
 ;;(defun move-follow(x y)
@@ -315,6 +390,20 @@
 ;;  )
 
 
+;; Falling Point Estimation (ボールの落下予測地点の発見)
+(defun falling-estimation()
+  (format t "search falling point!~%")
+  (ros::rate 10000)
+  (ros::subscribe "/predicted_landing_point" geometry_msgs::Point #'falling-cb 1)
+  (ros::spin-once)
+  )
+
+(defun falling-cb(msg)
+  (setq *falling-point-x* (send msg :x))
+  (setq *falling-point-y* (send msg :y))
+  (setq *falling-point-z* (send msg :z)) ;;奥行き
+  )
+
 ;; AUDIO Function
 (defun chorei() ;;「チョレイ」と言う
   (send *ri* :play-sound #P"~/ping-pong-robot/src/HARIMOTO/srv/chorei.mp3" :wait nil)
@@ -327,6 +416,7 @@
 (defun start-voice()
     (send *ri* :play-sound #P"~/ping-pong-robot/src/HARIMOTO/srv/start.mp3" :wait nil)
   )
+
 ;; TIMER Function (変数の時間管理)
 (defun monitor-value (var-symbol timeout)
   (let ((start-time (get-universal-time))
@@ -349,8 +439,8 @@
 ;;Initialize
 (setq *ball-xpos* 0)
 (setq *ball-ypos* 0)
-(setq *ball-zpos* 0)
-(setq *ball-lost* 1)
+(setq *ball-zpos* 0) ;;奥行き
+(setq *ball-lost* t)
 
 ;;main
 (hari-init)
@@ -362,12 +452,13 @@
 (search-ball)
 (do-until-key
  (setq *ball-lost* t)
- (setq *ball-xpos-tmp* 0.19)
+ (setq *ball-xpos-tmp* 0)
  (setq *ball-ypos-tmp* 0)
- (setq *ball-zpos-tmp* 0)
+ (setq *ball-zpos-tmp* 0) ;;奥行き
  (setq *ball-xpos* 0)
  (setq *ball-ypos* 0)
- (setq *ball-zpos* 0)
+ (setq *ball-zpos* 0) ;;奥行き
+ (setq *ball-time* 0)
  (let ((start-time-x (get-universal-time))
        (start-time-y (get-universal-time))
        (start-time-z (get-universal-time))
@@ -375,54 +466,65 @@
        (last-y *ball-ypos-tmp*)
        (last-z *ball-zpos-tmp*))
    (while *ball-lost*
-     (progn (ros::rate 1000000)	  
-	    (ros::spin-once)
-	    (setq *ball-xpos-tmp* *ball-xpos*)
-	    (setq *ball-ypos-tmp* *ball-ypos*)
-	    (setq *ball-zpos-tmp* *ball-zpos*)
-	    
-	    ;; Monitor x position
-	    (if (not (eq last-x *ball-xpos-tmp*))
-		(progn 
-		  (setq start-time-x (get-universal-time))
-		  (setq last-x *ball-xpos-tmp*)))
-	    (when (>= (- (get-universal-time) start-time-x) *timer*)
-	      (setq *ball-xpos-tmp* 0))
-	    
-	    ;; Monitor y position
-	    (if (not (eq last-y *ball-ypos-tmp*))
-		(progn
-		  (setq start-time-y (get-universal-time))
-		  (setq last-y *ball-ypos-tmp*)))
-	    (when (>= (- (get-universal-time) start-time-y) *timer*)
-	      (setq *ball-ypos-tmp* 0))
-	    
-	    ;; Monitor z position
-	    (if (not (eq last-z *ball-zpos-tmp*))
-		(progn
-		  (setq start-time-z (get-universal-time))
-		  (setq last-z *ball-zpos-tmp*)))
-	    (when (>= (- (get-universal-time) start-time-z) *timer*)
-	      (setq *ball-zpos-tmp* 0))
-	    
-	    (format t "x: ~A, y: ~A, z: ~A~%" *ball-xpos-tmp* *ball-ypos-tmp* *ball-zpos-tmp*)
-	    (if (and (> *ball-xpos-tmp* *ball-x-min-lim*)
-		     (< *ball-xpos-tmp* *ball-x-max-lim*)
-		     (> *ball-ypos-tmp* *ball-y-min-lim*)
-		     (< *ball-ypos-tmp* *ball-y-max-lim*)
-		     (> *ball-zpos-tmp* *ball-z-min-lim*)
-		     (< *ball-zpos-tmp* *ball-z-max-lim*))
-		(print (setq *ball-lost* nil))
-	      )
-	    )
+     (ros::rate 1000)
+     (ros::spin-once)
+     (setq *ball-xpos-tmp* *ball-xpos*)
+     (setq *ball-ypos-tmp* *ball-ypos*)
+     (setq *ball-zpos-tmp* *ball-zpos*)
+     
+     ;; Monitor x position
+     (if (not (eq last-x *ball-xpos-tmp*))
+	 (progn 
+	   (setq start-time-x (get-universal-time))
+	   (setq last-x *ball-xpos-tmp*)))
+     (when (>= (- (get-universal-time) start-time-x) *timer*)
+       (setq *ball-xpos-tmp* 0))
+     
+     ;; Monitor y position
+     (if (not (eq last-y *ball-ypos-tmp*))
+	 (progn
+	   (setq start-time-y (get-universal-time))
+	   (setq last-y *ball-ypos-tmp*)))
+     (when (>= (- (get-universal-time) start-time-y) *timer*)
+       (setq *ball-ypos-tmp* 0))
+     
+     ;; Monitor z position
+     (if (not (eq last-z *ball-zpos-tmp*))
+	 (progn
+	   (setq start-time-z (get-universal-time))
+	   (setq last-z *ball-zpos-tmp*)))
+     (when (>= (- (get-universal-time) start-time-z) *timer*)
+       (setq *ball-zpos-tmp* 0))
+
+     ;; Ball Speed Calculation
+     ;;(calculate-ball-velocity *ball-xpos-tmp* *ball-ypos-tmp* *ball-zpos-tmp* *ball-time*)
+     
+     ;; Debag 
+     ;;(format t "x: ~A, y: ~A, z: ~A~%" *ball-xpos-tmp* *ball-ypos-tmp* *ball-zpos-tmp*)
+
+     ;; ボールの当たり判定
+     (if (and (> *ball-xpos-tmp* *ball-x-min-lim*) ;;奥行き方向
+	      (< *ball-xpos-tmp* *ball-x-max-lim*)
+	      (> *ball-ypos-tmp* *ball-y-min-lim*) ;;上下方向(下が＋, )
+	      (< *ball-ypos-tmp* *ball-y-max-lim*)
+	      (> *ball-zpos-tmp* *ball-z-min-lim*) ;;左右方向(左がー, 右が＋)
+	      (< *ball-zpos-tmp* *ball-z-max-lim*))
+	 (progn (setq *ball-lost* nil) (format t "ball found ~%"))
+       )
      ;; follow-x,ypos (将来的に引数には着地予測地点を入れるが今の所tmpを使う)
      (setq *estimete-falling-xpos* *ball-xpos-tmp*)
      (setq *estimete-falling-ypos* *ball-ypos-tmp*)
-     (move-follow *ball-xpos-tmp* *ball-zpos-tmp*)
-     )
-   )
-(hit2) 
-(ros::sleep)
-(unix:usleep 500000)
-)
+     (if (and (> *ball-zpos-tmp* *space-z-min-lim*) (< *ball-zpos-tmp* *space-z-max-lim*))
+	 (move-follow *ball-ypos-tmp* *ball-zpos-tmp*)
+       )
+     (ros::duration-sleep 0.001) ;; 1ms処理を休ませる
+     ) ;;while
+   ) ;;let
+ ;;(push-hit 0)
+ (push-hit (+ (* *ball-zpos-tmp* 2) 0.5)) 
+ ;;(ros::sleep)
+ (ros::duration-sleep 0.5) ;;Sleep 0.5 ms (unix:sleep)系よりも良いはず
+ ;;(unix:usleep 500000) ;;Sleep 0.5 ms
+ ) ;;do-until-key
+;; key操作をしたらoffにする
 (off)

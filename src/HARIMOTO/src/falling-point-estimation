@@ -12,24 +12,24 @@ from collections import deque
 d435_path = "/camera/color/image_raw"
 d435_depth_path = "/camera/aligned_depth_to_color/image_raw"
 usb_path = "/usb_cam/image_raw"
-
 class Ball:
     def __init__(self):
         self.xpos = 0
         self.ypos = 0
         self.zpos = 0
-        self.name = "ping-pong-ball"  # 文字列はクォートで囲む
-        self.trajectory = deque(maxlen=30)  # 軌跡を保存
+        self.name = "ping-pong-ball"
+        self.trajectory = deque(maxlen=30)
         self.predicted_landing = None
+        self.image_height = 480  # 画像の高さを保持
 
-    def update(self, xpos, ypos, zpos=0):  # selfを第一引数に
+    def update(self, xpos, ypos, zpos=0):
         self.xpos = xpos
         self.ypos = ypos
         self.zpos = zpos
         self.trajectory.append((xpos, ypos))
 
     def predict_landing(self):
-        if len(self.trajectory) < 10:  # 十分なデータポイントが必要
+        if len(self.trajectory) < 10:
             return None
             
         # 最新の10点を使用
@@ -52,12 +52,15 @@ class Ball:
         
         # 画像の下端に到達する点を探す
         for i in range(len(future_time)):
-            if y_pred[i] >= 480:  # 画像の高さに応じて調整
-                self.predicted_landing = (int(x_pred[i]), int(y_pred[i]))
+            if y_pred[i] >= self.image_height - 1:  # 画像の高さ-1を超えないようにする
+                # 座標を整数に変換し、範囲内に収める
+                x_landing = int(min(max(x_pred[i], 0), 640 - 1))  # 画像の幅も考慮
+                y_landing = int(min(max(y_pred[i], 0), self.image_height - 1))
+                self.predicted_landing = (x_landing, y_landing)
                 return self.predicted_landing
                 
         return None
-
+    
 from geometry_msgs.msg import Point
 
 class BallTracker:
