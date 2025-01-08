@@ -37,10 +37,10 @@
 (setq *space-z-max-lim* 0.40) ;;奥に40cm
 
 
-;; TIMER SETTING
+;; TIMER SETTING 
 (setq *timer* 1) ;;*timer*秒間以上 *ball-?pos-tmp*が同一なら無効化(=0)する． ;;nilにするとバグる．
 
-;; SPEED SETTING
+;; SPEED Var (速度測定用の変数)
 (defvar *prev-ball-xpos* nil)
 (defvar *prev-ball-ypos* nil)
 (defvar *prev-ball-zpos* nil)
@@ -50,22 +50,17 @@
 (defvar vz nil)
 (defvar *velocity-list* nil) 
 
-;; Estimation Setting
+;; Estimation Var (着地推定用の変数)
 (defvar *predicted-x* nil)
 (defvar *predicted-y* nil)
 (defvar *predicted-z* nil)  ;; これは常に*ball-z-max-lim*と同じ値
 (defvar *time-to-arrival* nil)
 
-;; set-init-pos
-(setq *c-pose* #f(-70 40 0 0))
-
-;; setup-position
-(setq *basic-pose1* (v+ *c-pose* #f(15.0 -40 -40 70)))
-(setq *basic-pose3* (v+ *c-pose* #f(-35.0 5 -40 75)))
-(setq *basic-pose2* (float-vector -65 40 0 -60))
-
-;; Basic setting
-(setq *ball-lost* t)
+;; Setup-position (基本姿勢の定義)
+(setq *basic-pose-l* #f(12 25 7 38)) ;;下で待機
+(setq *basic-pose-u* #f(-85 30 -55 50)) ;;上で待機
+(setq *basic-pose-f* #f(10 -140 -10 -20)) ;;フォアで待機
+(setq *basic-pose* *basic-pose-l*)
 
 ;; Basic function
 ;; Servo(サーボ系)
@@ -536,14 +531,44 @@
   (+ (elt (unix:localtime) 0) (* (elt (unix:localtime) 1) 60))
   )
 	 
+;; Warning
+;; 右腕の赤サーボに負荷がかかるので，5分以上起動したときに，警告するようにする．
+;; Flag
+(defvar *start-time* nil)
+(defvar *warning-5min-played* nil)
+(defvar *warning-10min-played* nil)
+
+;; Add this function with other audio functions
+(defun play-warning()
+  (send *ri* :play-sound #P"~/ping-pong-robot/src/HARIMOTO/srv/warn.mp3" :wait nil)
+)
+
+;; Add this function to check and play warnings
+(defun check-warning-times()
+  (when (and *start-time* (not *warning-5min-played*))
+    (let ((elapsed-time (- (get-universal-time) *start-time*)))
+      (when (>= elapsed-time 300) ; 5 minutes = 300 seconds
+        (play-warning)
+        (setq *warning-5min-played* t))))
+  
+  (when (and *start-time* (not *warning-10min-played*))
+    (let ((elapsed-time (- (get-universal-time) *start-time*)))
+      (when (>= elapsed-time 600) ; 10 minutes = 600 seconds
+        (play-warning)
+        (setq *warning-10min-played* t)))))
+
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Main (メインコード)
 
-;;Initialize
+;; Initialize (初期化)
 (setq *ball-xpos* 0)
 (setq *ball-ypos* 0)
 (setq *ball-zpos* 0) ;;奥行き
 (setq *ball-lost* t)
+(setq *start-time* (get-universal-time))
+(setq *warning-5min-played* nil)
+(setq *warning-10min-played* nil)
 
 ;;main
 (hari-init)
@@ -554,6 +579,7 @@
 (unix:sleep 1)
 (search-ball)
 (do-until-key
+ (check-warning-times)
  (setq *ball-lost* t)
  (setq *ball-xpos-tmp* 0)
  (setq *ball-ypos-tmp* 0)

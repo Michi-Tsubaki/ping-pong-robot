@@ -21,26 +21,33 @@
         izz="1.41194963510472E-05" />
     </inertial>
     <visual>
-      <origin
-        xyz="-0.09 -0.04 0.605"
-        rpy="0.45 1.6 1.35" />
+      <origin xyz="-0.09 -0.04 0.605" rpy="0.45 1.6 1.35"/>
       <geometry>
-        <mesh
-          filename="package://HARIMOTO/meshes/base_link.STL" />
+        <mesh filename="package://HARIMOTO/meshes/base_link.STL"/>
       </geometry>
-      <material
-        name="">
-        <color
-          rgba="1 1 1 1" />
+    </visual>
+    <visual>
+      <origin xyz="-0.085 0.05 0.16" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.2 0.15 0.02"/>
+      </geometry>
+      <material name="black">
+        <color rgba="1 1 1 0.5"/>
+      </material>
+    </visual>
+        <visual>
+      <origin xyz="-0.01 0.05 0.22" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.04 0.1 0.14"/>
+      </geometry>
+      <material name="black">
+        <color rgba="1 1 1 0.5"/>
       </material>
     </visual>
     <collision>
-      <origin
-        xyz="0 0 0"
-        rpy="0 0 0" />
+        <origin xyz="0 0 0.15" rpy="0 0 0"/>
       <geometry>
-        <mesh
-          filename="package://HARIMOTO/meshes/base_link.STL" />
+        <box size="0.2 0.2 0.3"/>
       </geometry>
     </collision>
   </link>
@@ -329,38 +336,37 @@
     <axis
       xyz="0 0 0" />
   </joint>
-  <joint name="front_right_wheel_joint" type="continuous">
-    <!-- <limit effort="0.48" velocity="6.55"/> -->
-    <limit effort="100" velocity="6.55"/>
-    <parent link="base_link"/>
-    <child link="front_right_wheel_link"/>
-    <axis xyz="1. 0. 0."/>
-    <origin xyz="-0.0505 -0.097 0.0435" rpy="0.0 -0.0 0.0"/>
-  </joint>
-  <joint name="front_left_wheel_joint" type="continuous">
-    <!-- <limit effort="0.48" velocity="6.55"/> -->
-    <limit effort="100" velocity="6.55"/>
-    <parent link="base_link"/>
-    <child link="front_left_wheel_link"/>
-    <axis xyz="1. 0. 0."/>
-    <origin xyz="0.0505 -0.097 0.0435" rpy="0.0 -0.0 0.0"/>
-  </joint>
-  <joint name="rear_right_wheel_joint" type="continuous">
-    <!-- <limit effort="0.48" velocity="6.55"/> -->
-    <limit effort="100" velocity="6.55"/>
-    <parent link="base_link"/>
-    <child link="rear_right_wheel_link"/>
-    <axis xyz="1. 0. 0."/>
-    <origin xyz="-0.0505 -0.097 -0.0435" rpy="0.0 -0.0 0.0"/>
-  </joint>
-  <joint name="rear_left_wheel_joint" type="continuous">
-    <!-- <limit effort="0.48" velocity="6.55"/> -->
-    <limit effort="100" velocity="6.55"/>
-    <parent link="base_link"/>
-    <child link="rear_left_wheel_link"/>
-    <axis xyz="1. 0. 0."/>
-    <origin xyz="0.0505 -0.097 -0.0435" rpy="0.0 -0.0 0.0"/>
-  </joint>
+<joint name="front_right_wheel_joint" type="continuous">
+   <limit effort="100" velocity="6.55"/>
+   <parent link="base_link"/>
+   <child link="front_right_wheel_link"/>
+   <axis xyz="-1. 0. 0."/>
+   <origin xyz="0 -0.03 0.16" rpy="0.0 -0.0 1.5708"/>
+</joint>
+
+<joint name="front_left_wheel_joint" type="continuous">
+   <limit effort="100" velocity="6.55"/>
+   <parent link="base_link"/>
+   <child link="front_left_wheel_link"/>
+   <axis xyz="1. 0. 0."/>
+   <origin xyz="0 0.13 0.16" rpy="0.0 -0.0 1.5708"/>
+</joint>
+
+<joint name="rear_right_wheel_joint" type="continuous">
+   <limit effort="100" velocity="6.55"/>
+   <parent link="base_link"/>
+   <child link="rear_right_wheel_link"/>
+   <axis xyz="-1. 0. 0."/>
+   <origin xyz="-0.17 -0.03 0.16" rpy="0.0 -0.0 1.5708"/>
+</joint>
+
+<joint name="rear_left_wheel_joint" type="continuous">
+   <limit effort="100" velocity="6.55"/>
+   <parent link="base_link"/>
+   <child link="rear_left_wheel_link"/>
+   <axis xyz="1. 0. 0."/>
+   <origin xyz="-0.17 0.13 0.16" rpy="0.0 -0.0 1.5708"/>
+</joint>
   <link name="front_right_wheel_link">
     <inertial>
       <!-- <origin xyz="0.0344932842136683 0.0970000970916309 -0.0435000024416005" rpy="0.0 -0.0 0.0"/> -->
@@ -505,5 +511,34 @@
       <self_collide>false</self_collide>
     </collision>
   </link>
+
+  <link name="camera_link">
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.025 0.09 0.025"/>
+      </geometry>
+      <material name="red">
+        <color rgba="1 0 0 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.025 0.09 0.025"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="0.1"/>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <inertia ixx="0.001" ixy="0.0" ixz="0.0" iyy="0.001" iyz="0.0" izz="0.001"/>
+    </inertial>
+  </link>
+
+<joint name="camera_joint" type="fixed">
+   <origin xyz="0 0.05 0.25" rpy="0 0 0"/>
+   <parent link="base_link"/>
+   <child link="camera_link"/>
+</joint>
 
 </robot>
