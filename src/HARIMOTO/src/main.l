@@ -3,6 +3,12 @@
 ;; SPDX-FileCopyrightText: 2024 Michitoshi Tsubaki <michi.tsubaki.tech@gmail.com>
 ;; SPDX-License-Identifier: BSD-3-Clause
 
+#|
+# Description
+This code is the main algorithm of my pong-pong-robot project!
+The concept of this algorithm is shown on the issue (https://github.com/Michi-Tsubaki/ping-pong-robot/issues/14)
+|#
+
 ;; Build node ping-pong
 (ros::roseus "ping-pong")
 
@@ -10,19 +16,14 @@
 (load "HARIMOTO-interface.l")
 (load "HARIMOTO-speak.l")
 (ros::load-ros-package "jsk_recognition_msgs")
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Environment Management ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Setup-position (基本姿勢の定義)
+(setq *basic-pose-l* #f(17 25 7 38)) ;;下で待機
+(setq *basic-pose-u* #f(-60 30 -45 50)) ;;上で待機
+(setq *basic-pose-f* #f(15 -140 -10 -20)) ;;フォアで待機
 
-;; Offset Parameters
-(setq *time-offset* 0.10) ;; 時間分の距離オフセット．少し前に打つ
-
-;; BALL REGION SETTING
-(setq *ball-x-min-lim* -0.05) ;; 左に-5cm ;; 左右方向 (左ー，右＋)
-(setq *ball-x-max-lim* 0.05)  ;; 右に 5cm
-(setq *ball-y-min-lim* -0.07) ;; 上に 7cm ;; 上下方向 (上ー，下＋)
-(setq *ball-y-max-lim* 0.07)  ;; 下に 7cm
-(setq *ball-z-min-lim* 0.25)  ;; 手前25cm ;; 奥行き方向
-(setq *ball-z-max-lim* 0.30)  ;; 奥に30cm
-
-;; ENV REGION SETTING (just reference)
+;; Enviornment Region Settings (just reference)
 (setq *env-x-min-lim* -0.20)
 (setq *env-x-max-lim* 0.20)
 (setq *env-y-min-lim* -0.20)
@@ -30,17 +31,83 @@
 (setq *env-z-min-lim* 0.15)
 (setq *env-z-max-lim* 1.00)
 
+;; Area Descriptions (The boarders among NEAR, MIDDLE and FAR areas.)
+(setq *NEAR-min-lim* *env-z-min-lim*)
+(setq *NEAR-max-lim* 0.25) ;; 25cm ;;  HEAR should be filled!! (@Michi-Tsubaki, Jan 9)
+(setq *MIDDLE-min-lim* *NEAR-max-lim*)
+(setq *MIDDLE-max-lim* 0.65) ;; 65cm ;; HEAR should be filled!! (@Michi-Tsubaki, Jan 9)
+(setq *FAR-min-lim* *MIDDLE-max-lim*)
+(setq *FAR-max-lim* *env-z-max-lim*)
+
+;; Ball Judge Region Settings
+;; As for NEAR ..
+(setq *NEAR-sweet-x-min-lim* -0.035) ;; 左に-5cm ;; 左右方向 (左ー，右＋)
+(setq *NEAR-sweet-x-max-lim* 0.035)  ;; 右に 5cm
+(setq *NEAR-sweet-y-min-lim* -0.02) ;; 上に 2cm ;; 上下方向 (上ー，下＋)
+(setq *NEAR-sweet-y-max-lim* 0.07)  ;; 下に 7cm
+(setq *NEAR-sweet-z-min-lim* 0.16)  ;; 手前16cm ;; 奥行き方向
+(setq *NEAR-sweet-z-max-lim* 0.22)  ;; 奥に22cm ;; NEARは着地後なので近めに設定
+
+;; As for MIDDLE ...
+(setq *ball-x-min-lim* -0.05) ;; 左に-5cm ;; 左右方向 (左ー，右＋)
+(setq *ball-x-max-lim* 0.05)  ;; 右に 5cm
+(setq *ball-y-min-lim* -0.07) ;; 上に 7cm ;; 上下方向 (上ー，下＋)
+(setq *ball-y-max-lim* 0.07)  ;; 下に 7cm
+(setq *ball-z-min-lim* 0.25)  ;; 手前25cm ;; 奥行き方向
+(setq *ball-z-max-lim* 0.30)  ;; 奥に30cm
+
+;; As for FAR ...
+;; この範囲にボールが来ると認識された時，sweetスポットに移動する
+(setq *FAR-judge-x-min-lim* -0.035) ;; 左に-5cm ;; 左右方向 (左ー，右＋)
+(setq *FAR-judge-x-max-lim* 0.035)  ;; 右に 5cm
+(setq *FAR-judge-y-min-lim* -0.07) ;; 上に 7cm ;; 上下方向 (上ー，下＋)
+(setq *FAR-judge-y-max-lim* 0.07)  ;; 下に 7cm
+(setq *FAR-judge-z-min-lim* 0.25)  ;; 手前25cm ;; 奥行き方向
+(setq *FAR-judeg-z-max-lim* 0.30)  ;; 奥に30cm
+;; FARのsweetスポット
+(setq *FAR-sweet-x-min-lim* -0.04) ;; 左に-5cm ;; 左右方向 (左ー，右＋)
+(setq *FAR-sweet-x-max-lim* 0.04)  ;; 右に 5cm
+(setq *FAR-sweet-y-min-lim* -0.08) ;; 上に 7cm ;; 上下方向 (上ー，下＋)
+(setq *FAR-sweet-y-max-lim* 0.08)  ;; 下に 7cm
+(setq *FAR-sweet-z-min-lim* 0.25)  ;; 手前25cm ;; 奥行き方向
+(setq *FAR-sweet-z-max-lim* 0.30)  ;; 奥に30cm
+
+
 ;; ROBOT MOTION RESTRICTION (このセンサ値のときしかボールは追いません)
 (setq *space-x-min-lim* -0.15) ;;左に15cm (つまり+10cm)
 (setq *space-x-max-lim* 0.15) ;;右に15cm (つまり+10cm)
 (setq *space-z-min-lim* 0.10) ;;手前10cm ;;奥行き方向
 (setq *space-z-max-lim* 0.40) ;;奥に40cm
 
-
-;; TIMER SETTING
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Time Management (時間管理);;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; TIMER SETTING 
 (setq *timer* 1) ;;*timer*秒間以上 *ball-?pos-tmp*が同一なら無効化(=0)する． ;;nilにするとバグる．
 
-;; SPEED SETTING
+;; 変数の使用時間を管理する関数
+(defun monitor-value (var-symbol timeout)
+  (let ((start-time (get-universal-time))
+        (last-value (symbol-value var-symbol)))
+    (loop
+     (when (not (eq last-value (symbol-value var-symbol)))
+       (setf start-time (get-universal-time))
+       (setf last-value (symbol-value var-symbol)))
+     (when (>= (- (get-universal-time) start-time) timeout)
+       (setf (symbol-value var-symbol) nil)))))
+
+;; 現在の時間を取得する関数
+(defun get-universal-time()
+  ;;(+ (elt (unix:localtime) 0) (* (elt (unix:localtime) 1) 60))
+  (/ (send (ros::time-now) :to-nsec) 1000000000)
+  )
+
+;; Offset Parameters
+(setq *time-offset* 0.10) ;; 時間分の距離オフセット．少し前に打つ
+(setq *time-offset-far* 0.10)
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; 速度計算と予測関係の変数の定義(一応)
+;; SPEED Var (速度測定用の変数)
 (defvar *prev-ball-xpos* nil)
 (defvar *prev-ball-ypos* nil)
 (defvar *prev-ball-zpos* nil)
@@ -50,60 +117,15 @@
 (defvar vz nil)
 (defvar *velocity-list* nil) 
 
-;; Estimation Setting
+;; Estimation Var (着地推定用の変数)
 (defvar *predicted-x* nil)
 (defvar *predicted-y* nil)
 (defvar *predicted-z* nil)  ;; これは常に*ball-z-max-lim*と同じ値
 (defvar *time-to-arrival* nil)
-
-;; set-init-pos
-(setq *c-pose* #f(-70 40 0 0))
-
-;; setup-position
-(setq *basic-pose1* (v+ *c-pose* #f(15.0 -40 -40 70)))
-(setq *basic-pose3* (v+ *c-pose* #f(-35.0 5 -40 75)))
-(setq *basic-pose2* (float-vector -65 40 0 -60))
-
-;; Basic setting
-(setq *ball-lost* t)
-
-;; Basic function
-;; Servo(サーボ系)
-(defun on()
-  (send *ri* :servo-on)
-  )
-  
-(defun off()
-  (send *ri* :servo-off)
-  )
-  
-(defun move(angle-vector)
-  (send *ri* :angle-vector angle-vector 1000)
-  (send *ri* :wait-interpolation)
-  (send *irtviewer* :draw-objects)
-  )
-
-(defun wait-pose()
-  (send *ri* :angle-vector *basic-pose2* 5000)
-  ;;0.0 39.1838 17.955 85.9437
-  ;;-70 28 -44 70
-  ;;0 40 10 50
-  (send *ri* :wait-interpolation)
-  (send *irtviewer* :draw-objects)
-  )
-  
-(defun keep()
-  (setq *tmp* (send *ri* :state :angle-vector))
-  (send *ri* :angle-vector (send *ri* :state :angle-vector) 100)
-  (send *ri* :wait-interpolation)
-  (send *irtviewer* :draw-objects)
-  (send *ri* :servo-on)
-  )
-
-;; Recognition (認識系)
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Recognition Function (認識系);;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun search-ball()
   (format t "search-ball~%")
-  (ros::rate 10000)
   (ros::subscribe "/centroid_publisher/output/point" geometry_msgs::PointStamped #'search-ball-cb 1)
   ;; メッセージ型をPoseStampedに変更
   (ros::advertise "/ball_prediction" geometry_msgs::PoseStamped 1)
@@ -151,6 +173,7 @@
 	      )
 	    )
 	)
+  
 
       ;; 位置情報の表示
       (ros::ros-info "ball: x-pos:~A y-pos:~A z-pos:~A time:~A" x y z current-time)
@@ -163,7 +186,7 @@
       )
     )
   )
-
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Speed Calculation (速度計測)
 (defun calculate-ball-velocity (x y z time)
   (if (and *prev-ball-xpos*
@@ -200,7 +223,7 @@
       nil)))
 
 
-;; 接近予測(defun predict-ball-arrival (current-x current-y current-z)
+;; 接近予測
 (defun predict-ball-arrival (current-x current-y current-z)
   (if (and *velocity-list* (= (length *velocity-list*) 1))
       (let* ((avg-vx (/ (apply #'+ (mapcar #'car *velocity-list*)) 1))
@@ -240,82 +263,155 @@
       (setq *predicted-z* nil)
       (setq *time-to-arrival* nil)
       nil)))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Falling Point Estimation (ボールの落下予測地点の発見);;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(defun falling-estimation()
+  (format t "search falling point!~%")
+  (ros::rate 10000)
+  (ros::subscribe "/predicted_landing_point" geometry_msgs::Point #'falling-cb 1)
+  (ros::spin-once)
+  )
+
+(defun falling-cb(msg)
+  (setq *falling-point-x* (send msg :x))
+  (setq *falling-point-y* (send msg :y))
+  (setq *falling-point-z* (send msg :z)) ;;奥行き
+  )
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Judgement of sweet-spot (スイートスポットの判定);;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(defun NEAR-is-sweet(x y z)
+  (if (and (> x *NEAR-sweet-x-min-lim*)
+	   (< x *NEAR-sweet-x-max-lim*)
+	   (> y *NEAR-sweet-y-min-lim*)
+	   (< y *NEAR-sweet-y-max-lim*)
+	   (> z *NEAR-sweet-z-min-lim*)
+	   (< z *NEAR-sweet-z-max-lim*))
+      t
+    nil)
+  )
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; AUDIO Function (音声に関する関数);;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(defun chorei() ;;「チョレイ」と言う
+  (send *ri* :play-sound #P"~/ping-pong-robot/src/HARIMOTO/srv/chorei.mp3" :wait nil)
+  ) ;;メインでこっちを使う．肉声．
+
+(defun chorei2() ;;「チョレイ」と言う
+  (send *ri* :speak "cho-rei" :wait nil)
+  ) ;;音声合成に時間がかかるのかこっちは少し遅くて，使い物にならない．
+
+(defun start-voice() ;;「お相手しましょう」と言う
+    (send *ri* :play-sound #P"~/ping-pong-robot/src/HARIMOTO/srv/start.mp3" :wait nil)
+  )
+
+(defun play-warning() ;; 警告音を鳴らす関数
+  (send *ri* :play-sound #P"~/ping-pong-robot/src/HARIMOTO/srv/warn.mp3" :wait nil)
+)
+
+;; Warning (警告);;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; 赤サーボにトルクがかかりすぎると故障するので，開始2分後と5分後に警告を鳴らす．
+(defun check-warning-times()
+  (when (and *start-time* (not *warning-2min-played*))
+    (let ((elapsed-time (- (get-universal-time) *start-time*)))
+      (when (>= elapsed-time 120) ; 2 minutes = 120 seconds
+        (play-warning)
+        (setq *warning-2min-played* t)
+	)
+      )
+    )
+  (when (and *start-time* (not *warning-5min-played*))
+    (let ((elapsed-time (- (get-universal-time) *start-time*)))
+      (when (>= elapsed-time 300) ; 5 minutes = 300 seconds
+        (play-warning)
+        (setq *warning-5min-played* t)
+	)
+      )
+    )
+  )
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Arm Motion Function (アームの動きに関係する関数) ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Basic function
+;; Servo(サーボ系)
+(defun on()
+  (send *ri* :servo-on)
+  )
+  
+(defun off()
+  (send *ri* :servo-off)
+  )
+  
+(defun move(angle-vector)
+  (send *ri* :angle-vector angle-vector 1000)
+  (send *ri* :wait-interpolation)
+  (send *irtviewer* :draw-objects)
+  )
+
+(defun wait-pose()
+  (send *ri* :angle-vector *basic-pose* 5000)
+  (send *ri* :wait-interpolation)
+  (send *irtviewer* :draw-objects)
+  )
+  
+(defun keep()
+  (setq *tmp* (send *ri* :state :angle-vector)) ;;*tmp*に記録
+  (send *ri* :angle-vector (send *ri* :state :angle-vector) 100)
+  (send *ri* :wait-interpolation)
+  (send *irtviewer* :draw-objects)
+  (send *ri* :servo-on)
+  )
 
 ;; Hitting (打撃系)
 ;; Current Version (現在のバージョン)
-;; 打撃関数1: ドライブ(バックハンド)
-(defun drive-hit(x) ;;<- x is height. 引数のxは高さ
-  (let ((r1 *basic-pose2*)
-        (r2 (float-vector (- -110 (* 2 x)) (+ 100 x) -40 (+ 75 (* x 0.5))))
-        (r3 (float-vector (- -110 (* 2 x)) (+ 110 x) -20  (+ 75 (* x 0.5))))
-        (r4 (float-vector (- -120 (* 2 x)) (+ 100 x) 0 (+ 75 (* x 0.5))))
-        (r5 (float-vector (- -120 (* 2 x)) (+ 80 x) 20 (+ 75 (* x 0.5))))
-        (r6 (float-vector (- -120 (* 2 x)) (+ 40 x) 40 (+ 70 (* x 0.5))))
-        (r7 *basic-pose2*)
+;; 打撃関数1: ドライブ(バックハンドドライブ)
+(defun drive-hit(x) ;;<- x is height. 引数のxは高さ ;;developping
+  (let ((r1 *basic-pose-u*) ;;-65 0 -30 35
+        (r2 (float-vector -65 10 -30 35))
+        (r3 (float-vector -36 0 -20 -33))
+        (r4 (float-vector -20  -1.6 -10 55))
+        (r5 (float-vector -18 -5 11 57))
+        (r6 (float-vector -17 -10 32 58))
+        (r7 *basic-pose-u*)
         (tm 40))
-    (send *ri* :angle-vector-sequence (list r1 r2 r3 r4 r5 r6 r7) (list tm tm tm tm tm tm 5000)
+    (send *ri* :send-cmd-vel-raw 0.008 0 0)
+    (send *ri* :angle-vector-sequence (list r1 r2 r3 r4 r5 r6 r7) (list tm tm tm tm tm tm 2000)
           :default-controller 0.0001
           :min-time 0.00001
-          :minjerk-interpolation nil) ;;trueにするとバグので注意
-    (send *ri* :send-cmd-vel-raw 0.008 0 0)
+          :minjerk-interpolation nil) 
     (chorei)
-    ;;(send *ri* :wait-interpolation)
+    ;;(send *ri* :wait-interpolation) ;;if insert this, waitされて卓球のような瞬間的な動きにならない．
+    (send *ri* :send-cmd-vel-raw -0.008 0 0)
     (send *irtviewer* :draw-objects)
-    ) ;;hit
+    ) ;;let
   ) ;;defun
 
 
-;; 打撃関数2: プッシュ（下の方のボールを押し出す．）
+;; 打撃関数2: プッシュ（下の方のボールを押し出す．温泉卓球）
 (defun push-hit(x) ;;バックハンド ;;上はマイナス
   (let ((a (* x 2))
         (b (* x 0.5)))
-    (setq p1 #f(-40 60 10 40)) ;;-65 40 0 -60
-    (setq p2 (float-vector (+ -50 a) 55 10 (+ 35 b)))
-    (setq p3 (float-vector (+ -55 a) 50 10 (+ 30 b)))
-    (setq p4 (float-vector (+ -60 a) 45 10 (+ 25 b)))
-    (setq p5 (float-vector (+ -65 a) 40 15 (+ 20 b)))
-    (setq p6 (float-vector (+ -70 a) 30 20 (+ 15 b)))
-    (setq p7 (float-vector (+ -75 a) 20 25 (+ 10 b)))
+(setq *basic-pose-l* #f(12 25 7 38)) ;;下で待機
+
+    (setq p1 #f(12 25 10 40)) ;;-65 40 0 -60
+    (setq p2 (float-vector (+ 2 a) 20 10 (+ 35 b)))
+    (setq p3 (float-vector (+ -3 a) 15 10 (+ 30 b)))
+    (setq p4 (float-vector (+ -7 a) 10 10 (+ 25 b)))
+    (setq p5 (float-vector (+ -13 a) 5 15 (+ 20 b)))
+    (setq p6 (float-vector (+ -20 a) -5 20 (+ 15 b)))
+    (setq p7 (float-vector (+ -28 a) -15 25 (+ 10 b)))
     (setq tm 30)
-    (send *ri* :send-cmd-vel-raw 0.01 0 0) ;0.008
+    (send *ri* :send-cmd-vel-raw 0.008 0 0) ;0.008
     (send *ri* :angle-vector-sequence (list p1 p2 p3 p4 p5 p6 p7 p1) (list tm tm tm tm tm tm tm 2000)
           :default-controller 0.001
           :min-time 0.00001
           :minjerk-interpolation nil
           )
     (chorei)
-    (send *ri* :send-cmd-vel-raw -0.01 0 0)
-    ;;(send *ri* :wait-interpolation)
+    (send *ri* :send-cmd-vel-raw -0.008 0 0)
+    ;;(send *ri* :wait-interpolation) ;;if insert this, waitされて卓球のような瞬間的な動きにならない．
     (send *irtviewer* :draw-objects)
     ) ;;let
   ) ;;defun
 
-
-(defun push-hit2(x) ;;バックハンド
-  (let ((a (* x 1))
-        (b (* x 2)))
-    (setq p1 #f(-45 40 0 30)) ;;-65 40 0 -60
-    (setq p2 (float-vector (- -70 a) 30 15 (- -60 b)))
-    (setq p3 (float-vector (- -80 a) 20 15 (- -60 b)))
-    (setq p4 (float-vector (- -90 a) 0 15 (- -50 b)))
-    (setq p5 (float-vector (- -100 a) -10 15 (- -40 b)))
-    (setq p6 (float-vector (- -100 a) -20 20 (- -30 b)))
-    (setq p7 (float-vector (- -100 a) 0 15 (- -50 b)))
-    (setq tm 30)
-    (send *ri* :send-cmd-vel-raw 0.01 0 0) ;0.008
-    (send *ri* :angle-vector-sequence (list p1 p2 p3 p4 p5 p6 p7 p1) (list tm tm tm tm tm tm 500 500)
-          :default-controller 0.001
-          :min-time 0.00001
-          :minjerk-interpolation nil
-          )
-    (chorei)
-    (send *ri* :send-cmd-vel-raw -0.01 0 0)
-    ;;(send *ri* :wait-interpolation)
-    (send *irtviewer* :draw-objects)
-    ) ;;let
-  ) ;;defun
-
-;; 打撃関数3: フォアドライブ
+;; 打撃関数3: フォアドライブ(今回は使わない)
 (defun fore-hit(x) ;;バックハンド
  (let ((a (* x 1))
        (b (* x 2))
@@ -332,83 +428,16 @@
          (list 100 500 tm tm tm tm tm 2000)
          :default-controller 0.001
          :min-time 0.00001
-         :minjerk-interpolation nil)
-   ;;(send *ri* :send-cmd-vel-raw 0.01 0 0) ;0.008
-   (send *ri* :send-cmd-vel-raw 0.01 0 0) ;0.008
+         :minjerk-interpolation nil) ;; tにするとバグる．
    (chorei)
-   ;;(send *ri* :wait-interpolation)
+   ;;(send *ri* :wait-interpolation) ;;wait補完をするとバグる．
    (send *irtviewer* :draw-objects)
    ) ;;let
  ) ;;defun
-
-;; かつての打撃関数
-(defun pre-hit()
-  (setq r1 *basic-pose2*)
-  (setq r2 #f(-60 31 -31 60))
-  (setq r3 #f(-54 34 -20  60))
-  (setq r4 #f(-52 36 0 60))
-  (setq r5 #f(-50 20 20 60))
-  (setq r6 #f(-50 10 50 60))
-  (setq r7 *basic-pose2*)
-  (setq tm 40)
-  (send *ri* :angle-vector-sequence (list r1 r2 r3 r4 r5 r6 r7) (list tm tm tm tm tm tm 5000)
-	:default-controller 0.001
-	:min-time 0.0001
-	:minjerk-interpolation nil
-	)
-  (chorei)
-  ;;(send *ri* :wait-interpolation)
-  (send *irtviewer* :draw-objects)
-  )
-
-;;簡易的な打撃関数
-(defun pre-hit2() ;;とりあえず温泉卓球のように返球するhit関数
-  ;;TODO: yとzを引数にしてもう少し複雑にする
-  (setq r1 *basic-pose2*)
-  (setq r2 #f(-110 100 -40 75))
-  (setq r3 #f(-110 110 -20  75))
-  (setq r4 #f(-120 100 0 75))
-  (setq r5 #f(-120 80 20 75))
-  (setq r6 #f(-120 50 40 70))
-  (setq r7 *basic-pose2*)
-  (setq tm 40)
-    (send *ri* :angle-vector-sequence (list r1 r2 r3 r4 r5 r6 r7) (list tm tm tm tm tm tm 5000)
-	:default-controller 0.0001
-	:min-time 0.00001
-	:minjerk-interpolation nil ;;trueにするとバグので注意
-	)
-  ;;(move-to 1 1)
-  (chorei)
-  
-  ;;(send *ri* :wait-interpolation)
-  (send *irtviewer* :draw-objects)
-  )
-
-(defun hit(x) 
-  ;;TODO: yとzを引数にしてもう少し複雑にする
-  (setq r1 *basic-pose2*)
-  (setq r2 (float-vector (- -110 (* 2 x)) (+ 100 x) -40 (+ 75 (* x 0.5))))
-  (setq r3 (float-vector (- -110 (* 2 x)) (+ 110 x) -20  (+ 75 (* x 0.5))))
-  (setq r4 (float-vector (- -120 (* 2 x)) (+ 100 x) 0 (+ 75 (* x 0.5))))
-  (setq r5 (float-vector (- -120 (* 2 x)) (+ 80 x) 20 (+ 75 (* x 0.5))))
-  (setq r6 (float-vector (- -120 (* 2 x)) (+ 40 x) 40 (+ 70 (* x 0.5))))
-  (setq r7 *basic-pose2*)
-  (setq tm 40)
-  (send *ri* :angle-vector-sequence (list r1 r2 r3 r4 r5 r6 r7) (list tm tm tm tm tm tm 5000)
-	:default-controller 0.0001
-	:min-time 0.00001
-	:minjerk-interpolation nil ;;trueにするとバグので注意
-	)
-  ;;(move-to 0.5 0)
-  (send *ri* :send-cmd-vel-raw 0.008 0 0)
-  (chorei)
-  ;;(send *ri* :wait-interpolation)
-  (send *irtviewer* :draw-objects)
-  )
-
-
-;; Move(移動)
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Move(足回りの移動)関数 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; 以下の移動関数はデフォルトで， [10cm]が単位になっている．単位換算に注意．
+;; 指定された位置に移動する関数
 (defun move-to (target-x target-y &key (vel-scale 2) (pos-threshold 0.01))
   "現在位置から相対的な距離(target-x, target-y)だけ移動する
    vel-scale: 並進速度のスケール係数(デフォルト: 2)"
@@ -474,107 +503,60 @@
     )
   )
 
-;; Previous version of move-follow (independent(x,y) control)
-;;(defun move-follow(x y)
-;;  (setq *y-threshold-left* 0.03) ;;横方向
-;;  (setq *y-threshold-right* -0.03)
-;;  (setq *x-threshold-front* 17.0) ;;前後方向
-;;  (setq *x-threshold-back* 22.0)
-;;  (cond ((and (> x *x-threshold-front*) (< x *x-threshold-back*) (> y *y-threshold-left*)) (send *ri* :send-cmd-vel-raw 0 0.5 0))
-;;	((and (> x *x-threshold-front*) (< x *x-threshold-back*) (< y *y-threshold-right*)) (send *ri* :send-cmd-vel-raw 0 -0.5 0))
-;;	((and (> x *x-threshold-front*) (< x *x-threshold-back*) (> y *y-threshold-right*) (< y *y-threshold-left*)) (send *ri* :send-cmd-vel-raw 0 0 0))
-;;	((and (< x *x-threshold-front*)  (> y *y-threshold-left*)) (send *ri* :send-cmd-vel-raw -0.5 0.5 0))
-;;	((and (> x *x-threshold-back*)  (> y *y-threshold-left*)) (send *ri* :send-cmd-vel-raw 0.5 0.5 0))
-;;	((and (< x *x-threshold-front*) (< y *y-threshold-right*)) (send *ri* :send-cmd-vel-raw -0.5 -0.5 0))
-;;	((and (> x *x-threshold-back*) (< y *y-threshold-right*)) (send *ri* :send-cmd-vel-raw 0.5 -0.5 0))
-;;	((and (> x *x-threshold-back*) (< y *y-threshold-left*) (> y *y-threshold-right*)) (send *ri* :send-cmd-vel-raw 0.5 0 0))
-;;	((and (< x *x-threshold-front*) (< y *y-threshold-left*) (> y *y-threshold-right*)) (send *ri* :send-cmd-vel-raw -0.5 0 0))
-;;	(t (send *ri* :send-cmd-vel-raw 0 0 0)))
-;;  )
-
-
-;; Falling Point Estimation (ボールの落下予測地点の発見)
-(defun falling-estimation()
-  (format t "search falling point!~%")
-  (ros::rate 10000)
-  (ros::subscribe "/predicted_landing_point" geometry_msgs::Point #'falling-cb 1)
-  (ros::spin-once)
-  )
-
-(defun falling-cb(msg)
-  (setq *falling-point-x* (send msg :x))
-  (setq *falling-point-y* (send msg :y))
-  (setq *falling-point-z* (send msg :z)) ;;奥行き
-  )
-
-;; AUDIO Function
-(defun chorei() ;;「チョレイ」と言う
-  (send *ri* :play-sound #P"~/ping-pong-robot/src/HARIMOTO/srv/chorei.mp3" :wait nil)
-  ) ;;メインでこっちを使う．肉声．
-
-(defun chorei2() ;;「チョレイ」と言う
-  (send *ri* :speak "cho-rei" :wait nil)
-  ) ;;音声合成に時間がかかるのかこっちは少し遅くて，使い物にならない．
-
-(defun start-voice()
-    (send *ri* :play-sound #P"~/ping-pong-robot/src/HARIMOTO/srv/start.mp3" :wait nil)
-  )
-
-;; TIMER Function (変数の時間管理)
-(defun monitor-value (var-symbol timeout)
-  (let ((start-time (get-universal-time))
-        (last-value (symbol-value var-symbol)))
-    (loop
-     (when (not (eq last-value (symbol-value var-symbol)))
-       (setf start-time (get-universal-time))
-       (setf last-value (symbol-value var-symbol)))
-     (when (>= (- (get-universal-time) start-time) timeout)
-       (setf (symbol-value var-symbol) nil)))))
-
-
-(defun get-universal-time()
-  (+ (elt (unix:localtime) 0) (* (elt (unix:localtime) 1) 60))
-  )
-	 
-
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Main (メインコード)
 
-;;Initialize
+;; Initialize (初期化)
 (setq *ball-xpos* 0)
 (setq *ball-ypos* 0)
 (setq *ball-zpos* 0) ;;奥行き
 (setq *ball-lost* t)
+(setq *start-time* (get-universal-time))
+(setq *warning-2min-played* nil)
+(setq *warning-5min-played* nil)
 
-;;main
-(hari-init)
-(on)
-(unix:sleep 1)
-(wait-pose)
-(start-voice)
-(unix:sleep 1)
-(search-ball)
-(do-until-key
- (setq *ball-lost* t)
- (setq *ball-xpos-tmp* 0)
- (setq *ball-ypos-tmp* 0)
- (setq *ball-zpos-tmp* 0) ;;奥行き
- (setq *ball-xpos* 0)
- (setq *ball-ypos* 0)
- (setq *ball-zpos* 0) ;;奥行き
- (setq *ball-time* 0)
+;; MAIN
+(hari-init) ;; Robot Modelの初期化
+(setq *mode-value* (elt (send *ri* :state :angle-vector) 0))
+;; Mode Setting (モード設定)
+(if (< *mode-value* -10) ;;腕のサーボの値が-10よりも小さい時(上がっている時)
+    (progn (setq *basic-pose* *basic-pose-u*) (setq *hit-mode* 1)) ;; Drive Mode
+  (progn (setq *basic-pose* *basic-pose-l*) (setq *hit-mode* 0)) ;; Push Mode
+  ) 
+
+(on) ;; サーボon
+(ros::duration-sleep 1) ;; 1秒間待機 (ミリ秒じゃなくて秒)
+
+(wait-pose) ;; 初期姿勢に移動する(モードによって異なる．)
+(start-voice) ;; 準備が完了したら「お相手しましょう」というボイスを鳴らす．
+(ros::duration-sleep 1) ;; 1秒間待機
+(ros::rate 10000) ;; ros rate は10000で固定
+(search-ball) ;; centroidのtopicのsubscribeを開始
+(do-until-key ;; ここからは繰り返し動作
+ (check-warning-times) ;; 起動時間の累計時間 -> 警告 (フェールセーフ)
+ (setq *ball-lost* t) ;; ループの先頭に戻ってきた = ボールを再び見失った．
+ ;; 制御に使う*ball-ipos-tmp*を初期化(→次の(ros::spin-onceで更新)
+ (setq *ball-xpos-tmp* 0) ;; 左右
+ (setq *ball-ypos-tmp* 0) ;; 上下
+ (setq *ball-zpos-tmp* 0) ;; 奥行き
+ (setq *ball-xpos* 0) ;; 左右
+ (setq *ball-ypos* 0) ;; 上下
+ (setq *ball-zpos* 0) ;; 奥行き
+ (setq *ball-time* 0) ;; 時間
  (let ((start-time-x (get-universal-time))
        (start-time-y (get-universal-time))
        (start-time-z (get-universal-time))
        (last-x *ball-xpos-tmp*)
        (last-y *ball-ypos-tmp*)
        (last-z *ball-zpos-tmp*))
-   (while *ball-lost*
-     (ros::rate 100000)
-     (ros::spin-once)
+
+   (while *ball-lost* ;; *ball-lost*がtrueの時探索する
+     (ros::spin-once) ;; Obtain Ball Position Information
      (setq *ball-xpos-tmp* *ball-xpos*)
      (setq *ball-ypos-tmp* *ball-ypos*)
      (setq *ball-zpos-tmp* *ball-zpos*)
-     
+
+     ;; xの値が一定時間以上*timer*更新されない時，その値は無効なのでtmpから削除する
      ;; Monitor x position
      (if (not (eq last-x *ball-xpos-tmp*))
 	 (progn 
@@ -582,7 +564,6 @@
 	   (setq last-x *ball-xpos-tmp*)))
      (when (>= (- (get-universal-time) start-time-x) *timer*)
        (setq *ball-xpos-tmp* 0))
-     
      ;; Monitor y position
      (if (not (eq last-y *ball-ypos-tmp*))
 	 (progn
@@ -590,7 +571,6 @@
 	   (setq last-y *ball-ypos-tmp*)))
      (when (>= (- (get-universal-time) start-time-y) *timer*)
        (setq *ball-ypos-tmp* 0))
-     
      ;; Monitor z position
      (if (not (eq last-z *ball-zpos-tmp*))
 	 (progn
@@ -599,62 +579,56 @@
      (when (>= (- (get-universal-time) start-time-z) *timer*)
        (setq *ball-zpos-tmp* 0))
 
-     ;; Ball Speed Calculation
-     ;;(calculate-ball-velocity *ball-xpos-tmp* *ball-ypos-tmp* *ball-zpos-tmp* *ball-time*)
-     
-     ;; Debag 
-     ;;(format t "x: ~A, y: ~A, z: ~A~%" *ball-xpos-tmp* *ball-ypos-tmp* *ball-zpos-tmp*)
+     ;; 以上でボールの位置の算出は終了した．
 
-     (if (and *predicted-x* *predicted-y* *time-to-arrival*  ; 予測値が存在する
-	      (< *time-to-arrival* 0.4)                      ; 到達時間が0.2秒以内
-	      (> *predicted-x* *ball-x-min-lim*)             ; x方向の予測位置が範囲内
-	      (< *predicted-x* *ball-x-max-lim*)
-	      (> *predicted-y* *ball-y-min-lim*)             ; y方向の予測位置が範囲内
-	      (< *predicted-y* *ball-y-max-lim*))
-	 (progn 
-	   (setq *ball-lost* nil)
-	   ;; 予測関連の変数をリセット
-	   (setq *velocity-list* nil)
-	   (setq *predicted-x* nil)
-	   (setq *predicted-y* nil)
-	   (setq *predicted-z* nil)
-	   ;; 到達予測時間後に打つ
-	   (if (> *time-to-arrival* 0.3)
-	       (ros::duration-sleep (- *time-to-arrival* 0.3))
-	     )
-	   (setq *time-to-arrival* nil)
-	   (push-hit 0)
-	   (format t "predicted! ~%")
-	   (return))                                         ; whileループを抜ける
-       )
-
-     
-     ;; ボールの当たり判定
-     (if (and (> *ball-xpos-tmp* *ball-x-min-lim*) ;;奥行き方向
-	      (< *ball-xpos-tmp* *ball-x-max-lim*)
-	      (> *ball-ypos-tmp* *ball-y-min-lim*) ;;上下方向(下が＋, )
-	      (< *ball-ypos-tmp* *ball-y-max-lim*)
-	      (> *ball-zpos-tmp* *ball-z-min-lim*) ;;左右方向(左がー, 右が＋)
-	      (< *ball-zpos-tmp* *ball-z-max-lim*))
-	 (progn (setq *ball-lost* nil) (format t "ball found ~%"))
-       )
-     ;; follow-x,ypos (将来的に引数には着地予測地点を入れるが今の所tmpを使う)
-     (setq *estimete-falling-xpos* *ball-xpos-tmp*)
-     (setq *estimete-falling-ypos* *ball-ypos-tmp*)
-     (if (and (> *ball-zpos-tmp* *space-z-min-lim*)
-	      (< *ball-zpos-tmp* *space-z-max-lim*)
-	      (> *ball-xpos-tmp* *space-x-min-lim*)
-	      (< *ball-xpos-tmp* *space-x-max-lim*))
-	;; (move-follow *ball-zpos-tmp* *ball-xpos-tmp*)
-       )
-     ;;(ros::duration-sleep 0.001) ;; 1ms処理を休ませる
-     ) ;;while
-   ) ;;let
- ;;(push-hit 0)
- (unless (and *predicted-x* *time-to-arrival* (< *time-to-arrival* 0.2))
-  ;; (push-hit (+ (* *ball-zpos-tmp* 2) 0.5)))
- ;;(ros::sleep)
- (ros::duration-sleep 0.2) ;;sleep 0.5 ms ;;(unix:usleep 500000) と違ってrosを止めない
- ) ;;do-until-key ;; key操作をしたらoffにして安全に止まる
-)
+     ;; ここからは，ボールの位置に応じた予測制御
+     (cond
+      ((= *ball-zpos-tmp* 0) ( )) ;;*ball-zpos-tmpが0のとき，ボールは認識されていないので何もしない．
+      ;;FAR ;;予測してかつ動く
+      ((> *ball-zpos-tmp* *FAR-min-lim*)
+       (progn
+	 ))
+      ;;MIDDLE ;;予測するけど動かない
+      ((and (> *ball-zpos-tmp* *MIDDLE-min-lim*) (< *ball-zpos-tmp* *MIDDLE-max-lim*))
+       (progn
+	 (if (and *predicted-x* *predicted-y* *time-to-arrival*  ; 予測値が存在する
+		  (< *time-to-arrival* 0.4)                      ; 到達時間が0.4秒以内
+		  (> *predicted-x* *ball-x-min-lim*)             ; x方向の予測位置が範囲内
+		  (< *predicted-x* *ball-x-max-lim*)
+		  (> *predicted-y* *ball-y-min-lim*)             ; y方向の予測位置が範囲内
+		  (< *predicted-y* *ball-y-max-lim*))
+	     (progn 
+	       (setq *ball-lost* nil)
+	       ;; 予測関連の変数をリセット
+	       (setq *velocity-list* nil)
+	       (setq *predicted-x* nil)
+	       (setq *predicted-y* nil)
+	       (setq *predicted-z* nil)
+	       ;; 到達予測時間後に打つ
+	       (if (> *time-to-arrival* 0.3)
+		   (ros::duration-sleep (- *time-to-arrival* 0.3))
+		 )
+	       (setq *time-to-arrival* nil)
+	       (push-hit 0)
+	       (format t "predicted! ~%")
+	       (return) ;;whileループを抜ける
+	       ) ;;progn
+	   )
+	 ) ;;progn
+       ) ;;条件2終了
+      ;;NEAR ;;予測しない
+      ((< *ball-zpos-tmp* *NEAR-max-lim*)
+       (progn
+	 (if (NEAR-is-sweet *ball-xpos-tmp* *ball-ypos-tmp* *ball-zpos-tmp*)
+	     (progn (setq *ball-lost* nil) (format t "cond3 : ball found ~%")) ;; BAllを発見したことにする．
+	   ) ;;if
+	 ) ;;progn
+       ) ;;条件3終了
+      ) ;;condによる分岐終了
+     ) ;;while *ball-lost
+   (if (= *hit-mode* 0) (push-hit 0) (drive-hit 0)) ;;打撃
+ (ros::duration-sleep 2) ;;sleep 2 s ;;(unix:sleep 2) と違ってrosを止めない!
+ ) ;; let
+) ;;do-until-key ;; key操作をしたらoffにして安全に止まる
 (off)
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
