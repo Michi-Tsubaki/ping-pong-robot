@@ -380,7 +380,7 @@ UBUNTU:BOOL=TRUE
 UBUNTU_FOCAL:BOOL=TRUE
 
 //Use Python virtual environment
-USE_VIRTUALENV:BOOL=ON
+USE_VIRTUALENV:BOOL=OFF
 
 //Path to a file.
 _file_name:FILEPATH=/home/mech-user/ping-pong-robot/src/rcb4/ros/kxr_controller/test/kxr_controller.test

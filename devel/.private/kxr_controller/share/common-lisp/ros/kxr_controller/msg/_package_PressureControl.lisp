@@ -1,10 +1,10 @@
 (cl:in-package kxr_controller-msg)
 (cl:export '(BOARD_IDX-VAL
           BOARD_IDX
-          START_PRESSURE-VAL
-          START_PRESSURE
-          STOP_PRESSURE-VAL
-          STOP_PRESSURE
-          RELEASE-VAL
-          RELEASE
+          TRIGGER_PRESSURE-VAL
+          TRIGGER_PRESSURE
+          TARGET_PRESSURE-VAL
+          TARGET_PRESSURE
+          RELEASE_DURATION-VAL
+          RELEASE_DURATION
 ))

@@ -79,16 +79,13 @@
   )
 
 (defun wait-pose()
-  (send *ri* :angle-vector *basic-pose2* 5000)
-  ;;0.0 39.1838 17.955 85.9437
-  ;;-70 28 -44 70
-  ;;0 40 10 50
+  (send *ri* :angle-vector *basic-pose* 5000)
   (send *ri* :wait-interpolation)
   (send *irtviewer* :draw-objects)
   )
   
 (defun keep()
-  (setq *tmp* (send *ri* :state :angle-vector))
+  (setq *tmp* (send *ri* :state :angle-vector)) ;;*tmp*に記録
   (send *ri* :angle-vector (send *ri* :state :angle-vector) 100)
   (send *ri* :wait-interpolation)
   (send *irtviewer* :draw-objects)
@@ -264,13 +261,15 @@
 (defun push-hit(x) ;;バックハンド ;;上はマイナス
   (let ((a (* x 2))
         (b (* x 0.5)))
-    (setq p1 #f(-40 60 10 40)) ;;-65 40 0 -60
-    (setq p2 (float-vector (+ -50 a) 55 10 (+ 35 b)))
-    (setq p3 (float-vector (+ -55 a) 50 10 (+ 30 b)))
-    (setq p4 (float-vector (+ -60 a) 45 10 (+ 25 b)))
-    (setq p5 (float-vector (+ -65 a) 40 15 (+ 20 b)))
-    (setq p6 (float-vector (+ -70 a) 30 20 (+ 15 b)))
-    (setq p7 (float-vector (+ -75 a) 20 25 (+ 10 b)))
+(setq *basic-pose-l* #f(12 25 7 38)) ;;下で待機
+
+    (setq p1 #f(12 25 10 40)) ;;-65 40 0 -60
+    (setq p2 (float-vector (+ 2 a) 20 10 (+ 35 b)))
+    (setq p3 (float-vector (+ -3 a) 15 10 (+ 30 b)))
+    (setq p4 (float-vector (+ -7 a) 10 10 (+ 25 b)))
+    (setq p5 (float-vector (+ -13 a) 5 15 (+ 20 b)))
+    (setq p6 (float-vector (+ -20 a) -5 20 (+ 15 b)))
+    (setq p7 (float-vector (+ -28 a) -15 25 (+ 10 b)))
     (setq tm 30)
     (send *ri* :send-cmd-vel-raw 0.01 0 0) ;0.008
     (send *ri* :angle-vector-sequence (list p1 p2 p3 p4 p5 p6 p7 p1) (list tm tm tm tm tm tm tm 2000)

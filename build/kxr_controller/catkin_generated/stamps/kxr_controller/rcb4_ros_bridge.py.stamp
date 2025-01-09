@@ -30,6 +30,7 @@ from kxr_controller.msg import ServoStateArray
 from kxr_controller.msg import Stretch
 from kxr_controller.msg import StretchAction
 from kxr_controller.msg import StretchResult
+from kxr_controller.multi_lock import MultiLock
 from kxr_controller.serial import serial_call_with_retry
 import numpy as np
 import rospy
@@ -181,6 +182,11 @@ class RCB4ROSBridge:
         self.read_temperature = rospy.get_param("~read_temperature", False) and not self.use_rcb4
         self.read_current = rospy.get_param("~read_current", False) and not self.use_rcb4
         self.base_namespace = self.get_base_namespace()
+        self.use_fullbody_controller = rospy.get_param("~use_fullbody_controller", True)
+        if self.use_fullbody_controller is False:
+            self.default_controller = rospy.get_param(self.base_namespace + "/default_controller", [])
+        else:
+            self.default_controller = ['fullbody_controller']
 
     def setup_urdf_and_model(self):
         robot_model = RobotModel()
@@ -277,11 +283,19 @@ class RCB4ROSBridge:
         rospy.sleep(0.1)
         self.servo_on_off_server.start()
 
-        self.traj_action_client = actionlib.SimpleActionClient(
-            self.base_namespace + "/fullbody_controller/follow_joint_trajectory",
-            FollowJointTrajectoryAction,
-        )
-        self.traj_action_client.wait_for_server()
+        self.traj_action_clients = []
+        self.traj_action_joint_names = []
+        for controller in self.default_controller:
+            controller_name = self.base_namespace + f"/{controller}/follow_joint_trajectory"
+            traj_action_client = actionlib.SimpleActionClient(
+                controller_name,
+                FollowJointTrajectoryAction,
+            )
+            self.traj_action_joint_names.append(
+                rospy.get_param(self.base_namespace + f"/{controller}/joints", []))
+            rospy.loginfo(f'Waiting {controller_name}')
+            traj_action_client.wait_for_server()
+            self.traj_action_clients.append(traj_action_client)
 
         # Adjust angle vector action server
         self.adjust_angle_vector_server = actionlib.SimpleActionServer(
@@ -331,6 +345,12 @@ class RCB4ROSBridge:
                 auto_start=False,
             )
             rospy.sleep(0.1)
+            self.pressure_control_thread = {}
+            self.pressure_control_running = {}
+            self.pump_on_lock = MultiLock(lock_name="Pump ON")
+            self.pump_off_lock = MultiLock(lock_name="Pump OFF")
+            self.air_connect_lock = MultiLock(lock_name="Air Connect")
+            self.air_disconnect_lock = MultiLock(lock_name="Air Disconnect")
             self.pressure_control_server.start()
 
             self.pressure_control_pub = rospy.Publisher(
@@ -345,14 +365,15 @@ class RCB4ROSBridge:
             self.pressure_control_state = {}
             for idx in self.air_board_ids:
                 self.pressure_control_state[f"{idx}"] = {}
-                self.pressure_control_state[f"{idx}"]["start_pressure"] = 0
-                self.pressure_control_state[f"{idx}"]["stop_pressure"] = 0
-                self.pressure_control_state[f"{idx}"]["release"] = True
+                self.pressure_control_state[f"{idx}"]["trigger_pressure"] = 0
+                self.pressure_control_state[f"{idx}"]["target_pressure"] = 0
+                # At first, air is assumed to be released
+                self.pressure_control_state[f"{idx}"]["release_duration"] = 1
             self._pressure_publisher_dict = {}
             self._avg_pressure_publisher_dict = {}
             # Record 1 seconds pressure data.
-            hz = rospy.get_param(self.base_namespace + "/control_loop_rate", 20)
-            self.recent_pressures = deque([], maxlen=1 * int(hz))
+            self.hz = rospy.get_param(self.base_namespace + "/control_loop_rate", 20)
+            self.recent_pressures = {}
 
     def setup_interface_and_servo_parameters(self):
         self.interface = self.setup_interface()
@@ -419,13 +440,18 @@ class RCB4ROSBridge:
         return True
 
     def run_ros_robot_controllers(self):
+        controllers = ["joint_state_controller"]
+        if self.use_fullbody_controller:
+            controllers.append('fullbody_controller')
+        else:
+            controllers.extend(self.default_controller)
         self.proc_controller_spawner = subprocess.Popen(
             [
                 f'/opt/ros/{os.environ["ROS_DISTRO"]}/bin/rosrun',
                 "controller_manager",
                 "spawner",
             ]
-            + ["joint_state_controller", "fullbody_controller"]
+            + controllers,
         )
         self.proc_robot_state_publisher = run_robot_state_publisher(self.base_namespace)
         self.proc_kxr_controller = run_kxr_controller(namespace=self.base_namespace)
@@ -582,7 +608,9 @@ class RCB4ROSBridge:
             self._prev_velocity_command, av
         ):
             return
-        ret = self.interface.angle_vector(av, servo_ids, velocity=self.wheel_frame_count)
+        ret = serial_call_with_retry(
+            self.interface.angle_vector, av, servo_ids,
+            velocity=self.wheel_frame_count)
         if ret is None:
             return
         self._prev_velocity_command = av
@@ -644,29 +672,31 @@ class RCB4ROSBridge:
                 text="Failed to call servo on off. "
                 + "Control board is switch off or cable is disconnected?"
             )
-        joint_names = []
-        positions = []
-        for joint_name in self.fullbody_jointnames:
-            angle = 0
-            if joint_name in self.joint_name_to_id:
-                servo_id = self.joint_name_to_id[joint_name]
-                idx = self.interface.servo_id_to_index(servo_id)
-                if idx is not None:
-                    angle = np.deg2rad(av[idx])
-            joint_names.append(joint_name)
-            positions.append(angle)
-        # Create JointTrajectoryGoal to set current position on follow_joint_trajectory
-        trajectory_goal = FollowJointTrajectoryGoal()
-        trajectory_goal.trajectory.joint_names = joint_names
-        point = JointTrajectoryPoint()
-        point.positions = positions
-        point.time_from_start = rospy.Duration(
-            0.5
-        )  # Short duration for immediate application
-        trajectory_goal.trajectory.points = [point]
-        # Initialize action client and wait for server
-        self.traj_action_client.send_goal(trajectory_goal)
-        self.traj_action_client.wait_for_result()  # Wait for trajectory to complete
+        for client, joint_name_list in zip(self.traj_action_clients, self.traj_action_joint_names):
+            joint_names = []
+            positions = []
+            for joint_name in joint_name_list:
+                angle = 0
+                if joint_name in self.joint_name_to_id:
+                    servo_id = self.joint_name_to_id[joint_name]
+                    idx = self.interface.servo_id_to_index(servo_id)
+                    if idx is not None:
+                        angle = np.deg2rad(av[idx])
+                joint_names.append(joint_name)
+                positions.append(angle)
+            # Create JointTrajectoryGoal to set current position on follow_joint_trajectory
+            trajectory_goal = FollowJointTrajectoryGoal()
+            trajectory_goal.trajectory.joint_names = joint_names
+            point = JointTrajectoryPoint()
+            point.positions = positions
+            point.time_from_start = rospy.Duration(
+                0.5
+            )  # Short duration for immediate application
+            trajectory_goal.trajectory.points = [point]
+            # Initialize action client and wait for server
+            client.send_goal(trajectory_goal)
+        for client in self.traj_action_clients:
+            client.wait_for_result()  # Wait for trajectory to complete
         self._during_servo_off = False
         return self.servo_on_off_server.set_succeeded(ServoOnOffResult())
 
@@ -762,13 +792,15 @@ class RCB4ROSBridge:
             pressure = serial_call_with_retry(self.interface.read_pressure_sensor, idx)
             if pressure is None:
                 continue
-            self.recent_pressures.append(pressure)
+            if idx not in self.recent_pressures:
+                self.recent_pressures[idx] = deque([], maxlen=1 * int(self.hz))
+            self.recent_pressures[idx].append(pressure)
             self._pressure_publisher_dict[key].publish(
                 std_msgs.msg.Float32(data=pressure)
             )
             # Publish average pressure (noise removed pressure)
             self._avg_pressure_publisher_dict[key].publish(
-                std_msgs.msg.Float32(data=self.average_pressure)
+                std_msgs.msg.Float32(data=self.average_pressure(idx))
             )
 
     def publish_pressure_control(self):
@@ -776,58 +808,97 @@ class RCB4ROSBridge:
             idx = int(idx)
             msg = PressureControl()
             msg.board_idx = idx
-            msg.start_pressure = self.pressure_control_state[f"{idx}"]["start_pressure"]
-            msg.stop_pressure = self.pressure_control_state[f"{idx}"]["stop_pressure"]
-            msg.release = self.pressure_control_state[f"{idx}"]["release"]
+            msg.trigger_pressure = self.pressure_control_state[f"{idx}"]["trigger_pressure"]
+            msg.target_pressure = self.pressure_control_state[f"{idx}"]["target_pressure"]
+            msg.release_duration = self.pressure_control_state[f"{idx}"]["release_duration"]
             self.pressure_control_pub.publish(msg)
 
-    def pressure_control_loop(self, idx, start_pressure, stop_pressure, release):
-        self.pressure_control_state[f"{idx}"]["start_pressure"] = start_pressure
-        self.pressure_control_state[f"{idx}"]["stop_pressure"] = stop_pressure
-        self.pressure_control_state[f"{idx}"]["release"] = release
-        if self.pressure_control_running is False:
+    def pressure_control_loop(self, idx, trigger_pressure, target_pressure, release_duration):
+        self.pressure_control_state[f"{idx}"]["trigger_pressure"] = trigger_pressure
+        self.pressure_control_state[f"{idx}"]["target_pressure"] = target_pressure
+        self.pressure_control_state[f"{idx}"]["release_duration"] = release_duration
+        if self.pressure_control_running[idx] is False:
             return
-        if release is True:
-            self.release_vacuum(idx)
-            self.pressure_control_running = False
+        if release_duration > 0:
+            self.air_disconnect_lock.release(idx)
+            self.pump_on_lock.release(idx)
+            rospy.loginfo(f"[Release air work] id: {idx}")
+            self.release_air_work(idx, release_duration)
+            self.pressure_control_running[idx] = False
             return
-        vacuum_on = False
-        while self.pressure_control_running:
-            pressure = self.average_pressure
+        air_work_on = False
+        while self.pressure_control_running[idx]:
+            pressure = self.average_pressure(idx)
             if pressure is None:
-                rospy.sleep()
-            if vacuum_on is False and pressure > start_pressure:
-                vacuum_on = self.start_vacuum(idx)
-            if vacuum_on and pressure <= stop_pressure:
-                vacuum_on = not self.stop_vacuum(idx)
+                rospy.sleep(0.1)
+                continue
+            if air_work_on is False and pressure > trigger_pressure:
+                self.air_disconnect_lock.acquire(idx)
+                self.pump_on_lock.acquire(idx)
+                rospy.loginfo(f"[Start air work] id: {idx}")
+                air_work_on = self.start_air_work(idx)
+            if air_work_on and pressure <= target_pressure:
+                self.air_disconnect_lock.release(idx)
+                self.pump_on_lock.release(idx)
+                rospy.loginfo(f"[Stop air work] id: {idx}")
+                air_work_on = not self.stop_air_work(idx)
             rospy.sleep(0.1)
 
-    @property
-    def average_pressure(self):
-        n = len(self.recent_pressures)
+    def average_pressure(self, idx):
+        n = len(self.recent_pressures[idx])
         if n == 0:
             return None
-        return sum(self.recent_pressures) / n
+        return sum(self.recent_pressures[idx]) / n
 
-    def release_vacuum(self, idx):
+    def stop_pump(self):
+        """Stop pump when all threads do not need pump-on
+
+        """
+        self.pump_on_lock.wait_for_all_released()
+        return self.interface.stop_pump()
+
+    def start_pump(self):
+        """Start pump when all threads do not need pump-off
+
+        """
+        self.pump_off_lock.wait_for_all_released()
+        return self.interface.start_pump()
+
+    def open_air_connect_valve(self):
+        """Open air connect valve when all threads do not need valve-close
+
+        """
+        self.air_disconnect_lock.wait_for_all_released()
+        return self.interface.open_air_connect_valve()
+
+    def close_air_connect_valve(self):
+        """Close air connect valve when all threads do not need valve-open
+
+        """
+        self.air_connect_lock.wait_for_all_released()
+        return self.interface.close_air_connect_valve()
+
+    def release_air_work(self, idx, release_duration):
         """Connect work to air.
 
-        After 1s, all valves are closed and pump is stopped.
+        After release_duration[s], all valves are closed and pump is stopped.
         """
         if not self.interface.is_opened():
             return False
-        ret = serial_call_with_retry(self.interface.stop_pump, max_retries=3)
+        ret = serial_call_with_retry(self.stop_pump, max_retries=3)
         if ret is None:
             return False
         ret = serial_call_with_retry(self.interface.open_work_valve, idx, max_retries=3)
         if ret is None:
             return False
-        ret = serial_call_with_retry(self.interface.open_air_connect_valve,
+        self.air_connect_lock.acquire(idx)
+        ret = serial_call_with_retry(self.open_air_connect_valve,
                                      max_retries=3)
         if ret is None:
             return False
-        rospy.sleep(1)  # Wait until air is completely released
-        ret = serial_call_with_retry(self.interface.close_air_connect_valve,
+        rospy.sleep(release_duration)  # Wait until air is completely released
+        self.air_connect_lock.release(idx)
+        ret = serial_call_with_retry(self.close_air_connect_valve,
                                      max_retries=3)
         if ret is None:
             return False
@@ -837,35 +908,35 @@ class RCB4ROSBridge:
             return False
         return True
 
-    def start_vacuum(self, idx):
-        """Vacuum air in work"""
+    def start_air_work(self, idx):
+        """Start air work"""
         if not self.interface.is_opened():
             return False
 
-        ret = serial_call_with_retry(self.interface.start_pump, max_retries=3)
+        ret = serial_call_with_retry(self.start_pump, max_retries=3)
         if ret is None:
             return False
         ret = serial_call_with_retry(self.interface.open_work_valve, idx, max_retries=3)
         if ret is None:
             return False
-        ret = serial_call_with_retry(self.interface.close_air_connect_valve, max_retries=3)
+        ret = serial_call_with_retry(self.close_air_connect_valve, max_retries=3)
         if ret is None:
             return False
         return True
 
-    def stop_vacuum(self, idx):
-        """Seal air in work"""
+    def stop_air_work(self, idx):
+        """Stop air work"""
         if not self.interface.is_opened():
             return False
 
         ret = serial_call_with_retry(self.interface.close_work_valve, idx, max_retries=3)
         if ret is None:
             return False
-        ret = serial_call_with_retry(self.interface.close_air_connect_valve, max_retries=3)
+        ret = serial_call_with_retry(self.close_air_connect_valve, max_retries=3)
         if ret is None:
             return False
         rospy.sleep(0.3)  # Wait for valve to close completely
-        ret = serial_call_with_retry(self.interface.stop_pump, max_retries=3)
+        ret = serial_call_with_retry(self.stop_pump, max_retries=3)
         if ret is None:
             return False
         return True
@@ -873,29 +944,29 @@ class RCB4ROSBridge:
     def pressure_control_callback(self, goal):
         if not self.interface.is_opened():
             return
-        if hasattr(self, 'pressure_control_thread') and self.pressure_control_thread is not None:
+        idx = goal.board_idx
+        if idx in self.pressure_control_thread:
             # Finish existing thread
-            self.pressure_control_running = False
+            self.pressure_control_running[idx] = False
             # Wait for the finishing process complete
-            while self.pressure_control_thread.is_alive() is True:
+            while self.pressure_control_thread[idx].is_alive() is True:
                 rospy.sleep(0.1)
         # Set new thread
-        idx = goal.board_idx
-        start_pressure = goal.start_pressure
-        stop_pressure = goal.stop_pressure
-        release = goal.release
-        self.pressure_control_running = True
-        self.pressure_control_thread = threading.Thread(
+        trigger_pressure = goal.trigger_pressure
+        target_pressure = goal.target_pressure
+        release_duration = goal.release_duration
+        self.pressure_control_running[idx] = True
+        self.pressure_control_thread[idx] = threading.Thread(
             target=self.pressure_control_loop,
             args=(
                 idx,
-                start_pressure,
-                stop_pressure,
-                release,
+                trigger_pressure,
+                target_pressure,
+                release_duration,
             ),
             daemon=True,
         )
-        self.pressure_control_thread.start()
+        self.pressure_control_thread[idx].start()
         return self.pressure_control_server.set_succeeded(PressureControlResult())
 
     def publish_imu_message(self):
@@ -1027,11 +1098,7 @@ class RCB4ROSBridge:
         rospy.loginfo("Reinitialize interface.")
         self.unsubscribe()
         self.interface.close()
-        self.interface = self.setup_interface()
-        if self.read_current:
-            serial_call_with_retry(self.interface.switch_reading_servo_current, enable=True, max_retries=3)
-        if self.read_temperature:
-            serial_call_with_retry(self.interface.switch_reading_servo_temperature, enable=True, max_retries=3)
+        self.setup_interface_and_servo_parameters()
         self.subscribe()
         rospy.loginfo("Successfully reinitialized interface.")
 

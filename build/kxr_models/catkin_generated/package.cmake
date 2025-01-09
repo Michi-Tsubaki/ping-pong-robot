@@ -1,5 +1,5 @@
 set(_CATKIN_CURRENT_PACKAGE "kxr_models")
-set(kxr_models_VERSION "0.0.5")
+set(kxr_models_VERSION "0.0.8")
 set(kxr_models_MAINTAINER " <yanokura@jsk.imi.i.u-tokyo.ac.jp>")
 set(kxr_models_PACKAGE_FORMAT "2")
 set(kxr_models_BUILD_DEPENDS "roslaunch" "robot_state_publisher" "rviz" "joint_state_publisher_gui" "gazebo" "urdfdom_py")

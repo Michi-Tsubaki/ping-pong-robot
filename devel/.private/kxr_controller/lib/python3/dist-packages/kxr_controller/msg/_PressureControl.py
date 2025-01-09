@@ -8,16 +8,24 @@ import struct
 
 
 class PressureControl(genpy.Message):
-  _md5sum = "61bcf3809e7f0e409628cc484675109d"
+  _md5sum = "a86a02fea7b03d3f9f0d8e33715d5ad0"
   _type = "kxr_controller/PressureControl"
   _has_header = False  # flag to mark the presence of a Header object
-  _full_text = """uint16 board_idx  # Do not use board id? (Currently, bus-connected air board is not supported)
-float32 start_pressure  # Threshold [kPa] to start pump (Currently, pressurization is not supported)
-float32 stop_pressure  # Threshold [kPa] to stop pump (Currently, pressurization is not supported)
-bool release  # Set true to release air by opening valve.
+  _full_text = """uint16 board_idx # ICS controller ID (2n or 2n+1)
+
+# Pressure control parameters
+# If trigger_pressure < target_pressure: pressurization mode
+# If trigger_pressure > target_pressure: depressurization mode
+float32 trigger_pressure # Pressure threshold to start valve operation [kPa]
+float32 target_pressure # Desired pressure level for optimal operation [kPa]
+
+# Air release parameters
+# If the value is zero, pressure control is performed based on trigger_pressure and target_pressure
+# If the value is greater than zero, solenoid valves opens for release_duration[s] and the work conducts to the atmosphere
+float32 release_duration # Duration for atmospheric venting [s]
 """
-  __slots__ = ['board_idx','start_pressure','stop_pressure','release']
-  _slot_types = ['uint16','float32','float32','bool']
+  __slots__ = ['board_idx','trigger_pressure','target_pressure','release_duration']
+  _slot_types = ['uint16','float32','float32','float32']
 
   def __init__(self, *args, **kwds):
     """
@@ -27,7 +35,7 @@ bool release  # Set true to release air by opening valve.
     changes.  You cannot mix in-order arguments and keyword arguments.
 
     The available fields are:
-       board_idx,start_pressure,stop_pressure,release
+       board_idx,trigger_pressure,target_pressure,release_duration
 
     :param args: complete set of field values, in .msg order
     :param kwds: use keyword arguments corresponding to message field names
@@ -38,17 +46,17 @@ bool release  # Set true to release air by opening valve.
       # message fields cannot be None, assign default values for those that are
       if self.board_idx is None:
         self.board_idx = 0
-      if self.start_pressure is None:
-        self.start_pressure = 0.
-      if self.stop_pressure is None:
-        self.stop_pressure = 0.
-      if self.release is None:
-        self.release = False
+      if self.trigger_pressure is None:
+        self.trigger_pressure = 0.
+      if self.target_pressure is None:
+        self.target_pressure = 0.
+      if self.release_duration is None:
+        self.release_duration = 0.
     else:
       self.board_idx = 0
-      self.start_pressure = 0.
-      self.stop_pressure = 0.
-      self.release = False
+      self.trigger_pressure = 0.
+      self.target_pressure = 0.
+      self.release_duration = 0.
 
   def _get_types(self):
     """
@@ -63,7 +71,7 @@ bool release  # Set true to release air by opening valve.
     """
     try:
       _x = self
-      buff.write(_get_struct_H2fB().pack(_x.board_idx, _x.start_pressure, _x.stop_pressure, _x.release))
+      buff.write(_get_struct_H3f().pack(_x.board_idx, _x.trigger_pressure, _x.target_pressure, _x.release_duration))
     except struct.error as se: self._check_types(struct.error("%s: '%s' when writing '%s'" % (type(se), str(se), str(locals().get('_x', self)))))
     except TypeError as te: self._check_types(ValueError("%s: '%s' when writing '%s'" % (type(te), str(te), str(locals().get('_x', self)))))
 
@@ -78,9 +86,8 @@ bool release  # Set true to release air by opening valve.
       end = 0
       _x = self
       start = end
-      end += 11
-      (_x.board_idx, _x.start_pressure, _x.stop_pressure, _x.release,) = _get_struct_H2fB().unpack(str[start:end])
-      self.release = bool(self.release)
+      end += 14
+      (_x.board_idx, _x.trigger_pressure, _x.target_pressure, _x.release_duration,) = _get_struct_H3f().unpack(str[start:end])
       return self
     except struct.error as e:
       raise genpy.DeserializationError(e)  # most likely buffer underfill
@@ -94,7 +101,7 @@ bool release  # Set true to release air by opening valve.
     """
     try:
       _x = self
-      buff.write(_get_struct_H2fB().pack(_x.board_idx, _x.start_pressure, _x.stop_pressure, _x.release))
+      buff.write(_get_struct_H3f().pack(_x.board_idx, _x.trigger_pressure, _x.target_pressure, _x.release_duration))
     except struct.error as se: self._check_types(struct.error("%s: '%s' when writing '%s'" % (type(se), str(se), str(locals().get('_x', self)))))
     except TypeError as te: self._check_types(ValueError("%s: '%s' when writing '%s'" % (type(te), str(te), str(locals().get('_x', self)))))
 
@@ -110,9 +117,8 @@ bool release  # Set true to release air by opening valve.
       end = 0
       _x = self
       start = end
-      end += 11
-      (_x.board_idx, _x.start_pressure, _x.stop_pressure, _x.release,) = _get_struct_H2fB().unpack(str[start:end])
-      self.release = bool(self.release)
+      end += 14
+      (_x.board_idx, _x.trigger_pressure, _x.target_pressure, _x.release_duration,) = _get_struct_H3f().unpack(str[start:end])
       return self
     except struct.error as e:
       raise genpy.DeserializationError(e)  # most likely buffer underfill
@@ -121,9 +127,9 @@ _struct_I = genpy.struct_I
 def _get_struct_I():
     global _struct_I
     return _struct_I
-_struct_H2fB = None
-def _get_struct_H2fB():
-    global _struct_H2fB
-    if _struct_H2fB is None:
-        _struct_H2fB = struct.Struct("<H2fB")
-    return _struct_H2fB
+_struct_H3f = None
+def _get_struct_H3f():
+    global _struct_H3f
+    if _struct_H3f is None:
+        _struct_H3f = struct.Struct("<H3f")
+    return _struct_H3f

@@ -1,5 +1,5 @@
 set(kxr_models_SETUP_PY_SETUP_MODULE "setuptools")
-set(kxr_models_SETUP_PY_VERSION "0.0.5")
+set(kxr_models_SETUP_PY_VERSION "0.0.8")
 set(kxr_models_SETUP_PY_SCRIPTS "")
 set(kxr_models_SETUP_PY_PACKAGES "kxr_models")
 set(kxr_models_SETUP_PY_PACKAGE_DIRS "python/kxr_models")
