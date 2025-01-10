@@ -1,6 +1,6 @@
 <launch>
 
-  <arg name="queue_size" default="4" />
+  <arg name="queue_size" default="5" />
   <arg name="manager" default="/camera/realsense2_camera_manager" />
   <arg name="input_image" default="/camera/color/image_raw" />  
 
