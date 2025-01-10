@@ -11,12 +11,12 @@
   <!--   <remap from="image" to="$(arg input_image)" /> -->
   <!-- </node> -->
 
-  <arg name="h_limit_max" default="15" doc="The maximum allowed field value Hue" />
+  <arg name="h_limit_max" default="17" doc="The maximum allowed field value Hue" />
   <arg name="h_limit_min" default="353" doc="The minimum allowed field value Hue" />
   <arg name="s_limit_max" default="255" doc="The maximum allowed field value Saturation" />
-  <arg name="s_limit_min" default="100" doc="The minimum allowed field value Saturation" />
+  <arg name="s_limit_min" default="25" doc="The minimum allowed field value Saturation" />
   <arg name="v_limit_max" default="255" doc="The maximum allowed field value Value" />
-  <arg name="v_limit_min" default="100" doc="The minimum allowed field value Value" />
+  <arg name="v_limit_min" default="25" doc="The minimum allowed field value Value" />
 
   <!-- color_filter.cpp  -->
   <node name="hsv_color_filter" pkg="opencv_apps" type="hsv_color_filter" output="screen">

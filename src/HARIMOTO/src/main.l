@@ -58,12 +58,12 @@ The concept of this algorithm is shown on the issue (https://github.com/Michi-Ts
 
 ;; As for FAR ...
 ;; この範囲にボールが来ると認識された時，sweetスポットに移動する
-(setq *FAR-judge-x-min-lim* -0.035) ;; 左に-5cm ;; 左右方向 (左ー，右＋)
-(setq *FAR-judge-x-max-lim* 0.035)  ;; 右に 5cm
+(setq *FAR-judge-x-min-lim* -0.1) ;; 左に-5cm ;; 左右方向 (左ー，右＋)
+(setq *FAR-judge-x-max-lim* 0.1)  ;; 右に 5cm
 (setq *FAR-judge-y-min-lim* -0.07) ;; 上に 7cm ;; 上下方向 (上ー，下＋)
 (setq *FAR-judge-y-max-lim* 0.07)  ;; 下に 7cm
 (setq *FAR-judge-z-min-lim* 0.25)  ;; 手前25cm ;; 奥行き方向
-(setq *FAR-judeg-z-max-lim* 0.30)  ;; 奥に30cm
+(setq *FAR-judge-z-max-lim* 0.30)  ;; 奥に30cm
 ;; FARのsweetスポット
 (setq *FAR-sweet-x-min-lim* -0.04) ;; 左に-5cm ;; 左右方向 (左ー，右＋)
 (setq *FAR-sweet-x-max-lim* 0.04)  ;; 右に 5cm
@@ -112,6 +112,7 @@ The concept of this algorithm is shown on the issue (https://github.com/Michi-Ts
 (defvar *prev-ball-ypos* nil)
 (defvar *prev-ball-zpos* nil)
 (defvar *prev-ball-time* nil)
+
 (defvar vx nil)
 (defvar vy nil)
 (defvar vz nil)
@@ -122,6 +123,11 @@ The concept of this algorithm is shown on the issue (https://github.com/Michi-Ts
 (defvar *predicted-y* nil)
 (defvar *predicted-z* nil)  ;; これは常に*ball-z-max-lim*と同じ値
 (defvar *time-to-arrival* nil)
+(defvar *FAR-predicted-x* nil)
+(defvar *FAR-predicted-y* nil)
+(defvar *FAR-predicted-z* nil)  ;; これは常に*ball-z-max-lim*と同じ値
+(defvar *FAR-time-to-arrival* nil)
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Recognition Function (認識系);;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun search-ball()
@@ -129,6 +135,7 @@ The concept of this algorithm is shown on the issue (https://github.com/Michi-Ts
   (ros::subscribe "/centroid_publisher/output/point" geometry_msgs::PointStamped #'search-ball-cb 1)
   ;; メッセージ型をPoseStampedに変更
   (ros::advertise "/ball_prediction" geometry_msgs::PoseStamped 1)
+  (ros::advertise "/far_ball_prediction" geometry_msgs::PoseStamped 1)
   (ros::spin-once)
   )
 
@@ -166,6 +173,10 @@ The concept of this algorithm is shown on the issue (https://github.com/Michi-Ts
             (if (>= (abs dx) 0.001) (setq vx (* (/ dx dt) 1000000000)))
             (if (>= (abs dy) 0.001) (setq vy (* (/ dy dt) 1000000000)))
             (if (>= (abs dz) 0.001) (setq vz (* (/ dz dt) 1000000000)))
+	    ;; 速度のフィルタリング
+	    (setq vx (filter-velocity vx 0.01))
+	    (setq vy (filter-velocity vy 0.01))
+	    (setq vz (filter-velocity vz 0.01))
             (ros::ros-info "ball velocity: vx:~A vy:~A vz:~A" vx vy vz)
 	    ;; 速度リストを更新し、3回分データが揃ったら予測を実行
             (if (update-velocity-list vx vy vz)
@@ -210,59 +221,127 @@ The concept of this algorithm is shown on the issue (https://github.com/Michi-Ts
   (setq *prev-ball-time* time)
   )
 
-;; 速度リストを更新し、2回分のデータが揃っているかを確認する関数
+(defun filter-velocity (v threshold)
+  (if (< (abs v) threshold)
+      0
+      v))
+
+;; 速度リストを更新し、3回分のデータが揃っているかを確認する関数
 (defun update-velocity-list (vx vy vz)
   (if (< vz 0) ;; zの速度が負（接近中）の場合のみ
       (progn
         (push (list vx vy vz) *velocity-list*)
-        (if (> (length *velocity-list*) 2)
-            (setq *velocity-list* (subseq *velocity-list* 0 1)))
-        (= (length *velocity-list*) 1))
+        (if (> (length *velocity-list*) 4)
+            (setq *velocity-list* (subseq *velocity-list* 0 3)))
+        (= (length *velocity-list*) 3))
     (progn
       (setq *velocity-list* nil)
-      nil)))
+      nil)
+    )
+  )
 
 
 ;; 接近予測
+(defun reset-predictions ()
+  (setq *predicted-x* nil)
+  (setq *predicted-y* nil)
+  (setq *predicted-z* nil)
+  (setq *time-to-arrival* nil)
+  (setq *FAR-predicted-x* nil)
+  (setq *FAR-predicted-y* nil)
+  (setq *FAR-predicted-z* nil)
+  (setq *FAR-time-to-arrival* nil))
+
 (defun predict-ball-arrival (current-x current-y current-z)
-  (if (and *velocity-list* (= (length *velocity-list*) 1))
-      (let* ((avg-vx (/ (apply #'+ (mapcar #'car *velocity-list*)) 1))
-             (avg-vy (/ (apply #'+ (mapcar #'cadr *velocity-list*)) 1))
-             (avg-vz (/ (apply #'+ (mapcar #'caddr *velocity-list*)) 1))
-             (time-to-arrival (abs (/ (- current-z *ball-z-min-lim*) avg-vz)))
-             (predicted-x (+ current-x (* avg-vx time-to-arrival)))
-             (predicted-y (+ current-y (* avg-vy time-to-arrival))))
-        
-        ;; グローバル変数に予測結果を保存
-        (setq *predicted-x* predicted-x)
-        (setq *predicted-y* predicted-y)
-        (setq *predicted-z* *ball-z-min-lim*)
-        (setq *time-to-arrival* time-to-arrival)
-        
-        (ros::ros-info "Ball Arrival Prediction:")
-        (ros::ros-info "Time to arrival: ~A seconds" time-to-arrival)
-        (ros::ros-info "Predicted position - X: ~A, Y: ~A, Z: ~A"
-                      predicted-x predicted-y *ball-z-min-lim*)
+  (when (or (not vz) (= vz 0))  ;; 0除算防止
+    (reset-predictions)
+    (return-from predict-ball-arrival nil))
+    
+  (if (and *velocity-list* (= (length *velocity-list*) 3))
+      (progn
+        (let* ((avg-vx (/ (apply #'+ (mapcar #'car *velocity-list*)) 3))
+               (avg-vy (/ (apply #'+ (mapcar #'cadr *velocity-list*)) 3))
+               (avg-vz (/ (apply #'+ (mapcar #'caddr *velocity-list*)) 3))
+               ;; 平均を使わない方
+               (time-to-arrival (abs (/ (- current-z *ball-z-min-lim*) vz)))
+               (predicted-x (+ current-x (* vx time-to-arrival)))
+               (predicted-y (+ current-y (* vy time-to-arrival)))
+               ;; 平均を使う方
+               (FAR-time-to-arrival (abs (/ (- current-z *ball-z-min-lim*) avg-vz)))
+               (FAR-predicted-x (+ current-x (* avg-vx time-to-arrival)))
+               (FAR-predicted-y (+ current-y (* avg-vy time-to-arrival))))
+          
+          ;; グローバル変数に予測結果を保存
+          (setq *predicted-x* predicted-x)
+          (setq *predicted-y* predicted-y)
+          (setq *predicted-z* *ball-z-min-lim*)
+          (setq *time-to-arrival* time-to-arrival)
+          (setq *FAR-predicted-x* FAR-predicted-x)
+          (setq *FAR-predicted-y* FAR-predicted-y)
+          (setq *FAR-predicted-z* *ball-z-min-lim*)
+          (setq *FAR-time-to-arrival* FAR-time-to-arrival)
+          
+          (ros::ros-info "Ball Arrival Prediction:")
+          (ros::ros-info "Time to arrival: SIMPLE: ~A seconds, AVG: ~A seconds" 
+                        time-to-arrival FAR-time-to-arrival)
+          (ros::ros-info "Predicted position - X: ~A, Y: ~A, Z: ~A"
+                        predicted-x predicted-y *ball-z-min-lim*)
+          (ros::ros-info "FAR Predicted position - X: ~A, Y: ~A, Z: ~A"
+                        FAR-predicted-x FAR-predicted-y *ball-z-min-lim*)
 
-        ;; PoseStampedメッセージを作成してパブリッシュ
-        (let ((msg (instance geometry_msgs::PoseStamped :init)))
-          (send msg :header :stamp (ros::time-now))
-          (send msg :header :frame_id "camera_link")
-          (send (send (send msg :pose) :position) :x predicted-x)
-          (send (send (send msg :pose) :position) :y predicted-y)
-          (send (send (send msg :pose) :position) :z *ball-z-min-lim*)
-          (send (send (send msg :pose) :orientation) :w time-to-arrival)
-          (ros::publish "/ball_prediction" msg))
+          ;; PoseStamped MSGを作成してPublish
+          (let ((msg (instance geometry_msgs::PoseStamped :init)))
+            (send msg :header :stamp (ros::time-now))
+            (send msg :header :frame_id "camera_link")
+            (send (send (send msg :pose) :position) :x predicted-x)
+            (send (send (send msg :pose) :position) :y predicted-y)
+            (send (send (send msg :pose) :position) :z *ball-z-min-lim*)
+            (send (send (send msg :pose) :orientation) :w time-to-arrival)
+            (ros::publish "/ball_prediction" msg))
+          
+          ;; FARの方もPublish
+          (let ((msg (instance geometry_msgs::PoseStamped :init)))
+            (send msg :header :stamp (ros::time-now))
+            (send msg :header :frame_id "camera_link")
+            (send (send (send msg :pose) :position) :x FAR-predicted-x)
+            (send (send (send msg :pose) :position) :y FAR-predicted-y)
+            (send (send (send msg :pose) :position) :z *ball-z-min-lim*)
+            (send (send (send msg :pose) :orientation) :w FAR-time-to-arrival)
+            (ros::publish "/far_ball_prediction" msg))
 
-        (list predicted-x predicted-y time-to-arrival))
-    (progn
-      (ros::ros-info "Not enough velocity data for prediction")
-      ;; 予測できない場合はグローバル変数をnilに設定
-      (setq *predicted-x* nil)
-      (setq *predicted-y* nil)
-      (setq *predicted-z* nil)
-      (setq *time-to-arrival* nil)
-      nil)))
+          (list FAR-predicted-x FAR-predicted-y FAR-time-to-arrival)))
+      
+      (progn  ;; velocity-listが無い場合
+        (if (and vx vy vz)  ;; 速度データが有効な場合
+            (let* ((time-to-arrival (abs (/ (- current-z *ball-z-min-lim*) vz)))
+                   (predicted-x (+ current-x (* vx time-to-arrival)))
+                   (predicted-y (+ current-y (* vy time-to-arrival))))	
+              ;; グローバル変数に予測結果を保存
+              (setq *predicted-x* predicted-x)
+              (setq *predicted-y* predicted-y)
+              (setq *predicted-z* *ball-z-min-lim*)
+              (setq *time-to-arrival* time-to-arrival)
+              
+              (ros::ros-info "Ball Arrival Prediction:")
+              (ros::ros-info "Time to arrival: SIMPLE: ~A seconds" time-to-arrival)
+              (ros::ros-info "Predicted position - X: ~A, Y: ~A, Z: ~A"
+                            predicted-x predicted-y *ball-z-min-lim*)
+              
+              ;; PoseStamped MSGを作成してPublish
+              (let ((msg (instance geometry_msgs::PoseStamped :init)))
+                (send msg :header :stamp (ros::time-now))
+                (send msg :header :frame_id "camera_link")
+                (send (send (send msg :pose) :position) :x predicted-x)
+                (send (send (send msg :pose) :position) :y predicted-y)
+                (send (send (send msg :pose) :position) :z *ball-z-min-lim*)
+                (send (send (send msg :pose) :orientation) :w time-to-arrival)
+                (ros::publish "/ball_prediction" msg))
+              
+              (list predicted-x predicted-y time-to-arrival))
+            ;; 速度データが無効な場合
+            (progn
+              (reset-predictions)
+              nil)))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Falling Point Estimation (ボールの落下予測地点の発見);;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun falling-estimation()
@@ -289,6 +368,7 @@ The concept of this algorithm is shown on the issue (https://github.com/Michi-Ts
       t
     nil)
   )
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; AUDIO Function (音声に関する関数);;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun chorei() ;;「チョレイ」と言う
@@ -503,6 +583,16 @@ The concept of this algorithm is shown on the issue (https://github.com/Michi-Ts
     )
   )
 
+
+;;Debug
+(defun log-ball-state ()
+  (format t "==== Ball State ====~%")
+  (format t "Position: (x:~A, y:~A, z:~A)~%" *ball-xpos-tmp* *ball-ypos-tmp* *ball-zpos-tmp*)
+  (format t "Velocity: (vx:~A, vy:~A, vz:~A)~%" vx vy vz)
+  (format t "Predictions: ~%")
+  (format t "  MIDDLE: (x:~A, y:~A, t:~A)~%" *predicted-x* *predicted-y* *time-to-arrival*)
+  (format t "  FAR: (x:~A, y:~A, t:~A)~%" *FAR-predicted-x* *FAR-predicted-y* *FAR-time-to-arrival*)
+  (format t "==================~%"))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Main (メインコード)
 
@@ -543,25 +633,36 @@ The concept of this algorithm is shown on the issue (https://github.com/Michi-Ts
  (setq *ball-ypos* 0) ;; 上下
  (setq *ball-zpos* 0) ;; 奥行き
  (setq *ball-time* 0) ;; 時間
- (let ((start-time-x (get-universal-time))
-       (start-time-y (get-universal-time))
-       (start-time-z (get-universal-time))
-       (last-x *ball-xpos-tmp*)
-       (last-y *ball-ypos-tmp*)
-       (last-z *ball-zpos-tmp*))
+(let ((start-time-x (get-universal-time))
+      (start-time-y (get-universal-time))
+      (start-time-z (get-universal-time))
+      (start-time-pred-x (get-universal-time))
+      (start-time-pred-y (get-universal-time))
+      (start-time-pred-time (get-universal-time))
+      (start-time-far-pred-x (get-universal-time))
+      (start-time-far-pred-y (get-universal-time))
+      (start-time-far-pred-time (get-universal-time))
+      (last-x *ball-xpos-tmp*)
+      (last-y *ball-ypos-tmp*)
+      (last-z *ball-zpos-tmp*)
+      (last-pred-x *predicted-x*)
+      (last-pred-y *predicted-y*)
+      (last-pred-time *time-to-arrival*)
+      (last-far-pred-x *FAR-predicted-x*)
+      (last-far-pred-y *FAR-predicted-y*)
+      (last-far-pred-time *FAR-time-to-arrival*))
 
-   (while *ball-lost* ;; *ball-lost*がtrueの時探索する
-     (ros::spin-once) ;; Obtain Ball Position Information
+   (while *ball-lost* 
+     (ros::spin-once)
      (setq *ball-xpos-tmp* *ball-xpos*)
      (setq *ball-ypos-tmp* *ball-ypos*)
      (setq *ball-zpos-tmp* *ball-zpos*)
 
-     ;; xの値が一定時間以上*timer*更新されない時，その値は無効なのでtmpから削除する
-     ;; Monitor x position
+     ;; ボール位置のモニタリング（既存のコード）
      (if (not (eq last-x *ball-xpos-tmp*))
-	 (progn 
-	   (setq start-time-x (get-universal-time))
-	   (setq last-x *ball-xpos-tmp*)))
+         (progn 
+           (setq start-time-x (get-universal-time))
+           (setq last-x *ball-xpos-tmp*)))
      (when (>= (- (get-universal-time) start-time-x) *timer*)
        (setq *ball-xpos-tmp* 0))
      ;; Monitor y position
@@ -578,6 +679,51 @@ The concept of this algorithm is shown on the issue (https://github.com/Michi-Ts
 	   (setq last-z *ball-zpos-tmp*)))
      (when (>= (- (get-universal-time) start-time-z) *timer*)
        (setq *ball-zpos-tmp* 0))
+     ;; MIDDLE予測のモニタリング
+     (if (not (eq last-pred-x *predicted-x*))
+         (progn
+           (setq start-time-pred-x (get-universal-time))
+           (setq last-pred-x *predicted-x*)))
+     (when (>= (- (get-universal-time) start-time-pred-x) *timer*)
+       (setq *predicted-x* nil))
+
+     (if (not (eq last-pred-y *predicted-y*))
+         (progn
+           (setq start-time-pred-y (get-universal-time))
+           (setq last-pred-y *predicted-y*)))
+     (when (>= (- (get-universal-time) start-time-pred-y) *timer*)
+       (setq *predicted-y* nil))
+
+     ;; FAR予測のモニタリング
+     (if (not (eq last-far-pred-x *FAR-predicted-x*))
+         (progn
+           (setq start-time-far-pred-x (get-universal-time))
+           (setq last-far-pred-x *FAR-predicted-x*)))
+     (when (>= (- (get-universal-time) start-time-far-pred-x) *timer*)
+       (setq *FAR-predicted-x* nil))
+
+     (if (not (eq last-far-pred-y *FAR-predicted-y*))
+         (progn
+           (setq start-time-far-pred-y (get-universal-time))
+           (setq last-far-pred-y *FAR-predicted-y*)))
+     (when (>= (- (get-universal-time) start-time-far-pred-y) *timer*)
+       (setq *FAR-predicted-y* nil))
+
+          ;; time-to-arrivalのモニタリング
+     (if (not (eq last-pred-time *time-to-arrival*))
+         (progn
+           (setq start-time-pred-time (get-universal-time))
+           (setq last-pred-time *time-to-arrival*)))
+     (when (>= (- (get-universal-time) start-time-pred-time) *timer*)
+       (setq *time-to-arrival* nil))
+
+     ;; FAR-time-to-arrivalのモニタリング
+     (if (not (eq last-far-pred-time *FAR-time-to-arrival*))
+         (progn
+           (setq start-time-far-pred-time (get-universal-time))
+           (setq last-far-pred-time *FAR-time-to-arrival*)))
+     (when (>= (- (get-universal-time) start-time-far-pred-time) *timer*)
+       (setq *FAR-time-to-arrival* nil))
 
      ;; 以上でボールの位置の算出は終了した．
 
@@ -587,7 +733,29 @@ The concept of this algorithm is shown on the issue (https://github.com/Michi-Ts
       ;;FAR ;;予測してかつ動く
       ((> *ball-zpos-tmp* *FAR-min-lim*)
        (progn
-	 ))
+	 (if (and *FAR-predicted-x* *FAR-predicted-y* *FAR-time-to-arrival*  ; 予測値が存在する
+		  (< *FAR-time-to-arrival* 0.4)                      ; 到達時間が0.4秒以内
+		  (> *FAR-predicted-x* *FAR-judge-x-min-lim*)             ; x方向の予測位置が範囲内
+		  (< *FAR-predicted-x* *FAR-judge-x-max-lim*)
+		  (> *FAR-predicted-y* *FAR-judge-y-min-lim*)             ; y方向の予測位置が範囲内
+		  (< *FAR-predicted-y* *FAR-judge-y-max-lim*))
+	     (progn
+	       (setq *ball-lost* nil)
+	       ;;(move-to 0 *FAR-predicted-x*) ;; ボールの着地予想地点に移動する
+	       (when (> *FAR-time-to-arrival* 0.3)
+		 (move-to 0 (* (- 0 *FAR-predicted-x*) 10))
+		 (ros::duration-sleep (- *FAR-time-to-arrival* 0.3)))
+	       (if (= *hit-mode* 0) (push-hit 0) (drive-hit 0)) ;;打撃
+	       (setq *velocity-list* nil)
+	       (setq *FAR-predicted-x* nil)
+	       (setq *FAR-predicted-y* nil)
+	       (setq *FAR-predicted-z* nil)
+	       (format t "FAR predicted! ~%")
+	       (return)
+	       ) ;;progn
+	   ) ;; if
+	 ) ;;progn of cond1
+       ) ;; cond1 終了
       ;;MIDDLE ;;予測するけど動かない
       ((and (> *ball-zpos-tmp* *MIDDLE-min-lim*) (< *ball-zpos-tmp* *MIDDLE-max-lim*))
        (progn
@@ -599,17 +767,16 @@ The concept of this algorithm is shown on the issue (https://github.com/Michi-Ts
 		  (< *predicted-y* *ball-y-max-lim*))
 	     (progn 
 	       (setq *ball-lost* nil)
-	       ;; 予測関連の変数をリセット
-	       (setq *velocity-list* nil)
-	       (setq *predicted-x* nil)
-	       (setq *predicted-y* nil)
-	       (setq *predicted-z* nil)
 	       ;; 到達予測時間後に打つ
 	       (if (> *time-to-arrival* 0.3)
 		   (ros::duration-sleep (- *time-to-arrival* 0.3))
 		 )
+	       (if (= *hit-mode* 0) (push-hit 0) (drive-hit 0)) ;;打撃
+	       ;; 予測関連の変数をリセット
+	       (setq *predicted-x* nil)
+	       (setq *predicted-y* nil)
+	       (setq *predicted-z* nil)
 	       (setq *time-to-arrival* nil)
-	       (push-hit 0)
 	       (format t "predicted! ~%")
 	       (return) ;;whileループを抜ける
 	       ) ;;progn
@@ -620,11 +787,14 @@ The concept of this algorithm is shown on the issue (https://github.com/Michi-Ts
       ((< *ball-zpos-tmp* *NEAR-max-lim*)
        (progn
 	 (if (NEAR-is-sweet *ball-xpos-tmp* *ball-ypos-tmp* *ball-zpos-tmp*)
-	     (progn (setq *ball-lost* nil) (format t "cond3 : ball found ~%")) ;; BAllを発見したことにする．
+	     (progn (setq *ball-lost* nil) (format t "cond3 : ball found ~%")
+		       (if (= *hit-mode* 0) (push-hit 0) (drive-hit 0)) ;;打撃
+) ;; BAllを発見したことにする．
 	   ) ;;if
 	 ) ;;progn
        ) ;;条件3終了
       ) ;;condによる分岐終了
+     (log-ball-state)
      ) ;;while *ball-lost
    (if (= *hit-mode* 0) (push-hit 0) (drive-hit 0)) ;;打撃
  (ros::duration-sleep 2) ;;sleep 2 s ;;(unix:sleep 2) と違ってrosを止めない!
