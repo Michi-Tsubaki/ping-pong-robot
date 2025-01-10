@@ -11,7 +11,7 @@
   <arg name="joint_group_description" default="" />
   <arg name="frame_count" default="1" />
   <arg name="current_limit" default="4.0" doc="current limit in Amp" />
-  <arg name="temperature_limit" default="80" doc="Temperature limit in celsius" />
+  <arg name="temperature_limit" default="65" doc="Temperature limit in celsius" />
   <arg name="read_current" default="false" />
   <arg name="read_temperature" default="false" />
 
