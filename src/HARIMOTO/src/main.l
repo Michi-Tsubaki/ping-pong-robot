@@ -222,9 +222,11 @@ The concept of this algorithm is shown on the issue (https://github.com/Michi-Ts
   )
 
 (defun filter-velocity (v threshold)
-  (if (< (abs v) threshold)
-      0
-      v))
+  (if (and v (numberp v))  ;; vがnilでなく、数値であることを確認
+      (if (< (abs v) threshold)
+          0
+          v)
+    0))  ;; nilや数値以外の場合は0を返す
 
 ;; 速度リストを更新し、3回分のデータが揃っているかを確認する関数
 (defun update-velocity-list (vx vy vz)
@@ -372,11 +374,10 @@ The concept of this algorithm is shown on the issue (https://github.com/Michi-Ts
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; AUDIO Function (音声に関する関数);;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun chorei() ;;「チョレイ」と言う
-  (send *ri* :play-sound #P"~/ping-pong-robot/src/HARIMOTO/srv/chorei.mp3" :wait nil)
-  ) ;;メインでこっちを使う．肉声．
-
-(defun chorei2() ;;「チョレイ」と言う
-  (send *ri* :speak "cho-rei" :wait nil)
+  (ros::spin-once)
+  (if (and (> vz 0) (< vy 0))
+      (send *ri* :play-sound #P"~/ping-pong-robot/src/HARIMOTO/srv/chorei.mp3" :wait  nil)
+    )
   ) ;;音声合成に時間がかかるのかこっちは少し遅くて，使い物にならない．
 
 (defun start-voice() ;;「お相手しましょう」と言う
@@ -468,8 +469,6 @@ The concept of this algorithm is shown on the issue (https://github.com/Michi-Ts
 (defun push-hit(x) ;;バックハンド ;;上はマイナス
   (let ((a (* x 2))
         (b (* x 0.5)))
-(setq *basic-pose-l* #f(12 25 7 38)) ;;下で待機
-
     (setq p1 *basic-pose-l*) ;;12 25 10 40
     (setq p2 (float-vector (+ 2 a) 20 10 (+ 35 b)))
     (setq p3 (float-vector (+ -3 a) 15 10 (+ 30 b)))
@@ -478,15 +477,16 @@ The concept of this algorithm is shown on the issue (https://github.com/Michi-Ts
     (setq p6 (float-vector (+ -20 a) -5 20 (+ 15 b)))
     (setq p7 (float-vector (+ -28 a) -15 25 (+ 10 b)))
     (setq tm 30)
-    (send *ri* :send-cmd-vel-raw 0.008 0 0) ;0.008
+    (send *ri* :send-cmd-vel-raw 0.01 0 0) ;0.008
     (send *ri* :angle-vector-sequence (list p1 p2 p3 p4 p5 p6 p7 p1) (list tm tm tm tm tm tm tm 2000)
           :default-controller 0.001
           :min-time 0.00001
           :minjerk-interpolation nil
           )
     (chorei)
-    (send *ri* :send-cmd-vel-raw -0.008 0 0)
-    ;;(send *ri* :wait-interpolation) ;;if insert this, waitされて卓球のような瞬間的な動きにならない．
+    (ros::duration-sleep 0.5)
+    (send *ri* :send-cmd-vel-raw -0.01 0 0)
+    ;;(send *ri* :wait-interpolation) ;;if insert this, waitれて卓球のような瞬間的な動きにならない．
     (send *irtviewer* :draw-objects)
     ) ;;let
   ) ;;defun
@@ -558,8 +558,8 @@ The concept of this algorithm is shown on the issue (https://github.com/Michi-Ts
 
 ;; ボールの位置(or予測地位)に追従するように機体が動くようにする関数 (Jan 1)
 (defun move-follow(x y)
-  (setq *y-threshold-left* *ball-y-min-lim*)
-  (setq *y-threshold-right* *ball-y-max-lim*)
+  (setq *y-threshold-left* *ball-x-min-lim*)
+  (setq *y-threshold-right* *ball-x-max-lim*)
   (setq *x-threshold-front* *ball-z-min-lim*)
   (setq *x-threshold-back* *ball-z-max-lim*)
   
@@ -742,10 +742,11 @@ The concept of this algorithm is shown on the issue (https://github.com/Michi-Ts
 			 (< *FAR-predicted-y* *FAR-judge-y-max-lim*))
 		    (progn
 		      (setq *ball-lost* nil)
-		      ;;(move-to 0 *FAR-predicted-x*) ;; ボールの着地予想地点に移動する
-		      (when (> *FAR-time-to-arrival* 0.4)
-			(move-to 0 (* (- 0 *FAR-predicted-x*) 1))
-			(ros::duration-sleep (- *FAR-time-to-arrival* 0.4)))
+		      ;;(move-follow 0 *FAR-predicted-x*) ;; ボールの着地予想地点に移動する
+		      (when (> *FAR-time-to-arrival* 0.3)
+			(move-follow 0 (* (- 0 *FAR-predicted-x*) 1))
+			(ros::duration-sleep (- *FAR-time-to-arrival* 0.2))
+			)
 		      (if (= *hit-mode* 0) (push-hit 0) (drive-hit 0)) ;;打撃
 		      (setq *velocity-list* nil)
 		      (setq *FAR-predicted-x* nil)
@@ -765,7 +766,7 @@ The concept of this algorithm is shown on the issue (https://github.com/Michi-Ts
 		      (setq *ball-lost* nil)
 		      ;; 到達予測時間後に打つ
 		      (if (> *time-to-arrival* 0.4)
-			  (ros::duration-sleep (- *time-to-arrival* 0.4))
+			  (ros::duration-sleep (- *time-to-arrival* 0.2))
 			)
 		      (if (= *hit-mode* 0) (push-hit 0) (drive-hit 0)) ;;打撃
 		      ;; 予測関連の変数をリセット
@@ -794,7 +795,7 @@ The concept of this algorithm is shown on the issue (https://github.com/Michi-Ts
 		      (setq *ball-lost* nil)
 		      ;; 到達予測時間後に打つ
 		      (if (> *time-to-arrival* 0.4)
-			  (ros::duration-sleep (- *time-to-arrival* 0.4))
+			  (ros::duration-sleep (- *time-to-arrival* 0.2))
 			)
 		      (if (= *hit-mode* 0) (push-hit 0) (drive-hit 0)) ;;打撃
 		      ;; 予測関連の変数をリセット
