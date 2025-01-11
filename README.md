@@ -1,48 +1,46 @@
 # 卓球ロボット「HARIMOTO」
 機械情報工学科自主プロジェクト 2024
-03240281　椿道智
+椿道智(Michitoshi-TSUBAKI)
+
+## プロジェクトの概要
+本プロジェクトの概要は，2025年1月14日(火)に実施された自主プロジェクト発表会において使用したスライド資料（https://docs.google.com/presentation/d/1YKxIMygeKvWiWLk9LIgYPbEiXgONrJlcxnOz03saNL4/edit?usp=sharing）を参考にしてください．
 
 ## 計画
 ### 自主プロジェクトの進捗及び計画
-自主プロジェクトの進捗及び計画は，このRepositoryのissueおよび以下のnotionによって管理されている．
-https://www.notion.so/145dafda806a80a8ab18c543b17ef1e0
+自主プロジェクトの進捗及び計画は，このRepositoryのissueにより管理されている．
 
 ## 卓球ロボットHARIMOTOの動かし方
 ### 0. 準備
+### 0.1. ワークスペースのクローン
+1. ホームディレクトリ直下にワークスペースをクローンする．
+Ubuntu20.04，ROS noetic環境下で，
 ```
-roscore
+cd ~
+git clone https://github.com/Michi-Tsubaki/ping-pong-robot.git
+cd ping-pong-robot
+source /opt/ros/noetic/setup.bash
 ```
-を立ち上げながら，
 
+2. パッケージのダウンロード・インストール
 ```
 cd ~/ping-pong-robot
-source devel/setup.bash
-roslaunch HARIMOTO minimal.launch #サーボが動くようになる
+source /opt/ros/noetic/setup.bash
+rosdep install -riy --from-paths src
 ```
-別のterminalで
-```
-cd ~/ping-pong-robot
-source devel/setup.bash
-roslaunch realsense2_camera rs_rgbd.launch
-```
-をするとRealSenseを起動できる．また別のterminalで
+3. ビルド
 ```
 cd ~/ping-pong-robot
-source devel/setup.bash
-roslaunch HARIMOTO detect_ball.launch
+source /opt/ros/noetic/setup.bash
+catkin build
 ```
-を起動すると，赤いボールの認識nodeが起動できる．また別のterminalで
 
+4. プログラムを起動する．
 ```
 cd ~/ping-pong-robot
 source devel/setup.bash
-roslaunch sound_play soundplay_node.launch
+roslaunch HARIMOTO all.launch
 ```
-を起動することで，打撃時の音声（「チョレイ」）を再生できるようになる．
-```
-rosrun rqt_reconfigure rqt_reconfigure
-```
-でHSIカラーフィルタのパラメタを一時的に調整できる．
+
 
 ### 1. 動かす
 ```
