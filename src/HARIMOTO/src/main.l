@@ -59,15 +59,15 @@ The concept of this algorithm is shown on the issue (https://github.com/Michi-Ts
 
 ;; As for FAR ...
 ;; この範囲にボールが来ると認識された時，sweetスポットに移動する
-(setq *FAR-judge-x-min-lim* -0.20) ;; 左に-5cm ;; 左右方向 (左ー，右＋)
-(setq *FAR-judge-x-max-lim* 0.23)  ;; 右に 5cm
+(setq *FAR-judge-x-min-lim* -0.25) ;; 左に-5cm ;; 左右方向 (左ー，右＋)
+(setq *FAR-judge-x-max-lim* 0.30)  ;; 右に 5cm
 (setq *FAR-judge-y-min-lim* -0.15) ;; 上に 7cm ;; 上下方向 (上ー，下＋)
 (setq *FAR-judge-y-max-lim* 0.15)  ;; 下に 7cm
 (setq *FAR-judge-z-min-lim* 0.18)  ;; 手前25cm ;; 奥行き方向
 (setq *FAR-judge-z-max-lim* 0.25)  ;; 奥に30cm
 ;; FARのsweetスポット
 (setq *FAR-sweet-x-min-lim* -0.03) ;; 左に-5cm ;; 左右方向 (左ー，右＋)
-(setq *FAR-sweet-x-max-lim* 0.05)  ;; 右に 5cm
+(setq *FAR-sweet-x-max-lim* 0.04)  ;; 右に 5cm
 (setq *FAR-sweet-y-min-lim* -0.04) ;; 上に 7cm ;; 上下方向 (上ー，下＋)
 (setq *FAR-sweet-y-max-lim* 0.07)  ;; 下に 7cm
 (setq *FAR-sweet-z-min-lim* 0.22)  ;; 手前25cm ;; 奥行き方向
@@ -597,15 +597,15 @@ The concept of this algorithm is shown on the issue (https://github.com/Michi-Ts
 
 ;; ボールの位置(or予測地位)に追従するように機体が動くようにする関数 (Jan 1)
 (defun move-follow(x y)
+  (setq *y-threshold-left* *FAR-sweet-x-min-lim*) ;;左
+  (setq *y-threshold-right* *FAR-sweet-x-max-lim*) ;;右
+  (setq *x-threshold-front* *FAR-sweet-y-max-lim*) ;;上
+  (setq *x-threshold-back* *FAR-sweet-y-min-lim*) ;;下
   ;; debug
   (format t "===== move-follow debug =====~%")
   (format t "Input x: ~A, y: ~A~%" x y)
   (format t "Thresholds: left=~A, right=~A~%" 
           *y-threshold-left* *y-threshold-right*)
-  (setq *y-threshold-left* *FAR-sweet-x-min-lim*) ;;左
-  (setq *y-threshold-right* *FAR-sweet-x-max-lim*) ;;右
-  (setq *x-threshold-front* *FAR-sweet-y-max-lim*) ;;上
-  (setq *x-threshold-back* *FAR-sweet-y-min-lim*) ;;下
   ;; chack nil
   (let ((safe-x (if (numberp x) x 0))
         (safe-y (if (numberp y) y 0)))
@@ -801,7 +801,7 @@ The concept of this algorithm is shown on the issue (https://github.com/Michi-Ts
 	     ((> *ball-zpos-tmp* *FAR-min-lim*)
 	      (progn
 		(if (and *FAR-predicted-x* 
-			 (numberp *FAR-predicted-x*)  ; Ensure it's a number
+			 (numberp *FAR-predicted-x*)  ; Ensure be a number
 			 *FAR-predicted-y* 
 			 *FAR-time-to-arrival*
 			 (< *FAR-time-to-arrival* 0.6)
@@ -812,14 +812,9 @@ The concept of this algorithm is shown on the issue (https://github.com/Michi-Ts
 		    (progn
 		      (setq *ball-lost* nil)
 		      ;; Safely handle the movement calculation
-		      (let ((move-amount (if (numberp *FAR-predicted-x*)
-					     (* -1 *FAR-predicted-x*)
-					   0)))
-			(move-follow *FAR-predicted-y*  (* -1 *FAR-predicted-x*)))
+		      (move-follow *FAR-predicted-y*  (* -1 *FAR-predicted-x*))
 		      (when (> *FAR-time-to-arrival* 0.15)
 			(let ((wait-time (calculate-wait-time vz *FAR-time-to-arrival*)))
-			  ;;(move-follow 0 (* (- 0 *FAR-predicted-x*) 1))
-			  
 			  (move-follow *FAR-predicted-y*  (* -1 *FAR-predicted-x*))
 			  (ros::duration-sleep wait-time)
 			  (format t "sleep ~A s~%" wait-time)))
@@ -851,21 +846,22 @@ The concept of this algorithm is shown on the issue (https://github.com/Michi-Ts
 			(setq *predicted-z* nil)
 			(setq *time-to-arrival* nil)
 			(format t "FAR predicted(Middle Mode)! ~%")
-			(return-from loop-block 'finished))))));; cond1 終了
-	    ;;MIDDLE
+			(return-from loop-block 'finished))))));; end of cond1
+	    ;;MIDDLE(cond2)
 	    ((and (> *ball-zpos-tmp* *MIDDLE-min-lim*) (< *ball-zpos-tmp* *MIDDLE-max-lim*))
 	     (progn
-	       (if (and *predicted-x* *predicted-y* *time-to-arrival*  ; 予測値が存在する
-			(< *time-to-arrival* 0.5)                      ; 到達時間が0.4秒以内
-			(> *predicted-x* *ball-x-min-lim*)             ; x方向の予測位置が範囲内
+	       (if (and *predicted-x* *predicted-y* *time-to-arrival*  ; estimated!
+			(< *time-to-arrival* 0.5)                      ; arrive in 0.4 sec
+			(> *predicted-x* *ball-x-min-lim*)             ; x
 			(< *predicted-x* *ball-x-max-lim*)
-			(> *predicted-y* *ball-y-min-lim*)             ; y方向の予測位置が範囲内
+			(> *predicted-y* *ball-y-min-lim*)             ; y
 			(< *predicted-y* *ball-y-max-lim*))
 		   (progn 
 		     (setq *ball-lost* nil)
 		     (move-follow *predicted-y* (* (- 0 *predicted-x*) 1))
 		     (when (> *time-to-arrival* 0.2)
 		       (let ((wait-time (calculate-wait-time vz *time-to-arrival*)))
+			 (move-follow *predicted-y* (* (- 0 *predicted-x*) 1))
 			 (ros::duration-sleep wait-time)
 			 (format t "sleep ~A s~%" wait-time)
 			 )
