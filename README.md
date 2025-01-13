@@ -1,9 +1,13 @@
-# 卓球ロボット「HARIMOTO」
-機械情報工学科自主プロジェクト 2024
-椿道智(Michitoshi-TSUBAKI)
+![Screenshot from 2025-01-13 23-08-14](https://github.com/user-attachments/assets/e43ff8e6-4381-4f09-beb6-0cadd1e39547)
+
+## 機械情報工学科自主プロジェクト 2024 椿道智(Michitoshi-TSUBAKI)
 
 ## プロジェクトの概要
-本プロジェクトの概要は，2025年1月14日(火)に実施された自主プロジェクト発表会において使用したスライド資料（https://docs.google.com/presentation/d/1YKxIMygeKvWiWLk9LIgYPbEiXgONrJlcxnOz03saNL4/edit?usp=sharing）を参考にしてください．
+本プロジェクトの概要は，2025年1月14日(火)に実施された自主プロジェクト発表会において使用したスライド資料（ https://docs.google.com/presentation/d/1YKxIMygeKvWiWLk9LIgYPbEiXgONrJlcxnOz03saNL4/edit?usp=sharing ）を参考にしてください．
+
+## HARIMOTO デモ動画
+
+https://github.com/user-attachments/assets/58849984-7b79-49e7-ac35-15ba77b642aa
 
 ## 計画
 ### 自主プロジェクトの進捗及び計画
@@ -34,6 +38,7 @@ source /opt/ros/noetic/setup.bash
 catkin build
 ```
 
+### 0.2. ロボットの起動
 4. プログラムを起動する．
 ```
 cd ~/ping-pong-robot
@@ -55,8 +60,9 @@ load "main.l"
 ```
 
 ### 2. デバッグ画面(RVIZ)
-最小限立ち上げておくべきRVizのtopic
-![Screenshot from 2024-12-19 22-35-51](https://github.com/user-attachments/assets/1886739c-169e-4016-ac21-9994564df0b1)
+最低限，RVizで確認しておくべきtopicたち
+![Screenshot from 2025-01-13 23-11-15](https://github.com/user-attachments/assets/e7c7a252-34e4-4e2f-a804-e5e31668f6c8)
 
+### 3. ライセンス
 * このソフトウェアパッケージは，3条項BSDライセンスの下，再頒布および使用が許可されます．
 * (c) 2024 Michitoshi Tsubaki
