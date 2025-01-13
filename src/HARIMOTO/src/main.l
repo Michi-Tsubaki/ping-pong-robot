@@ -50,11 +50,11 @@ The concept of this algorithm is shown on the issue (https://github.com/Michi-Ts
 
 ;; As for MIDDLE ...
 ;; As for MIDDLE ...
-(setq *ball-x-min-lim* -0.07) ;; 左に-7cm (以前: -5cm)
-(setq *ball-x-max-lim* 0.10)  ;; 右に10cm (以前: 8cm)
-(setq *ball-y-min-lim* -0.12) ;; 上に 8cm (以前: 6cm)
+(setq *ball-x-min-lim* -0.06) ;; 左に-7cm (以前: -5cm)
+(setq *ball-x-max-lim* 0.8)  ;; 右に10cm (以前: 8cm)
+(setq *ball-y-min-lim* -0.08) ;; 上に 8cm (以前: 6cm)
 (setq *ball-y-max-lim* 0.12)  ;; 下に12cm (以前: 10cm)
-(setq *ball-z-min-lim* 0.20)  ;; 手前25cm ;; 奥行き方向
+(setq *ball-z-min-lim* 0.18)  ;; 手前25cm ;; 奥行き方向
 (setq *ball-z-max-lim* 0.25)  ;; 奥に30cm
 
 ;; As for FAR ...
@@ -63,13 +63,13 @@ The concept of this algorithm is shown on the issue (https://github.com/Michi-Ts
 (setq *FAR-judge-x-max-lim* 0.23)  ;; 右に 5cm
 (setq *FAR-judge-y-min-lim* -0.15) ;; 上に 7cm ;; 上下方向 (上ー，下＋)
 (setq *FAR-judge-y-max-lim* 0.15)  ;; 下に 7cm
-(setq *FAR-judge-z-min-lim* 0.20)  ;; 手前25cm ;; 奥行き方向
-(setq *FAR-judge-z-max-lim* 0.30)  ;; 奥に30cm
+(setq *FAR-judge-z-min-lim* 0.18)  ;; 手前25cm ;; 奥行き方向
+(setq *FAR-judge-z-max-lim* 0.25)  ;; 奥に30cm
 ;; FARのsweetスポット
-(setq *FAR-sweet-x-min-lim* -0.05) ;; 左に-5cm ;; 左右方向 (左ー，右＋)
+(setq *FAR-sweet-x-min-lim* -0.03) ;; 左に-5cm ;; 左右方向 (左ー，右＋)
 (setq *FAR-sweet-x-max-lim* 0.05)  ;; 右に 5cm
 (setq *FAR-sweet-y-min-lim* -0.04) ;; 上に 7cm ;; 上下方向 (上ー，下＋)
-(setq *FAR-sweet-y-max-lim* 0.08)  ;; 下に 7cm
+(setq *FAR-sweet-y-max-lim* 0.07)  ;; 下に 7cm
 (setq *FAR-sweet-z-min-lim* 0.22)  ;; 手前25cm ;; 奥行き方向
 (setq *FAR-sweet-z-max-lim* 0.28)  ;; 奥に30cm
 
@@ -597,6 +597,39 @@ The concept of this algorithm is shown on the issue (https://github.com/Michi-Ts
 
 ;; ボールの位置(or予測地位)に追従するように機体が動くようにする関数 (Jan 1)
 (defun move-follow(x y)
+  ;; debug
+  (format t "===== move-follow debug =====~%")
+  (format t "Input x: ~A, y: ~A~%" x y)
+  (format t "Thresholds: left=~A, right=~A~%" 
+          *y-threshold-left* *y-threshold-right*)
+  (setq *y-threshold-left* *FAR-sweet-x-min-lim*) ;;左
+  (setq *y-threshold-right* *FAR-sweet-x-max-lim*) ;;右
+  (setq *x-threshold-front* *FAR-sweet-y-max-lim*) ;;上
+  (setq *x-threshold-back* *FAR-sweet-y-min-lim*) ;;下
+  ;; chack nil
+  (let ((safe-x (if (numberp x) x 0))
+        (safe-y (if (numberp y) y 0)))
+    ;; calc
+    (let ((x-move (cond ((= safe-x 0) 0)
+                        ((> safe-x *x-threshold-front*) 1)
+                        ((< safe-x *x-threshold-back*) 1)
+                        (t 0)))
+          (y-move (cond ((= safe-y 0) 0)
+                        ((> safe-y *y-threshold-right*) 1)
+                        ((< safe-y *y-threshold-left*) -1)
+                        (t 0))))
+      ;; normalization
+      (when (and (not (= x-move 0)) (not (= y-move 0)))
+        (setq x-move (* x-move 0.707))
+        (setq y-move (* y-move 0.707))
+	) ;;when
+      ;; send cmd_vel
+      (send *ri* :send-cmd-vel-raw x-move y-move 0)
+      ) ;;let
+    ) ;;let
+  ) ;;defun
+
+#|(defun move-follow(x y)
   (setq *y-threshold-left* *FAR-sweet-x-min-lim*)
   (setq *y-threshold-right* *FAR-sweet-x-max-lim*)
   (setq *x-threshold-front* *ball-z-min-lim*)
@@ -621,7 +654,7 @@ The concept of this algorithm is shown on the issue (https://github.com/Michi-Ts
     (send *ri* :send-cmd-vel-raw x-move y-move 0)
     )
   )
-
+|#
 
 ;;Debug
 (defun log-ball-state ()
@@ -691,6 +724,7 @@ The concept of this algorithm is shown on the issue (https://github.com/Michi-Ts
        (last-far-pred-x *FAR-predicted-x*)
        (last-far-pred-y *FAR-predicted-y*)
        (last-far-pred-time *FAR-time-to-arrival*))
+   ;; Loop Process
    (block loop-block
 	  (while *ball-lost* 
 	    (ros::spin-once)
@@ -698,7 +732,7 @@ The concept of this algorithm is shown on the issue (https://github.com/Michi-Ts
 	    (setq *ball-ypos-tmp* *ball-ypos*)
 	    (setq *ball-zpos-tmp* *ball-zpos*)
 
-	    ;; ボール位置のモニタリング（既存のコード）
+	    ;; Monitoring
 	    (if (not (eq last-x *ball-xpos-tmp*))
 		(progn 
 		  (setq start-time-x (get-universal-time))
@@ -719,45 +753,42 @@ The concept of this algorithm is shown on the issue (https://github.com/Michi-Ts
 		  (setq last-z *ball-zpos-tmp*)))
 	    (when (>= (- (get-universal-time) start-time-z) *timer*)
 	      (setq *ball-zpos-tmp* 0))
-	    ;; MIDDLE予測のモニタリング
+	    ;; Monitor *predicted-x*
 	    (if (not (eq last-pred-x *predicted-x*))
 		(progn
 		  (setq start-time-pred-x (get-universal-time))
 		  (setq last-pred-x *predicted-x*)))
 	    (when (>= (- (get-universal-time) start-time-pred-x) *timer*)
 	      (setq *predicted-x* nil))
-
+	    ;; Monitor *predicted-y*
 	    (if (not (eq last-pred-y *predicted-y*))
 		(progn
 		  (setq start-time-pred-y (get-universal-time))
 		  (setq last-pred-y *predicted-y*)))
 	    (when (>= (- (get-universal-time) start-time-pred-y) *timer*)
 	      (setq *predicted-y* nil))
-
-	    ;; FAR予測のモニタリング
+	    ;; Monitor *FAR-predicted-x*
 	    (if (not (eq last-far-pred-x *FAR-predicted-x*))
 		(progn
 		  (setq start-time-far-pred-x (get-universal-time))
 		  (setq last-far-pred-x *FAR-predicted-x*)))
 	    (when (>= (- (get-universal-time) start-time-far-pred-x) *timer*)
 	      (setq *FAR-predicted-x* nil))
-
+	    ;; Monitor *FAR-predicted-y*
 	    (if (not (eq last-far-pred-y *FAR-predicted-y*))
 		(progn
 		  (setq start-time-far-pred-y (get-universal-time))
 		  (setq last-far-pred-y *FAR-predicted-y*)))
 	    (when (>= (- (get-universal-time) start-time-far-pred-y) *timer*)
 	      (setq *FAR-predicted-y* nil))
-
-	    ;; time-to-arrivalのモニタリング
+	    ;; Monitor *time-to-arrival*
 	    (if (not (eq last-pred-time *time-to-arrival*))
 		(progn
 		  (setq start-time-pred-time (get-universal-time))
 		  (setq last-pred-time *time-to-arrival*)))
 	    (when (>= (- (get-universal-time) start-time-pred-time) *timer*)
 	      (setq *time-to-arrival* nil))
-
-	    ;; FAR-time-to-arrivalのモニタリング
+	    ;; Monitor *FAR-time-to-arrival*
 	    (if (not (eq last-far-pred-time *FAR-time-to-arrival*))
 		(progn
 		  (setq start-time-far-pred-time (get-universal-time))
@@ -765,26 +796,34 @@ The concept of this algorithm is shown on the issue (https://github.com/Michi-Ts
 	    (when (>= (- (get-universal-time) start-time-far-pred-time) *timer*)
 	      (setq *FAR-time-to-arrival* nil))
 
-	    ;; 以上でボールの位置の算出は終了した．
-
-	    ;; ここからは，ボールの位置に応じた予測制御
+	    ;; \begin{section} of Prediction and Hit
 	    (cond
 	     ((> *ball-zpos-tmp* *FAR-min-lim*)
 	      (progn
-		(if (and *FAR-predicted-x* *FAR-predicted-y* *FAR-time-to-arrival*  ; 予測値が存在する
-			 (< *FAR-time-to-arrival* 0.6)                      ; 到達時間が0.4秒以内
-			 (> *FAR-predicted-x* *FAR-judge-x-min-lim*)        ; x方向の予測位置が範囲内
+		(if (and *FAR-predicted-x* 
+			 (numberp *FAR-predicted-x*)  ; Ensure it's a number
+			 *FAR-predicted-y* 
+			 *FAR-time-to-arrival*
+			 (< *FAR-time-to-arrival* 0.6)
+			 (> *FAR-predicted-x* *FAR-judge-x-min-lim*)
 			 (< *FAR-predicted-x* *FAR-judge-x-max-lim*)
-			 (> *FAR-predicted-y* *FAR-judge-y-min-lim*)        ; y方向の予測位置が範囲内
+			 (> *FAR-predicted-y* *FAR-judge-y-min-lim*)
 			 (< *FAR-predicted-y* *FAR-judge-y-max-lim*))
-		    (progn  ; FAR予測が有効な場合
+		    (progn
 		      (setq *ball-lost* nil)
+		      ;; Safely handle the movement calculation
+		      (let ((move-amount (if (numberp *FAR-predicted-x*)
+					     (* -1 *FAR-predicted-x*)
+					   0)))
+			(move-follow *FAR-predicted-y*  (* -1 *FAR-predicted-x*)))
 		      (when (> *FAR-time-to-arrival* 0.15)
 			(let ((wait-time (calculate-wait-time vz *FAR-time-to-arrival*)))
-			  (move-follow 0 (* (- 0 *FAR-predicted-x*) 1))
+			  ;;(move-follow 0 (* (- 0 *FAR-predicted-x*) 1))
+			  
+			  (move-follow *FAR-predicted-y*  (* -1 *FAR-predicted-x*))
 			  (ros::duration-sleep wait-time)
 			  (format t "sleep ~A s~%" wait-time)))
-		      (if (= *hit-mode* 0) (push-hit 0) (drive-hit 0))
+		      (if (= *hit-mode* 0) (push-hit (* *FAR-predicted-y* 45)) (drive-hit 0))
 		      (setq *velocity-list* nil)
 		      (setq *FAR-predicted-x* nil)
 		      (setq *FAR-predicted-y* nil)
@@ -801,18 +840,19 @@ The concept of this algorithm is shown on the issue (https://github.com/Michi-Ts
 			   (< *predicted-y* *ball-y-max-lim*))
 		      (progn
 			(setq *ball-lost* nil)
+			(move-follow *predicted-y* (* (- 0 *predicted-x*) 1))
 			(when (> *time-to-arrival* 0.2)
 			  (let ((wait-time (calculate-wait-time vz *time-to-arrival*)))
 			    (ros::duration-sleep wait-time)
 			    (format t "sleep ~A s~%" wait-time)))
-			(if (= *hit-mode* 0) (push-hit 0) (drive-hit 0))
+			(if (= *hit-mode* 0) (push-hit (* *predicted-y* 45)) (drive-hit 0))
 			(setq *predicted-x* nil)
 			(setq *predicted-y* nil)
 			(setq *predicted-z* nil)
 			(setq *time-to-arrival* nil)
-			(format t "predicted! ~%")
+			(format t "FAR predicted(Middle Mode)! ~%")
 			(return-from loop-block 'finished))))));; cond1 終了
-	    ;;MIDDLE ;;予測するけど動かない
+	    ;;MIDDLE
 	    ((and (> *ball-zpos-tmp* *MIDDLE-min-lim*) (< *ball-zpos-tmp* *MIDDLE-max-lim*))
 	     (progn
 	       (if (and *predicted-x* *predicted-y* *time-to-arrival*  ; 予測値が存在する
@@ -823,60 +863,68 @@ The concept of this algorithm is shown on the issue (https://github.com/Michi-Ts
 			(< *predicted-y* *ball-y-max-lim*))
 		   (progn 
 		     (setq *ball-lost* nil)
-		     ;; 到達予測時間後に打つ
+		     (move-follow *predicted-y* (* (- 0 *predicted-x*) 1))
 		     (when (> *time-to-arrival* 0.2)
 		       (let ((wait-time (calculate-wait-time vz *time-to-arrival*)))
 			 (ros::duration-sleep wait-time)
 			 (format t "sleep ~A s~%" wait-time)
 			 )
 		       )
-		     (if (= *hit-mode* 0) (push-hit 0) (drive-hit 0)) ;;打撃
-		     ;; 予測関連の変数をリセット
+		     ;; hit
+		     (if (= *hit-mode* 0) (push-hit (* *predicted-y* 45)) (drive-hit 0))
+		     ;; reset arg
 		     (setq *predicted-x* nil)
 		     (setq *predicted-y* nil)
 		     (setq *predicted-z* nil)
 		     (setq *time-to-arrival* nil)
 		     (format t "predicted! ~%")
-		     (return-from loop-block 'finished) ;;whileループを抜ける
+		     (return-from loop-block 'finished) ;; break while loop
 		     ) ;;progn
 		 )
 	       ) ;;progn
-	     ) ;;条件2終了
-	    ;;NEAR ;;予測しない
+	     ) ;; end of cond2
+	    ;;NEAR (cond3)
 	    ((< *ball-zpos-tmp* *NEAR-max-lim*)
 	     (progn
-	       ;; まずNEARのスイートスポット判定
+	       ;; if sweetspot
 	       (if (NEAR-is-sweet *ball-xpos-tmp* *ball-ypos-tmp* *ball-zpos-tmp*)
 		   (progn 
 		      (setq *ball-lost* nil) 
 		      (format t "cond3 : NEAR sweet spot found ~%")
-		      (if (= *hit-mode* 0) (push-hit 0) (drive-hit 0)) ;;打撃
+		      ;; hit
+		      (if (= *hit-mode* 0) (push-hit 0) (drive-hit 0))
 		      )
-		  ;; スイートスポットでない場合、MIDDLEと同様の予測処理を試みる
+		  ;; if not sweetspot, predict as middle process
 		  (if (and *predicted-x* *predicted-y* *time-to-arrival*  ; 予測値が存在する
 			   (< *time-to-arrival* 0.3)                      ; 到達時間が0.4秒以内
 			   (> *predicted-x* *ball-x-min-lim*)             ; x方向の予測位置が範囲内
 			   (< *predicted-x* *ball-x-max-lim*)
 			   (> *predicted-y* *ball-y-min-lim*)             ; y方向の予測位置が範囲内
-			   (< *predicted-y* *ball-y-max-lim*))
+			   (< *predicted-y* *ball-y-max-lim*)
+			   ) ;;and
 		      (progn 
 			(setq *ball-lost* nil)
-			;; 到達予測時間後に打つ
-			(if (= *hit-mode* 0) (push-hit 0) (drive-hit 0)) ;;打撃
-			;; 予測関連の変数をリセット
+			;; hit
+			(if (= *hit-mode* 0) (push-hit 0) (drive-hit 0))
+			;; reset arg
 			(setq *predicted-x* nil)
 			(setq *predicted-y* nil)
 			(setq *predicted-z* nil)
 			(setq *time-to-arrival* nil)
 			(format t "NEAR area but using prediction! ~%")
-			(return-from loop-block 'finished)))))) ;; whileループを抜ける ;;条件3終了
-	     ) ;;condによる分岐終了
+			(return-from loop-block 'finished)
+			) ;;progn
+		    ) ;;if
+		  ) ;;if
+	       ) ;;progn
+	     ) ;;end cond3
+	     ) ;;cond
 	    (log-ball-state)
 	    ) ;;while *ball-lost
 	  ) ;;block
-   ;; (if (= *hit-mode* 0) (push-hit 0) (drive-hit 0)) ;;打撃
-   (ros::duration-sleep 2) ;;sleep 2 s ;;(unix:sleep 2) と違ってrosを止めない!
+   ;; (if (= *hit-mode* 0) (push-hit 0) (drive-hit 0))
+   (ros::duration-sleep 2) ;;sleep 2 s ;; x (unix:sleep 2)
    ) ;; let
- ) ;;do-until-key ;; key操作をしたらoffにして安全に止まる
+ ) ;;do-until-key
 (off)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
