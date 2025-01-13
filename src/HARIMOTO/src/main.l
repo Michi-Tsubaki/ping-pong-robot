@@ -50,10 +50,10 @@ The concept of this algorithm is shown on the issue (https://github.com/Michi-Ts
 
 ;; As for MIDDLE ...
 ;; As for MIDDLE ...
-(setq *ball-x-min-lim* -0.06) ;; 左に-7cm (以前: -5cm)
-(setq *ball-x-max-lim* 0.8)  ;; 右に10cm (以前: 8cm)
-(setq *ball-y-min-lim* -0.08) ;; 上に 8cm (以前: 6cm)
-(setq *ball-y-max-lim* 0.12)  ;; 下に12cm (以前: 10cm)
+(setq *ball-x-min-lim* -0.08) ;; 左に-7cm (以前: -5cm)
+(setq *ball-x-max-lim* 0.10)  ;; 右に10cm (以前: 8cm)
+(setq *ball-y-min-lim* -0.10) ;; 上に 8cm (以前: 6cm)
+(setq *ball-y-max-lim* 0.15)  ;; 下に12cm (以前: 10cm)
 (setq *ball-z-min-lim* 0.18)  ;; 手前25cm ;; 奥行き方向
 (setq *ball-z-max-lim* 0.25)  ;; 奥に30cm
 
@@ -62,14 +62,14 @@ The concept of this algorithm is shown on the issue (https://github.com/Michi-Ts
 (setq *FAR-judge-x-min-lim* -0.25) ;; 左に-5cm ;; 左右方向 (左ー，右＋)
 (setq *FAR-judge-x-max-lim* 0.30)  ;; 右に 5cm
 (setq *FAR-judge-y-min-lim* -0.15) ;; 上に 7cm ;; 上下方向 (上ー，下＋)
-(setq *FAR-judge-y-max-lim* 0.15)  ;; 下に 7cm
+(setq *FAR-judge-y-max-lim* 0.20)  ;; 下に 7cm
 (setq *FAR-judge-z-min-lim* 0.18)  ;; 手前25cm ;; 奥行き方向
 (setq *FAR-judge-z-max-lim* 0.25)  ;; 奥に30cm
 ;; FARのsweetスポット
 (setq *FAR-sweet-x-min-lim* -0.03) ;; 左に-5cm ;; 左右方向 (左ー，右＋)
 (setq *FAR-sweet-x-max-lim* 0.04)  ;; 右に 5cm
-(setq *FAR-sweet-y-min-lim* -0.04) ;; 上に 7cm ;; 上下方向 (上ー，下＋)
-(setq *FAR-sweet-y-max-lim* 0.07)  ;; 下に 7cm
+(setq *FAR-sweet-y-min-lim* -0.05) ;; 上に 7cm ;; 上下方向 (上ー，下＋)
+(setq *FAR-sweet-y-max-lim* 0.10)  ;; 下に 7cm
 (setq *FAR-sweet-z-min-lim* 0.22)  ;; 手前25cm ;; 奥行き方向
 (setq *FAR-sweet-z-max-lim* 0.28)  ;; 奥に30cm
 
@@ -814,9 +814,10 @@ The concept of this algorithm is shown on the issue (https://github.com/Michi-Ts
 		      ;; Safely handle the movement calculation
 		      (move-follow *FAR-predicted-y*  (* -1 *FAR-predicted-x*))
 		      (when (> *FAR-time-to-arrival* 0.15)
-			(let ((wait-time (calculate-wait-time vz *FAR-time-to-arrival*)))
-			  (move-follow *FAR-predicted-y*  (* -1 *FAR-predicted-x*))
+			(let ((wait-time (- *FAR-time-to-arrival* 0.1)))
 			  (ros::duration-sleep wait-time)
+			  (move-follow *FAR-predicted-y*  (* -1 *FAR-predicted-x*))
+			  ;;(ros::duration-sleep wait-time)
 			  (format t "sleep ~A s~%" wait-time)))
 		      (if (= *hit-mode* 0) (push-hit (* *FAR-predicted-y* 45)) (drive-hit 0))
 		      (setq *velocity-list* nil)
@@ -836,8 +837,8 @@ The concept of this algorithm is shown on the issue (https://github.com/Michi-Ts
 		      (progn
 			(setq *ball-lost* nil)
 			(move-follow *predicted-y* (* (- 0 *predicted-x*) 1))
-			(when (> *time-to-arrival* 0.2)
-			  (let ((wait-time (calculate-wait-time vz *time-to-arrival*)))
+			(when (> *time-to-arrival* 0.3)
+			  (let ((wait-time (- *time-to-arrival* 0.2)))
 			    (ros::duration-sleep wait-time)
 			    (format t "sleep ~A s~%" wait-time)))
 			(if (= *hit-mode* 0) (push-hit (* *predicted-y* 45)) (drive-hit 0))
@@ -861,8 +862,9 @@ The concept of this algorithm is shown on the issue (https://github.com/Michi-Ts
 		     (move-follow *predicted-y* (* (- 0 *predicted-x*) 1))
 		     (when (> *time-to-arrival* 0.2)
 		       (let ((wait-time (calculate-wait-time vz *time-to-arrival*)))
-			 (move-follow *predicted-y* (* (- 0 *predicted-x*) 1))
+			 ;;(move-follow *predicted-y* (* (- 0 *predicted-x*) 1))
 			 (ros::duration-sleep wait-time)
+			 (move-follow *predicted-y* (* (- 0 *predicted-x*) 1))
 			 (format t "sleep ~A s~%" wait-time)
 			 )
 		       )
