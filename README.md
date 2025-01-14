@@ -1,6 +1,6 @@
 ![Screenshot from 2025-01-13 23-08-14](https://github.com/user-attachments/assets/e43ff8e6-4381-4f09-beb6-0cadd1e39547)
 
-## 機械情報工学科自主プロジェクト 2024 椿道智(Michitoshi-TSUBAKI)
+## 機械情報工学科自主プロジェクト 2024
 
 ## プロジェクトの概要
 本プロジェクトの概要は，2025年1月14日(火)に実施された自主プロジェクト発表会において使用したスライド資料（ https://docs.google.com/presentation/d/1YKxIMygeKvWiWLk9LIgYPbEiXgONrJlcxnOz03saNL4/edit?usp=sharing ）を参考にしてください．
