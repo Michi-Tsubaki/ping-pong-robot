@@ -1,0 +1,3 @@
+platex report.tex
+dvipdfmz report.dvi
+xdg-open report.pdf
