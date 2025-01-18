@@ -1,4 +1,4 @@
-This is e-upTeX, Version 3.141592653-p4.1.0-u1.29-230214-2.6 (utf8.euc) (TeX Live 2023/Debian) (preloaded format=platex 2025.1.16)  16 JAN 2025 23:51
+This is e-upTeX, Version 3.141592653-p4.1.0-u1.29-230214-2.6 (utf8.euc) (TeX Live 2023/Debian) (preloaded format=platex 2025.1.16)  17 JAN 2025 23:06
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -427,20 +427,201 @@ File: figures/system.png Graphic file (type bmp)
 File: figures/rosgraph.png Graphic file (type bmp)
 <figures/rosgraph.png>
  [3]
+
+! LaTeX Error: \begin{minipage} on input line 131 ended by \end{screan}.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.132 \end{screan}
+                  
+? 
+! Missing $ inserted.
+<inserted text> 
+                $
+l.133 を送ることで，ros topicの/cmd_
+                                    velに値をPublishすることができるようにな...
+
+? 
+! Missing $ inserted.
+<inserted text> 
+                $
+l.134 
+      
+? 
+! Missing $ inserted.
+<inserted text> 
+                $
+l.135 ...前にいるか後ろにいるかによって，逐次/cmd_
+                                                  velを送信する「move_follow...
+
+? 
+! Missing $ inserted.
+<inserted text> 
+                $
+l.136 \begin{enumerate}
+                       
+? 
+! Missing \endgroup inserted.
+<inserted text> 
+                \endgroup 
+l.136 \begin{enumerate}
+                       
+? 
+
+! LaTeX Error: Lonely \item--perhaps a missing list environment.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.137 \item m
+             ove_follow \\
+? 
+! Missing $ inserted.
+<inserted text> 
+                $
+l.137 \item move_
+                 follow \\
+? 
+! Missing $ inserted.
+<inserted text> 
+                $
+l.139 
+      
+? 
+! Missing } inserted.
+<inserted text> 
+                }
+l.139 
+      
+? 
+
+! LaTeX Error: Something's wrong--perhaps a missing \item.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.140 \item m
+             ove_to \\
+? 
+
+! LaTeX Error: Something's wrong--perhaps a missing \item.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.140 \item m
+             ove_to \\
+? 
+
+! LaTeX Error: Lonely \item--perhaps a missing list environment.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.140 \item m
+             ove_to \\
+? 
+! Missing $ inserted.
+<inserted text> 
+                $
+l.140 \item move_
+                 to \\
+? 
+! Missing $ inserted.
+<inserted text> 
+                $
+l.143     #
+           #実装
+? 
+! Missing \endgroup inserted.
+<inserted text> 
+                \endgroup 
+l.143     #
+           #実装
+? 
+! You can't use `macro parameter character #' in internal vertical mode.
+<recently read> ##
+                  
+l.143     #
+           #実装
+? 
+! You can't use `macro parameter character #' in internal vertical mode.
+l.143     ##
+            実装
+? 
+
+! LaTeX Error: \begin{minipage} on input line 131 ended by \end{screen}.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.144   \end{screen}
+                    
+? 
+
+! LaTeX Error: Something's wrong--perhaps a missing \item.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.145 \end{enumerate}
+                     
+? 
+
+! LaTeX Error: Something's wrong--perhaps a missing \item.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.145 \end{enumerate}
+                     
+? 
+
+! LaTeX Error: \begin{screen} on input line 130 ended by \end{enumerate}.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.145 \end{enumerate}
+                     
+? 
+! Missing } inserted.
+<inserted text> 
+                }
+l.145 \end{enumerate}
+                     
+? 
+
+Overfull \hbox (642.49132pt too wide) detected at line 145
+\OT1/cmr/m/n/10.95 move$[]\OML/cmm/m/it/10.95 o[] []camera[]ink \JY1/mc/m/n/10.
+95 座標系 （カメラに固定された座標） からの相対座標で計算されたボールの着地予想
+着地地点に直接移動することが可能．$[][]
+ []
+
 [4]
-Underfull \hbox (badness 10000) in paragraph at lines 151--153
+Underfull \hbox (badness 10000) in paragraph at lines 171--173
 []\OT1/cmr/m/n/10.95 Michi-Tsubaki, ``rec-og-nize[]wound.launch,'' jsk[]demosm 
 GitHub. [On-line]. Avail-able:
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 151--153
+Underfull \hbox (badness 10000) in paragraph at lines 171--173
 \OT1/cmtt/m/n/10.95 https : / / github . com / Michi-[]Tsubaki / jsk _ demos / 
 blob / jsk _ 2024 _ 10 _ semi / jsk _ 2024 _
  []
 
 
-Underfull \hbox (badness 2521) in paragraph at lines 159--161
+Underfull \hbox (badness 2521) in paragraph at lines 179--181
 []\OT1/cmr/m/n/10.95 jsk-ros-pkg, ``speak.l,'' jsk[]pr2eus, GitHub. [On-line]. 
 Avail-able: $\OT1/cmtt/m/n/10.95 https : / / github . com /
  []
@@ -451,18 +632,14 @@ pLaTeX2e <2023-02-14>+1, based on
 LaTeX2e <2023-11-01> patch level 1
 L3 programming layer <2024-01-22>
  ***********
-
-
-LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
-
  ) 
 Here is how much of TeX's memory you used:
- 6285 strings out of 475916
- 103017 string characters out of 5788117
+ 6286 strings out of 475916
+ 103054 string characters out of 5788117
  1926820 words of memory out of 5000000
- 28367 multiletter control sequences out of 15000+600000
+ 28368 multiletter control sequences out of 15000+600000
  573965 words of font info for 103 fonts, out of 8000000 for 9000
  309 hyphenation exceptions out of 8191
  65i,6n,79p,579b,315s stack positions out of 10000i,1000n,20000p,200000b,200000s
 
-Output written on report.dvi (6 pages, 15052 bytes).
+Output written on report.dvi (6 pages, 15300 bytes).

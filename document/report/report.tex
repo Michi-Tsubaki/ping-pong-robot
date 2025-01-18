@@ -124,7 +124,27 @@ roslaunch HARIMOTO all.launch \#画像処理やアームコントローラのノ
 
 苦労した点・新旧も含めて説明する．\cite{detect2}
 \subsection{メカナムホイール制御}
-本節では，メカナムホイールの制御プログラムについて説明する．\cite{mecanum}
+本節では，メカナムホイールの制御プログラムについて説明する．
+メカナムホイールの制御インタフェースはKXR ControllerとROS ControlのRidgeback Controllerを使用した．
+この時点で
+\begin{screen}
+(send *ri* :send-cmd-vel-raw x y rot)
+\end{screan}
+を送ることで，ros topicの/cmd_velに値をPublishすることができるようになった．
+
+本プロジェクトでは,移動用のサブルーチンとして,基準値よりも左にいるか右にいるか,前にいるか後ろにいるかによって，逐次/cmd_velを送信する「move_follow」関数と，指定した相対座標に移動する「move_to」関数を実装した．
+\begin{enumerate}
+\item move_follow \\
+  ロボットが返球に対応できる範囲(sweet_spot)に対して，逐次更新されるボールの着地予測地点がが右にあるか左にあるか，前にあるか後ろにあるかによって，逐次ロボットが動くことを目的としたサブルーチン．
+  
+\item move_to \\
+  camera_link座標系（カメラに固定された座標）からの相対座標で計算されたボールの着地予想着地地点に直接移動することが可能．
+  \begin{screen}
+    ##実装
+  \end{screen}
+\end{enumerate}
+
+\cite{mecanum}
 \subsection{音声再生}
 本節では，音声に関する実装について説明する．\cite{sound}
 \section{ロボットモデル・ハードウェア・メカニクス}
