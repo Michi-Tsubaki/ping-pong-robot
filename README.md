@@ -63,6 +63,10 @@ load "main.l"
 最低限，RVizで確認しておくべきtopicたち
 ![Screenshot from 2025-01-13 23-11-15](https://github.com/user-attachments/assets/e7c7a252-34e4-4e2f-a804-e5e31668f6c8)
 
-### 3. ライセンス
+### 3. 受賞 (Award)
+このプロジェクトは，機械情報冬学期演習「自主プロジェクト」表彰式にて，敢闘賞として表彰されました．指導してくださった先生方に感謝いたします．
+![Image](https://github.com/user-attachments/assets/723c9829-8797-4f25-b332-9214db8398d4)
+
+### 4. ライセンス
 * このソフトウェアパッケージは，3条項BSDライセンスの下，再頒布および使用が許可されます．
-* (c) 2024 Michitoshi Tsubaki
+* (c) 2024-2025 Michitoshi Tsubaki
