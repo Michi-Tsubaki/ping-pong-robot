@@ -1,0 +1,2233 @@
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023/Debian) (preloaded format=pdflatex 2025.1.16)  31 JAN 2025 16:34
+entering extended mode
+ restricted \write18 enabled.
+ file:line:error style messages enabled.
+ %&-line parsing enabled.
+**/home/michi-tsubaki/robot_ws/ping-pong-robot/docs/report/report.tex
+(/home/michi-tsubaki/robot_ws/ping-pong-robot/docs/report/report.tex
+LaTeX2e <2023-11-01> patch level 1
+L3 programming layer <2024-01-22>
+(/usr/share/texlive/texmf-dist/tex/platex/base/jarticle.cls
+
+/usr/share/texlive/texmf-dist/tex/platex/base/jarticle.cls:16: LaTeX Error: This file needs format `pLaTeX2e'
+               but this is `LaTeX2e'.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.16 \NeedsTeXFormat{pLaTeX2e}
+                              
+The current input file will not be processed further,
+because it was written for some other flavor of TeX.
+You're in trouble here.  Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+) (/usr/share/texlive/texmf-dist/tex/latex/geometry/geometry.sty
+Package: geometry 2020/01/02 v5.9 Page Geometry
+ (/usr/share/texlive/texmf-dist/tex/latex/graphics/keyval.sty
+Package: keyval 2022/05/29 v1.15 key=value parser (DPC)
+\KV@toks@=\toks17
+) (/usr/share/texlive/texmf-dist/tex/generic/iftex/ifvtex.sty
+Package: ifvtex 2019/10/25 v1.7 ifvtex legacy package. Use iftex instead.
+ (/usr/share/texlive/texmf-dist/tex/generic/iftex/iftex.sty
+Package: iftex 2022/02/03 v1.0f TeX engine tests
+))
+\Gm@cnth=\count187
+\Gm@cntv=\count188
+\c@Gm@tempcnt=\count189
+\Gm@bindingoffset=\dimen140
+\Gm@wd@mp=\dimen141
+\Gm@odd@mp=\dimen142
+\Gm@even@mp=\dimen143
+\Gm@layoutwidth=\dimen144
+\Gm@layoutheight=\dimen145
+\Gm@layouthoffset=\dimen146
+\Gm@layoutvoffset=\dimen147
+\Gm@dimlist=\toks18
+
+
+/usr/share/texlive/texmf-dist/tex/latex/geometry/geometry.sty:1006: Package geometry Error: \paperwidth (0.0pt) too short.
+
+See the geometry package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.1006 \Gm@process
+                  
+Set a paper type (e.g., `a4paper').
+
+
+/usr/share/texlive/texmf-dist/tex/latex/geometry/geometry.sty:1006: Package geometry Error: \paperheight (0.0pt) too short.
+
+See the geometry package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.1006 \Gm@process
+                  
+Set a paper type (e.g., `a4paper').
+
+
+Package geometry Warning: `width' results in NEGATIVE (-142.26376pt).
+    `lmargin' or `rmargin' should be shortened in length.
+
+
+Package geometry Warning: `height' results in NEGATIVE (-142.26376pt).
+    `tmargin' or `bmargin' should be shortened in length.
+
+) (/usr/share/texlive/texmf-dist/tex/latex/graphics/graphicx.sty
+Package: graphicx 2021/09/16 v1.2d Enhanced LaTeX Graphics (DPC,SPQR)
+ (/usr/share/texlive/texmf-dist/tex/latex/graphics/graphics.sty
+Package: graphics 2022/03/10 v1.4e Standard LaTeX Graphics (DPC,SPQR)
+ (/usr/share/texlive/texmf-dist/tex/latex/graphics/trig.sty
+Package: trig 2021/08/11 v1.11 sin cos tan (DPC)
+) (/usr/share/texlive/texmf-dist/tex/latex/graphics-cfg/graphics.cfg
+File: graphics.cfg 2016/06/04 v1.11 sample graphics configuration
+)
+Package graphics Info: Driver file: pdftex.def on input line 107.
+ (/usr/share/texlive/texmf-dist/tex/latex/graphics-def/pdftex.def
+File: pdftex.def 2022/09/22 v1.2b Graphics/color driver for pdftex
+))
+\Gin@req@height=\dimen148
+\Gin@req@width=\dimen149
+) (/usr/share/texlive/texmf-dist/tex/xelatex/xecjk/xeCJK.sty (/usr/share/texlive/texmf-dist/tex/latex/l3kernel/expl3.sty
+Package: expl3 2024-01-22 L3 programming layer (loader) 
+ (/usr/share/texlive/texmf-dist/tex/latex/l3backend/l3backend-pdftex.def
+File: l3backend-pdftex.def 2024-01-04 L3 backend support: PDF output (pdfTeX)
+\l__color_backend_stack_int=\count190
+\l__pdf_internal_box=\box51
+))
+Package: xeCJK 2022/08/05 v3.9.1 Typesetting CJK scripts with XeLaTeX
+
+
+/usr/share/texlive/texmf-dist/tex/xelatex/xecjk/xeCJK.sty:43: Critical Package xeCJK Error: The xeCJK package requires XeTeX to function.
+(xeCJK)                         
+(xeCJK)                         You must change your typesetting engine to
+(xeCJK)                         "xelatex"
+(xeCJK)                         instead of plain "latex" or "pdflatex" or
+(xeCJK)                         "lualatex".
+(xeCJK)                         Loading xeCJK will abort!
+
+Type <return> to continue.
+ ...                                              
+                                                  
+l.43 ..._critical:nn { xeCJK } { Require-XeTeX } }
+                                                  
+
+LaTeX does not know anything more about this error, sorry.
+
+Try typing <return> to proceed.
+If that doesn't work, type X <return> to quit.
+
+Reading the current file 'xeCJK' will stop.
+
+
+) (/usr/share/texlive/texmf-dist/tex/latex/here/here.sty) (/usr/share/texlive/texmf-dist/tex/latex/float/float.sty
+Package: float 2001/11/08 v1.3d Float enhancements (AL)
+\c@float@type=\count191
+\float@exts=\toks19
+\float@box=\box52
+\@float@everytoks=\toks20
+\@floatcapt=\box53
+) (/usr/share/texlive/texmf-dist/tex/latex/ascmac/ascmac.sty
+Package: ascmac 2020/01/15 v2.1 ascmac wrapper (community edition) 
+ (/usr/share/texlive/texmf-dist/tex/latex/ascmac/tascmac.sty
+Package: tascmac 2020/01/15 v2.1 ascmac package (community edition) 
+Package tascmac Info: Assuming pdfLaTeX, XeLaTeX or LuaLaTeX on input line 44.
+\scb@x=\box54
+\scscb@x=\box55
+\@bw=\dimen150
+\@nbox=\box56
+\@nbody=\box57
+\@scw=\dimen151
+\ascmac@hoboxa=\box58
+\ascmac@hoboxb=\box59
+\@itemh=\dimen152
+\@iboxpos=\toks21
+\@iboxstr=\box60
+\@bwsp=\box61
+\@@bwsp=\box62
+\@bcal=\count192
+\shaderule=\dimen153
+)) (/usr/share/texlive/texmf-dist/tex/latex/amsmath/amsmath.sty
+Package: amsmath 2023/05/13 v2.17o AMS math features
+\@mathmargin=\skip48
+
+For additional information on amsmath, use the `?' option.
+(/usr/share/texlive/texmf-dist/tex/latex/amsmath/amstext.sty
+Package: amstext 2021/08/26 v2.01 AMS text
+ (/usr/share/texlive/texmf-dist/tex/latex/amsmath/amsgen.sty
+File: amsgen.sty 1999/11/30 v2.0 generic functions
+\@emptytoks=\toks22
+\ex@=\dimen154
+)) (/usr/share/texlive/texmf-dist/tex/latex/amsmath/amsbsy.sty
+Package: amsbsy 1999/11/29 v1.2d Bold Symbols
+\pmbraise@=\dimen155
+) (/usr/share/texlive/texmf-dist/tex/latex/amsmath/amsopn.sty
+Package: amsopn 2022/04/08 v2.04 operator names
+)
+\inf@bad=\count193
+LaTeX Info: Redefining \frac on input line 234.
+\uproot@=\count194
+\leftroot@=\count195
+LaTeX Info: Redefining \overline on input line 399.
+LaTeX Info: Redefining \colon on input line 410.
+\classnum@=\count196
+\DOTSCASE@=\count197
+LaTeX Info: Redefining \ldots on input line 496.
+LaTeX Info: Redefining \dots on input line 499.
+LaTeX Info: Redefining \cdots on input line 620.
+\Mathstrutbox@=\box63
+\strutbox@=\box64
+LaTeX Info: Redefining \big on input line 722.
+LaTeX Info: Redefining \Big on input line 723.
+LaTeX Info: Redefining \bigg on input line 724.
+LaTeX Info: Redefining \Bigg on input line 725.
+\big@size=\dimen156
+LaTeX Font Info:    Redeclaring font encoding OML on input line 743.
+LaTeX Font Info:    Redeclaring font encoding OMS on input line 744.
+\macc@depth=\count198
+LaTeX Info: Redefining \bmod on input line 905.
+LaTeX Info: Redefining \pmod on input line 910.
+LaTeX Info: Redefining \smash on input line 940.
+LaTeX Info: Redefining \relbar on input line 970.
+LaTeX Info: Redefining \Relbar on input line 971.
+\c@MaxMatrixCols=\count199
+\dotsspace@=\muskip16
+\c@parentequation=\count266
+\dspbrk@lvl=\count267
+\tag@help=\toks23
+\row@=\count268
+\column@=\count269
+\maxfields@=\count270
+\andhelp@=\toks24
+\eqnshift@=\dimen157
+\alignsep@=\dimen158
+\tagshift@=\dimen159
+\tagwidth@=\dimen160
+\totwidth@=\dimen161
+\lineht@=\dimen162
+\@envbody=\toks25
+\multlinegap=\skip49
+\multlinetaggap=\skip50
+\mathdisplay@stack=\toks26
+LaTeX Info: Redefining \[ on input line 2953.
+LaTeX Info: Redefining \] on input line 2954.
+) (/usr/share/texlive/texmf-dist/tex/latex/amsfonts/amssymb.sty
+Package: amssymb 2013/01/14 v3.01 AMS font symbols
+ (/usr/share/texlive/texmf-dist/tex/latex/amsfonts/amsfonts.sty
+Package: amsfonts 2013/01/14 v3.01 Basic AMSFonts support
+\symAMSa=\mathgroup4
+\symAMSb=\mathgroup5
+LaTeX Font Info:    Redeclaring math symbol \hbar on input line 98.
+LaTeX Font Info:    Overwriting math alphabet `\mathfrak' in version `bold'
+(Font)                  U/euf/m/n --> U/euf/b/n on input line 106.
+)) (/usr/share/texlive/texmf-dist/tex/generic/ulem/ulem.sty
+\UL@box=\box65
+\UL@hyphenbox=\box66
+\UL@skip=\skip51
+\UL@hook=\toks27
+\UL@height=\dimen163
+\UL@pe=\count271
+\UL@pixel=\dimen164
+\ULC@box=\box67
+Package: ulem 2019/11/18
+\ULdepth=\dimen165
+) (/usr/share/texlive/texmf-dist/tex/latex/url/url.sty
+\Urlmuskip=\muskip17
+Package: url 2013/09/16  ver 3.4  Verb mode for urls, etc.
+) (/usr/share/texlive/texmf-dist/tex/latex/mathtools/mathtools.sty
+Package: mathtools 2022/06/29 v1.29 mathematical typesetting tools
+ (/usr/share/texlive/texmf-dist/tex/latex/tools/calc.sty
+Package: calc 2023/07/08 v4.3 Infix arithmetic (KKT,FJ)
+\calc@Acount=\count272
+\calc@Bcount=\count273
+\calc@Adimen=\dimen166
+\calc@Bdimen=\dimen167
+\calc@Askip=\skip52
+\calc@Bskip=\skip53
+LaTeX Info: Redefining \setlength on input line 80.
+LaTeX Info: Redefining \addtolength on input line 81.
+\calc@Ccount=\count274
+\calc@Cskip=\skip54
+) (/usr/share/texlive/texmf-dist/tex/latex/mathtools/mhsetup.sty
+Package: mhsetup 2021/03/18 v1.4 programming setup (MH)
+)
+\g_MT_multlinerow_int=\count275
+\l_MT_multwidth_dim=\dimen168
+\origjot=\skip55
+\l_MT_shortvdotswithinadjustabove_dim=\dimen169
+\l_MT_shortvdotswithinadjustbelow_dim=\dimen170
+\l_MT_above_intertext_sep=\dimen171
+\l_MT_below_intertext_sep=\dimen172
+\l_MT_above_shortintertext_sep=\dimen173
+\l_MT_below_shortintertext_sep=\dimen174
+\xmathstrut@box=\box68
+\xmathstrut@dim=\dimen175
+) (/usr/share/texlive/texmf-dist/tex/latex/listings/listings.sty
+\lst@mode=\count276
+\lst@gtempboxa=\box69
+\lst@token=\toks28
+\lst@length=\count277
+\lst@currlwidth=\dimen176
+\lst@column=\count278
+\lst@pos=\count279
+\lst@lostspace=\dimen177
+\lst@width=\dimen178
+\lst@newlines=\count280
+\lst@lineno=\count281
+\abovecaptionskip=\skip56
+\belowcaptionskip=\skip57
+\lst@maxwidth=\dimen179
+ (/usr/share/texlive/texmf-dist/tex/latex/listings/lstmisc.sty
+File: lstmisc.sty 2023/02/27 1.9 (Carsten Heinz)
+\c@lstnumber=\count282
+\lst@skipnumbers=\count283
+\lst@framebox=\box70
+) (/usr/share/texlive/texmf-dist/tex/latex/listings/listings.cfg
+File: listings.cfg 2023/02/27 1.9 listings configuration
+))
+Package: listings 2023/02/27 1.9 (Carsten Heinz)
+ (/usr/share/texlive/texmf-dist/tex/latex/jvlisting/jvlisting.sty
+Package: jvlisting 2011/11/17 v0.7 Formatted Program Listings
+\jvl@idt=\count284
+\jvl@tmphyphenchar=\count285
+\jvl@fileinput=\read2
+\listingskipamount=\skip58
+\listingindent=\dimen180
+\prelistingpenalty=\count286
+\listingpenalty=\count287
+\postlistingpenalty=\count288
+) (/usr/share/texlive/texmf-dist/tex/latex/hyperref/hyperref.sty
+Package: hyperref 2024-01-20 v7.01h Hypertext links for LaTeX
+ (/usr/share/texlive/texmf-dist/tex/latex/kvsetkeys/kvsetkeys.sty
+Package: kvsetkeys 2022-10-05 v1.19 Key value parser (HO)
+) (/usr/share/texlive/texmf-dist/tex/generic/kvdefinekeys/kvdefinekeys.sty
+Package: kvdefinekeys 2019-12-19 v1.6 Define keys (HO)
+) (/usr/share/texlive/texmf-dist/tex/generic/pdfescape/pdfescape.sty
+Package: pdfescape 2019/12/09 v1.15 Implements pdfTeX's escape features (HO)
+ (/usr/share/texlive/texmf-dist/tex/generic/ltxcmds/ltxcmds.sty
+Package: ltxcmds 2023-12-04 v1.26 LaTeX kernel commands for general use (HO)
+) (/usr/share/texlive/texmf-dist/tex/generic/pdftexcmds/pdftexcmds.sty
+Package: pdftexcmds 2020-06-27 v0.33 Utility functions of pdfTeX for LuaTeX (HO)
+ (/usr/share/texlive/texmf-dist/tex/generic/infwarerr/infwarerr.sty
+Package: infwarerr 2019/12/03 v1.5 Providing info/warning/error messages (HO)
+)
+Package pdftexcmds Info: \pdf@primitive is available.
+Package pdftexcmds Info: \pdf@ifprimitive is available.
+Package pdftexcmds Info: \pdfdraftmode found.
+)) (/usr/share/texlive/texmf-dist/tex/latex/hycolor/hycolor.sty
+Package: hycolor 2020-01-27 v1.10 Color options for hyperref/bookmark (HO)
+) (/usr/share/texlive/texmf-dist/tex/latex/auxhook/auxhook.sty
+Package: auxhook 2019-12-17 v1.6 Hooks for auxiliary files (HO)
+) (/usr/share/texlive/texmf-dist/tex/latex/hyperref/nameref.sty
+Package: nameref 2023-11-26 v2.56 Cross-referencing by name of section
+ (/usr/share/texlive/texmf-dist/tex/latex/refcount/refcount.sty
+Package: refcount 2019/12/15 v3.6 Data extraction from label references (HO)
+) (/usr/share/texlive/texmf-dist/tex/generic/gettitlestring/gettitlestring.sty
+Package: gettitlestring 2019/12/15 v1.6 Cleanup title references (HO)
+ (/usr/share/texlive/texmf-dist/tex/latex/kvoptions/kvoptions.sty
+Package: kvoptions 2022-06-15 v3.15 Key value format for package options (HO)
+))
+\c@section@level=\count289
+) (/usr/share/texlive/texmf-dist/tex/latex/etoolbox/etoolbox.sty
+Package: etoolbox 2020/10/05 v2.5k e-TeX tools for LaTeX (JAW)
+\etb@tempcnta=\count290
+)
+\@linkdim=\dimen181
+\Hy@linkcounter=\count291
+\Hy@pagecounter=\count292
+ (/usr/share/texlive/texmf-dist/tex/latex/hyperref/pd1enc.def
+File: pd1enc.def 2024-01-20 v7.01h Hyperref: PDFDocEncoding definition (HO)
+Now handling font encoding PD1 ...
+... no UTF-8 mapping file for font encoding PD1
+) (/usr/share/texlive/texmf-dist/tex/generic/intcalc/intcalc.sty
+Package: intcalc 2019/12/15 v1.3 Expandable calculations with integers (HO)
+)
+\Hy@SavedSpaceFactor=\count293
+ (/usr/share/texlive/texmf-dist/tex/latex/hyperref/puenc.def
+File: puenc.def 2024-01-20 v7.01h Hyperref: PDF Unicode definition (HO)
+Now handling font encoding PU ...
+... no UTF-8 mapping file for font encoding PU
+)
+Package hyperref Info: Option `unicode' set `true' on input line 4062.
+Package hyperref Info: Option `bookmarks' set `true' on input line 4062.
+Package hyperref Info: Option `bookmarksnumbered' set `true' on input line 4062.
+Package hyperref Info: Option `bookmarksopen' set `true' on input line 4062.
+Package hyperref Info: Option `colorlinks' set `true' on input line 4062.
+Package hyperref Info: Hyper figures OFF on input line 4179.
+Package hyperref Info: Link nesting OFF on input line 4184.
+Package hyperref Info: Hyper index ON on input line 4187.
+Package hyperref Info: Plain pages OFF on input line 4194.
+Package hyperref Info: Backreferencing OFF on input line 4199.
+Package hyperref Info: Implicit mode ON; LaTeX internals redefined.
+Package hyperref Info: Bookmarks ON on input line 4446.
+\c@Hy@tempcnt=\count294
+LaTeX Info: Redefining \url on input line 4784.
+\XeTeXLinkMargin=\dimen182
+ (/usr/share/texlive/texmf-dist/tex/generic/bitset/bitset.sty
+Package: bitset 2019/12/09 v1.3 Handle bit-vector datatype (HO)
+ (/usr/share/texlive/texmf-dist/tex/generic/bigintcalc/bigintcalc.sty
+Package: bigintcalc 2019/12/15 v1.5 Expandable calculations on big integers (HO)
+))
+\Fld@menulength=\count295
+\Field@Width=\dimen183
+\Fld@charsize=\dimen184
+Package hyperref Info: Hyper figures OFF on input line 6063.
+Package hyperref Info: Link nesting OFF on input line 6068.
+Package hyperref Info: Hyper index ON on input line 6071.
+Package hyperref Info: backreferencing OFF on input line 6078.
+Package hyperref Info: Link coloring ON on input line 6081.
+Package hyperref Info: Link coloring with OCG OFF on input line 6088.
+Package hyperref Info: PDF/A mode OFF on input line 6093.
+ (/usr/share/texlive/texmf-dist/tex/latex/base/atbegshi-ltx.sty
+Package: atbegshi-ltx 2021/01/10 v1.0c Emulation of the original atbegshi
+package with kernel methods
+)
+
+Package hyperref Warning: Option `pdfpagelabels' is turned off
+(hyperref)                because \thepage is undefined.
+
+\c@Item=\count296
+\c@Hfootnote=\count297
+)
+Package hyperref Info: Driver (autodetected): hpdftex.
+ (/usr/share/texlive/texmf-dist/tex/latex/hyperref/hpdftex.def
+File: hpdftex.def 2024-01-20 v7.01h Hyperref driver for pdfTeX
+\Fld@listcount=\count298
+\c@bookmark@seq@number=\count299
+ (/usr/share/texlive/texmf-dist/tex/latex/rerunfilecheck/rerunfilecheck.sty
+Package: rerunfilecheck 2022-07-10 v1.10 Rerun checks for auxiliary files (HO)
+ (/usr/share/texlive/texmf-dist/tex/latex/base/atveryend-ltx.sty
+Package: atveryend-ltx 2020/08/19 v1.0a Emulation of the original atveryend package
+with kernel methods
+) (/usr/share/texlive/texmf-dist/tex/generic/uniquecounter/uniquecounter.sty
+Package: uniquecounter 2019/12/15 v1.4 Provide unlimited unique counter (HO)
+)
+Package uniquecounter Info: New unique counter `rerunfilecheck' on input line 285.
+)
+\Hy@SectionHShift=\skip59
+)
+/home/michi-tsubaki/robot_ws/ping-pong-robot/docs/report/report.tex:63: Undefined control sequence.
+l.63 \titlepic
+              {\includegraphics[width=10cm]{figures/HARIMOTO.png}}
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+
+/home/michi-tsubaki/robot_ws/ping-pong-robot/docs/report/report.tex:63: LaTeX Error: Missing \begin{document}.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.63 \titlepic{\includegraphics
+                               [width=10cm]{figures/HARIMOTO.png}}
+You're in trouble here.  Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+<figures/HARIMOTO.png, id=1, 286.06876pt x 380.42125pt>
+File: figures/HARIMOTO.png Graphic file (type png)
+<use figures/HARIMOTO.png>
+Package pdftex.def Info: figures/HARIMOTO.png  used on input line 63.
+(pdftex.def)             Requested size: 284.52756pt x 378.37703pt.
+(./report.aux)
+\openout1 = `report.aux'.
+
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 64.
+LaTeX Font Info:    ... okay on input line 64.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 64.
+LaTeX Font Info:    ... okay on input line 64.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 64.
+LaTeX Font Info:    ... okay on input line 64.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 64.
+LaTeX Font Info:    ... okay on input line 64.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 64.
+LaTeX Font Info:    ... okay on input line 64.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 64.
+LaTeX Font Info:    ... okay on input line 64.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 64.
+LaTeX Font Info:    ... okay on input line 64.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 64.
+LaTeX Font Info:    ... okay on input line 64.
+LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 64.
+LaTeX Font Info:    ... okay on input line 64.
+
+
+/home/michi-tsubaki/robot_ws/ping-pong-robot/docs/report/report.tex:64: LaTeX Error: The font size command \normalsize is not defined:
+               there is probably something wrong with the class file.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.64 \begin{document}
+                     
+Your command was ignored.
+Type  I <command> <return>  to replace it with another command,
+or  <return>  to continue without it.
+
+*geometry* driver: auto-detecting
+*geometry* detected driver: pdftex
+*geometry* verbose mode - [ preamble ] result:
+* driver: pdftex
+* paper: letterpaper
+* layout: <same size as paper>
+* layoutoffset:(h,v)=(0.0pt,0.0pt)
+* modes: 
+* h-part:(L,W,R)=(71.13188pt, 472.03123pt, 71.13188pt)
+* v-part:(T,H,B)=(71.13188pt, 652.70622pt, 71.13188pt)
+* \paperwidth=614.295pt
+* \paperheight=794.96999pt
+* \textwidth=472.03123pt
+* \textheight=652.70622pt
+* \oddsidemargin=-1.1381pt
+* \evensidemargin=-1.1381pt
+* \topmargin=-1.1381pt
+* \headheight=0.0pt
+* \headsep=0.0pt
+* \topskip=10.0pt
+* \footskip=0.0pt
+* \marginparwidth=0.0pt
+* \marginparsep=0.0pt
+* \columnsep=0.0pt
+* \skip\footins=12.0pt plus 4.0pt minus 4.0pt
+* \hoffset=0.0pt
+* \voffset=0.0pt
+* \mag=1000
+* \@twocolumnfalse
+* \@twosidefalse
+* \@mparswitchfalse
+* \@reversemarginfalse
+* (1in=72.27pt=25.4mm, 1cm=28.453pt)
+
+(/usr/share/texlive/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
+[Loading MPS to PDF converter (version 2006.09.02).]
+\scratchcounter=\count300
+\scratchdimen=\dimen185
+\scratchbox=\box71
+\nofMPsegments=\count301
+\nofMParguments=\count302
+\everyMPshowfont=\toks29
+\MPscratchCnt=\count303
+\MPscratchDim=\dimen186
+\MPnumerator=\count304
+\makeMPintoPDFobject=\count305
+\everyMPtoPDFconversion=\toks30
+) (/usr/share/texlive/texmf-dist/tex/latex/epstopdf-pkg/epstopdf-base.sty
+Package: epstopdf-base 2020-01-24 v2.11 Base part for package epstopdf
+Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 485.
+ (/usr/share/texlive/texmf-dist/tex/latex/latexconfig/epstopdf-sys.cfg
+File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Live
+))
+\c@lstlisting=\count306
+ (/usr/share/texlive/texmf-dist/tex/latex/graphics/color.sty
+Package: color 2022/01/06 v1.3d Standard LaTeX Color (DPC)
+ (/usr/share/texlive/texmf-dist/tex/latex/graphics-cfg/color.cfg
+File: color.cfg 2016/01/02 v1.6 sample color configuration
+)
+Package color Info: Driver file: pdftex.def on input line 149.
+ (/usr/share/texlive/texmf-dist/tex/latex/graphics/mathcolor.ltx))
+Package hyperref Info: Link coloring ON on input line 64.
+\@outlinefile=\write3
+\openout3 = `report.out'.
+
+
+/home/michi-tsubaki/robot_ws/ping-pong-robot/docs/report/report.tex:66: Undefined control sequence.
+\reserved@c ->\HyOrg@maketitle 
+                               \Hy@maketitle@end 
+l.66 \section
+             {概要}
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+/home/michi-tsubaki/robot_ws/ping-pong-robot/docs/report/report.tex:66: Undefined control sequence.
+<recently read> \section 
+                         
+l.66 \section
+             {概要}
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+
+/home/michi-tsubaki/robot_ws/ping-pong-robot/docs/report/report.tex:66: LaTeX Error: Unicode character 概 (U+6982)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.66 \section{概
+                 要}
+You may provide a definition with
+\DeclareUnicodeCharacter 
+
+
+/home/michi-tsubaki/robot_ws/ping-pong-robot/docs/report/report.tex:66: LaTeX Error: Unicode character 要 (U+8981)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.66 \section{概要
+                    }
+You may provide a definition with
+\DeclareUnicodeCharacter 
+
+
+/home/michi-tsubaki/robot_ws/ping-pong-robot/docs/report/report.tex:67: LaTeX Error: Unicode character 本 (U+672C)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.67 本
+        プロジェクトでは，卓球台上で稼働可能な卓球ロ�...
+You may provide a definition with
+\DeclareUnicodeCharacter 
+
+
+/home/michi-tsubaki/robot_ws/ping-pong-robot/docs/report/report.tex:67: LaTeX Error: Unicode character プ (U+30D7)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.67 本プ
+           ロジェクトでは，卓球台上で稼働可能な卓球ロ�...
+You may provide a definition with
+\DeclareUnicodeCharacter 
+
+
+/home/michi-tsubaki/robot_ws/ping-pong-robot/docs/report/report.tex:67: LaTeX Error: Unicode character ロ (U+30ED)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.67 本プロ
+              ジェクトでは，卓球台上で稼働可能な卓球ロ�...
+You may provide a definition with
+\DeclareUnicodeCharacter 
+
+
+/home/michi-tsubaki/robot_ws/ping-pong-robot/docs/report/report.tex:67: LaTeX Error: Unicode character ジ (U+30B8)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.67 本プロジ
+                 ェクトでは，卓球台上で稼働可能な卓球ロ�...
+You may provide a definition with
+\DeclareUnicodeCharacter 
+
+
+/home/michi-tsubaki/robot_ws/ping-pong-robot/docs/report/report.tex:67: LaTeX Error: Unicode character ェ (U+30A7)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.67 本プロジェ
+                    クトでは，卓球台上で稼働可能な卓球ロ�...
+You may provide a definition with
+\DeclareUnicodeCharacter 
+
+
+/home/michi-tsubaki/robot_ws/ping-pong-robot/docs/report/report.tex:67: LaTeX Error: Unicode character ク (U+30AF)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.67 本プロジェク
+                       トでは，卓球台上で稼働可能な卓球ロ�...
+You may provide a definition with
+\DeclareUnicodeCharacter 
+
+
+/home/michi-tsubaki/robot_ws/ping-pong-robot/docs/report/report.tex:67: LaTeX Error: Unicode character ト (U+30C8)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.67 本プロジェクト
+                          では，卓球台上で稼働可能な卓球ロ�...
+You may provide a definition with
+\DeclareUnicodeCharacter 
+
+
+/home/michi-tsubaki/robot_ws/ping-pong-robot/docs/report/report.tex:67: LaTeX Error: Unicode character で (U+3067)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.67 本プロジェクトで
+                             は，卓球台上で稼働可能な卓球ロ�...
+You may provide a definition with
+\DeclareUnicodeCharacter 
+
+
+/home/michi-tsubaki/robot_ws/ping-pong-robot/docs/report/report.tex:67: LaTeX Error: Unicode character は (U+306F)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.67 本プロジェクトでは
+                                ，卓球台上で稼働可能な卓球ロ�...
+You may provide a definition with
+\DeclareUnicodeCharacter 
+
+
+/home/michi-tsubaki/robot_ws/ping-pong-robot/docs/report/report.tex:67: LaTeX Error: Unicode character ， (U+FF0C)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.67 本プロジェクトでは，
+                                   卓球台上で稼働可能な卓球ロ�...
+You may provide a definition with
+\DeclareUnicodeCharacter 
+
+
+/home/michi-tsubaki/robot_ws/ping-pong-robot/docs/report/report.tex:67: LaTeX Error: Unicode character 卓 (U+5353)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.67 本プロジェクトでは，卓
+                                      球台上で稼働可能な卓球ロ�...
+You may provide a definition with
+\DeclareUnicodeCharacter 
+
+
+/home/michi-tsubaki/robot_ws/ping-pong-robot/docs/report/report.tex:67: LaTeX Error: Unicode character 球 (U+7403)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.67 本プロジェクトでは，卓球
+                                         台上で稼働可能な卓球ロ�...
+You may provide a definition with
+\DeclareUnicodeCharacter 
+
+
+/home/michi-tsubaki/robot_ws/ping-pong-robot/docs/report/report.tex:67: LaTeX Error: Unicode character 台 (U+53F0)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.67 本プロジェクトでは，卓球台
+                                            上で稼働可能な卓球ロ�...
+You may provide a definition with
+\DeclareUnicodeCharacter 
+
+
+/home/michi-tsubaki/robot_ws/ping-pong-robot/docs/report/report.tex:67: LaTeX Error: Unicode character 上 (U+4E0A)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.67 本プロジェクトでは，卓球台上
+                                               で稼働可能な卓球ロ�...
+You may provide a definition with
+\DeclareUnicodeCharacter 
+
+
+/home/michi-tsubaki/robot_ws/ping-pong-robot/docs/report/report.tex:67: LaTeX Error: Unicode character で (U+3067)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.67 本プロジェクトでは，卓球台上で
+                                                  稼働可能な卓球ロ�...
+You may provide a definition with
+\DeclareUnicodeCharacter 
+
+
+/home/michi-tsubaki/robot_ws/ping-pong-robot/docs/report/report.tex:67: LaTeX Error: Unicode character 稼 (U+7A3C)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.67 ...ロジェクトでは，卓球台上で稼
+                                                  働可能な卓球ロボ�...
+You may provide a definition with
+\DeclareUnicodeCharacter 
+
+
+/home/michi-tsubaki/robot_ws/ping-pong-robot/docs/report/report.tex:67: LaTeX Error: Unicode character 働 (U+50CD)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.67 ...ジェクトでは，卓球台上で稼働
+                                                  可能な卓球ロボッ�...
+You may provide a definition with
+\DeclareUnicodeCharacter 
+
+
+/home/michi-tsubaki/robot_ws/ping-pong-robot/docs/report/report.tex:67: LaTeX Error: Unicode character 可 (U+53EF)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.67 ...ェクトでは，卓球台上で稼働可
+                                                  能な卓球ロボット H...
+You may provide a definition with
+\DeclareUnicodeCharacter 
+
+
+/home/michi-tsubaki/robot_ws/ping-pong-robot/docs/report/report.tex:67: LaTeX Error: Unicode character 能 (U+80FD)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.67 ...クトでは，卓球台上で稼働可能
+                                                  な卓球ロボット HARI...
+You may provide a definition with
+\DeclareUnicodeCharacter 
+
+
+/home/michi-tsubaki/robot_ws/ping-pong-robot/docs/report/report.tex:67: LaTeX Error: Unicode character な (U+306A)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.67 ...トでは，卓球台上で稼働可能な
+                                                  卓球ロボット HARIMOT...
+You may provide a definition with
+\DeclareUnicodeCharacter 
+
+
+/home/michi-tsubaki/robot_ws/ping-pong-robot/docs/report/report.tex:67: LaTeX Error: Unicode character 卓 (U+5353)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.67 ...では，卓球台上で稼働可能な卓
+                                                  球ロボット HARIMOTO�...
+You may provide a definition with
+\DeclareUnicodeCharacter 
+
+
+/home/michi-tsubaki/robot_ws/ping-pong-robot/docs/report/report.tex:67: LaTeX Error: Unicode character 球 (U+7403)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.67 ...は，卓球台上で稼働可能な卓球
+                                                  ロボット HARIMOTO（�...
+You may provide a definition with
+\DeclareUnicodeCharacter 
+
+
+/home/michi-tsubaki/robot_ws/ping-pong-robot/docs/report/report.tex:67: LaTeX Error: Unicode character ロ (U+30ED)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.67 ...，卓球台上で稼働可能な卓球ロ
+                                                  ボット HARIMOTO（以�...
+You may provide a definition with
+\DeclareUnicodeCharacter 
+
+
+/home/michi-tsubaki/robot_ws/ping-pong-robot/docs/report/report.tex:67: LaTeX Error: Unicode character ボ (U+30DC)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.67 ...卓球台上で稼働可能な卓球ロボ
+                                                  ット HARIMOTO（以下�...
+You may provide a definition with
+\DeclareUnicodeCharacter 
+
+
+/home/michi-tsubaki/robot_ws/ping-pong-robot/docs/report/report.tex:67: LaTeX Error: Unicode character ッ (U+30C3)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.67 ...球台上で稼働可能な卓球ロボッ
+                                                  ト HARIMOTO（以下，�...
+You may provide a definition with
+\DeclareUnicodeCharacter 
+
+
+/home/michi-tsubaki/robot_ws/ping-pong-robot/docs/report/report.tex:67: LaTeX Error: Unicode character ト (U+30C8)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.67 ...台上で稼働可能な卓球ロボット
+                                                   HARIMOTO（以下，単�...
+You may provide a definition with
+\DeclareUnicodeCharacter 
+
+
+/home/michi-tsubaki/robot_ws/ping-pong-robot/docs/report/report.tex:67: LaTeX Error: Unicode character （ (U+FF08)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.67 ...働可能な卓球ロボット HARIMOTO（
+                                                  以下，単に「ロボ�...
+You may provide a definition with
+\DeclareUnicodeCharacter 
+
+
+/home/michi-tsubaki/robot_ws/ping-pong-robot/docs/report/report.tex:67: LaTeX Error: Unicode character 以 (U+4EE5)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.67 ...可能な卓球ロボット HARIMOTO（以
+                                                  下，単に「ロボッ�...
+You may provide a definition with
+\DeclareUnicodeCharacter 
+
+
+/home/michi-tsubaki/robot_ws/ping-pong-robot/docs/report/report.tex:67: LaTeX Error: Unicode character 下 (U+4E0B)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.67 ...能な卓球ロボット HARIMOTO（以下
+                                                  ，単に「ロボット�...
+You may provide a definition with
+\DeclareUnicodeCharacter 
+
+
+/home/michi-tsubaki/robot_ws/ping-pong-robot/docs/report/report.tex:67: LaTeX Error: Unicode character ， (U+FF0C)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.67 ...な卓球ロボット HARIMOTO（以下，
+                                                  単に「ロボット」�...
+You may provide a definition with
+\DeclareUnicodeCharacter 
+
+
+/home/michi-tsubaki/robot_ws/ping-pong-robot/docs/report/report.tex:67: LaTeX Error: Unicode character 単 (U+5358)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.67 ...卓球ロボット HARIMOTO（以下，単
+                                                  に「ロボット」と�...
+You may provide a definition with
+\DeclareUnicodeCharacter 
+
+
+/home/michi-tsubaki/robot_ws/ping-pong-robot/docs/report/report.tex:67: LaTeX Error: Unicode character に (U+306B)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.67 ...球ロボット HARIMOTO（以下，単に
+                                                  「ロボット」とい�...
+You may provide a definition with
+\DeclareUnicodeCharacter 
+
+
+/home/michi-tsubaki/robot_ws/ping-pong-robot/docs/report/report.tex:67: LaTeX Error: Unicode character 「 (U+300C)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.67 ...ロボット HARIMOTO（以下，単に「
+                                                  ロボット」という�...
+You may provide a definition with
+\DeclareUnicodeCharacter 
+
+
+/home/michi-tsubaki/robot_ws/ping-pong-robot/docs/report/report.tex:67: LaTeX Error: Unicode character ロ (U+30ED)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.67 ...ボット HARIMOTO（以下，単に「ロ
+                                                  ボット」という．�...
+You may provide a definition with
+\DeclareUnicodeCharacter 
+
+
+/home/michi-tsubaki/robot_ws/ping-pong-robot/docs/report/report.tex:67: LaTeX Error: Unicode character ボ (U+30DC)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.67 ...ット HARIMOTO（以下，単に「ロボ
+                                                  ット」という．）�...
+You may provide a definition with
+\DeclareUnicodeCharacter 
+
+
+/home/michi-tsubaki/robot_ws/ping-pong-robot/docs/report/report.tex:67: LaTeX Error: Unicode character ッ (U+30C3)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.67 ...ト HARIMOTO（以下，単に「ロボッ
+                                                  ト」という．）を�...
+You may provide a definition with
+\DeclareUnicodeCharacter 
+
+
+/home/michi-tsubaki/robot_ws/ping-pong-robot/docs/report/report.tex:67: LaTeX Error: Unicode character ト (U+30C8)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.67 ... HARIMOTO（以下，単に「ロボット
+                                                  」という．）を製�...
+You may provide a definition with
+\DeclareUnicodeCharacter 
+
+
+/home/michi-tsubaki/robot_ws/ping-pong-robot/docs/report/report.tex:67: LaTeX Error: Unicode character 」 (U+300D)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.67 ...RIMOTO（以下，単に「ロボット」
+                                                  という．）を製作�...
+You may provide a definition with
+\DeclareUnicodeCharacter 
+
+
+/home/michi-tsubaki/robot_ws/ping-pong-robot/docs/report/report.tex:67: LaTeX Error: Unicode character と (U+3068)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.67 ...OTO（以下，単に「ロボット」と
+                                                  いう．）を製作し�...
+You may provide a definition with
+\DeclareUnicodeCharacter 
+
+
+/home/michi-tsubaki/robot_ws/ping-pong-robot/docs/report/report.tex:67: LaTeX Error: Unicode character い (U+3044)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.67 ...（以下，単に「ロボット」とい
+                                                  う．）を製作した�...
+You may provide a definition with
+\DeclareUnicodeCharacter 
+
+
+/home/michi-tsubaki/robot_ws/ping-pong-robot/docs/report/report.tex:67: LaTeX Error: Unicode character う (U+3046)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.67 ...以下，単に「ロボット」という
+                                                  ．）を製作した．�...
+You may provide a definition with
+\DeclareUnicodeCharacter 
+
+
+/home/michi-tsubaki/robot_ws/ping-pong-robot/docs/report/report.tex:67: LaTeX Error: Unicode character ． (U+FF0E)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.67 ...下，単に「ロボット」という．
+                                                  ）を製作した．ロ�...
+You may provide a definition with
+\DeclareUnicodeCharacter 
+
+
+/home/michi-tsubaki/robot_ws/ping-pong-robot/docs/report/report.tex:67: LaTeX Error: Unicode character ） (U+FF09)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.67 ...，単に「ロボット」という．）
+                                                  を製作した．ロボ�...
+You may provide a definition with
+\DeclareUnicodeCharacter 
+
+
+/home/michi-tsubaki/robot_ws/ping-pong-robot/docs/report/report.tex:67: LaTeX Error: Unicode character を (U+3092)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.67 ...単に「ロボット」という．）を
+                                                  製作した．ロボッ�...
+You may provide a definition with
+\DeclareUnicodeCharacter 
+
+
+/home/michi-tsubaki/robot_ws/ping-pong-robot/docs/report/report.tex:67: LaTeX Error: Unicode character 製 (U+88FD)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.67 ...に「ロボット」という．）を製
+                                                  作した．ロボット�...
+You may provide a definition with
+\DeclareUnicodeCharacter 
+
+
+/home/michi-tsubaki/robot_ws/ping-pong-robot/docs/report/report.tex:67: LaTeX Error: Unicode character 作 (U+4F5C)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.67 ...「ロボット」という．）を製作
+                                                  した．ロボットは�...
+You may provide a definition with
+\DeclareUnicodeCharacter 
+
+
+/home/michi-tsubaki/robot_ws/ping-pong-robot/docs/report/report.tex:67: LaTeX Error: Unicode character し (U+3057)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.67 ...ロボット」という．）を製作し
+                                                  た．ロボットは，�...
+You may provide a definition with
+\DeclareUnicodeCharacter 
+
+
+/home/michi-tsubaki/robot_ws/ping-pong-robot/docs/report/report.tex:67: LaTeX Error: Unicode character た (U+305F)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.67 ...ボット」という．）を製作した
+                                                  ．ロボットは，「�...
+You may provide a definition with
+\DeclareUnicodeCharacter 
+
+
+/home/michi-tsubaki/robot_ws/ping-pong-robot/docs/report/report.tex:67: LaTeX Error: Unicode character ． (U+FF0E)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.67 ...ット」という．）を製作した．
+                                                  ロボットは，「プ�...
+You may provide a definition with
+\DeclareUnicodeCharacter 
+
+
+/home/michi-tsubaki/robot_ws/ping-pong-robot/docs/report/report.tex:67: LaTeX Error: Unicode character ロ (U+30ED)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.67 ...ト」という．）を製作した．ロ
+                                                  ボットは，「プッ�...
+You may provide a definition with
+\DeclareUnicodeCharacter 
+
+
+/home/michi-tsubaki/robot_ws/ping-pong-robot/docs/report/report.tex:67: LaTeX Error: Unicode character ボ (U+30DC)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.67 ...」という．）を製作した．ロボ
+                                                  ットは，「プッシ�...
+You may provide a definition with
+\DeclareUnicodeCharacter 
+
+
+/home/michi-tsubaki/robot_ws/ping-pong-robot/docs/report/report.tex:67: LaTeX Error: Unicode character ッ (U+30C3)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.67 ...という．）を製作した．ロボッ
+                                                  トは，「プッシュ�...
+You may provide a definition with
+\DeclareUnicodeCharacter 
+
+
+/home/michi-tsubaki/robot_ws/ping-pong-robot/docs/report/report.tex:67: LaTeX Error: Unicode character ト (U+30C8)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.67 ...いう．）を製作した．ロボット
+                                                  は，「プッシュ卓�...
+You may provide a definition with
+\DeclareUnicodeCharacter 
+
+
+/home/michi-tsubaki/robot_ws/ping-pong-robot/docs/report/report.tex:67: LaTeX Error: Unicode character は (U+306F)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.67 ...う．）を製作した．ロボットは
+                                                  ，「プッシュ卓球�...
+You may provide a definition with
+\DeclareUnicodeCharacter 
+
+
+/home/michi-tsubaki/robot_ws/ping-pong-robot/docs/report/report.tex:67: LaTeX Error: Unicode character ， (U+FF0C)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.67 ...．）を製作した．ロボットは，
+                                                  「プッシュ卓球打�...
+You may provide a definition with
+\DeclareUnicodeCharacter 
+
+
+/home/michi-tsubaki/robot_ws/ping-pong-robot/docs/report/report.tex:67: LaTeX Error: Unicode character 「 (U+300C)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.67 ...）を製作した．ロボットは，「
+                                                  プッシュ卓球打ち�...
+You may provide a definition with
+\DeclareUnicodeCharacter 
+
+
+/home/michi-tsubaki/robot_ws/ping-pong-robot/docs/report/report.tex:67: LaTeX Error: Unicode character プ (U+30D7)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.67 ...を製作した．ロボットは，「プ
+                                                  ッシュ卓球打ち（�...
+You may provide a definition with
+\DeclareUnicodeCharacter 
+
+
+/home/michi-tsubaki/robot_ws/ping-pong-robot/docs/report/report.tex:67: LaTeX Error: Unicode character ッ (U+30C3)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.67 ...製作した．ロボットは，「プッ
+                                                  シュ卓球打ち（＝�...
+You may provide a definition with
+\DeclareUnicodeCharacter 
+
+
+/home/michi-tsubaki/robot_ws/ping-pong-robot/docs/report/report.tex:67: LaTeX Error: Unicode character シ (U+30B7)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.67 ...作した．ロボットは，「プッシ
+                                                  ュ卓球打ち（＝温�...
+You may provide a definition with
+\DeclareUnicodeCharacter 
+
+
+/home/michi-tsubaki/robot_ws/ping-pong-robot/docs/report/report.tex:67: LaTeX Error: Unicode character ュ (U+30E5)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.67 ...した．ロボットは，「プッシュ
+                                                  卓球打ち（＝温泉�...
+You may provide a definition with
+\DeclareUnicodeCharacter 
+
+
+/home/michi-tsubaki/robot_ws/ping-pong-robot/docs/report/report.tex:67: LaTeX Error: Unicode character 卓 (U+5353)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.67 ...た．ロボットは，「プッシュ卓
+                                                  球打ち（＝温泉卓�...
+You may provide a definition with
+\DeclareUnicodeCharacter 
+
+
+/home/michi-tsubaki/robot_ws/ping-pong-robot/docs/report/report.tex:67: LaTeX Error: Unicode character 球 (U+7403)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.67 ...．ロボットは，「プッシュ卓球
+                                                  打ち（＝温泉卓球�...
+You may provide a definition with
+\DeclareUnicodeCharacter 
+
+
+/home/michi-tsubaki/robot_ws/ping-pong-robot/docs/report/report.tex:67: LaTeX Error: Unicode character 打 (U+6253)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.67 ...ロボットは，「プッシュ卓球打
+                                                  ち（＝温泉卓球打�...
+You may provide a definition with
+\DeclareUnicodeCharacter 
+
+
+/home/michi-tsubaki/robot_ws/ping-pong-robot/docs/report/report.tex:67: LaTeX Error: Unicode character ち (U+3061)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.67 ...ボットは，「プッシュ卓球打ち
+                                                  （＝温泉卓球打ち�...
+You may provide a definition with
+\DeclareUnicodeCharacter 
+
+
+/home/michi-tsubaki/robot_ws/ping-pong-robot/docs/report/report.tex:67: LaTeX Error: Unicode character （ (U+FF08)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.67 ...ットは，「プッシュ卓球打ち（
+                                                  ＝温泉卓球打ち）�...
+You may provide a definition with
+\DeclareUnicodeCharacter 
+
+
+/home/michi-tsubaki/robot_ws/ping-pong-robot/docs/report/report.tex:67: LaTeX Error: Unicode character ＝ (U+FF1D)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.67 ...トは，「プッシュ卓球打ち（＝
+                                                  温泉卓球打ち）」�...
+You may provide a definition with
+\DeclareUnicodeCharacter 
+
+
+/home/michi-tsubaki/robot_ws/ping-pong-robot/docs/report/report.tex:67: LaTeX Error: Unicode character 温 (U+6E29)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.67 ...は，「プッシュ卓球打ち（＝温
+                                                  泉卓球打ち）」「�...
+You may provide a definition with
+\DeclareUnicodeCharacter 
+
+
+/home/michi-tsubaki/robot_ws/ping-pong-robot/docs/report/report.tex:67: LaTeX Error: Unicode character 泉 (U+6CC9)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.67 ...，「プッシュ卓球打ち（＝温泉
+                                                  卓球打ち）」「ド�...
+You may provide a definition with
+\DeclareUnicodeCharacter 
+
+
+/home/michi-tsubaki/robot_ws/ping-pong-robot/docs/report/report.tex:67: LaTeX Error: Unicode character 卓 (U+5353)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.67 ...「プッシュ卓球打ち（＝温泉卓
+                                                  球打ち）」「ドラ�...
+You may provide a definition with
+\DeclareUnicodeCharacter 
+
+
+/home/michi-tsubaki/robot_ws/ping-pong-robot/docs/report/report.tex:67: LaTeX Error: Unicode character 球 (U+7403)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.67 ...プッシュ卓球打ち（＝温泉卓球
+                                                  打ち）」「ドライ�...
+You may provide a definition with
+\DeclareUnicodeCharacter 
+
+
+/home/michi-tsubaki/robot_ws/ping-pong-robot/docs/report/report.tex:67: LaTeX Error: Unicode character 打 (U+6253)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.67 ...ッシュ卓球打ち（＝温泉卓球打
+                                                  ち）」「ドライブ�...
+You may provide a definition with
+\DeclareUnicodeCharacter 
+
+
+/home/michi-tsubaki/robot_ws/ping-pong-robot/docs/report/report.tex:67: LaTeX Error: Unicode character ち (U+3061)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.67 ...シュ卓球打ち（＝温泉卓球打ち
+                                                  ）」「ドライブ打�...
+You may provide a definition with
+\DeclareUnicodeCharacter 
+
+
+/home/michi-tsubaki/robot_ws/ping-pong-robot/docs/report/report.tex:67: LaTeX Error: Unicode character ） (U+FF09)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.67 ...ュ卓球打ち（＝温泉卓球打ち）
+                                                  」「ドライブ打ち�...
+You may provide a definition with
+\DeclareUnicodeCharacter 
+
+
+/home/michi-tsubaki/robot_ws/ping-pong-robot/docs/report/report.tex:67: LaTeX Error: Unicode character 」 (U+300D)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.67 ...卓球打ち（＝温泉卓球打ち）」
+                                                  「ドライブ打ち」�...
+You may provide a definition with
+\DeclareUnicodeCharacter 
+
+
+/home/michi-tsubaki/robot_ws/ping-pong-robot/docs/report/report.tex:67: LaTeX Error: Unicode character 「 (U+300C)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.67 ...球打ち（＝温泉卓球打ち）」「
+                                                  ドライブ打ち」の�...
+You may provide a definition with
+\DeclareUnicodeCharacter 
+
+
+/home/michi-tsubaki/robot_ws/ping-pong-robot/docs/report/report.tex:67: LaTeX Error: Unicode character ド (U+30C9)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.67 ...打ち（＝温泉卓球打ち）」「ド
+                                                  ライブ打ち」の二�...
+You may provide a definition with
+\DeclareUnicodeCharacter 
+
+
+/home/michi-tsubaki/robot_ws/ping-pong-robot/docs/report/report.tex:67: LaTeX Error: Unicode character ラ (U+30E9)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.67 ...ち（＝温泉卓球打ち）」「ドラ
+                                                  イブ打ち」の二種�...
+You may provide a definition with
+\DeclareUnicodeCharacter 
+
+
+/home/michi-tsubaki/robot_ws/ping-pong-robot/docs/report/report.tex:67: LaTeX Error: Unicode character イ (U+30A4)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.67 ...（＝温泉卓球打ち）」「ドライ
+                                                  ブ打ち」の二種類�...
+You may provide a definition with
+\DeclareUnicodeCharacter 
+
+
+/home/michi-tsubaki/robot_ws/ping-pong-robot/docs/report/report.tex:67: LaTeX Error: Unicode character ブ (U+30D6)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.67 ...＝温泉卓球打ち）」「ドライブ
+                                                  打ち」の二種類の�...
+You may provide a definition with
+\DeclareUnicodeCharacter 
+
+
+/home/michi-tsubaki/robot_ws/ping-pong-robot/docs/report/report.tex:67: LaTeX Error: Unicode character 打 (U+6253)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.67 ...温泉卓球打ち）」「ドライブ打
+                                                  ち」の二種類の打�...
+You may provide a definition with
+\DeclareUnicodeCharacter 
+
+
+/home/michi-tsubaki/robot_ws/ping-pong-robot/docs/report/report.tex:67: LaTeX Error: Unicode character ち (U+3061)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.67 ...泉卓球打ち）」「ドライブ打ち
+                                                  」の二種類の打撃�...
+You may provide a definition with
+\DeclareUnicodeCharacter 
+
+
+/home/michi-tsubaki/robot_ws/ping-pong-robot/docs/report/report.tex:67: LaTeX Error: Unicode character 」 (U+300D)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.67 ...卓球打ち）」「ドライブ打ち」
+                                                  の二種類の打撃方�...
+You may provide a definition with
+\DeclareUnicodeCharacter 
+
+
+/home/michi-tsubaki/robot_ws/ping-pong-robot/docs/report/report.tex:67: LaTeX Error: Unicode character の (U+306E)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.67 ...球打ち）」「ドライブ打ち」の
+                                                  二種類の打撃方法�...
+You may provide a definition with
+\DeclareUnicodeCharacter 
+
+
+/home/michi-tsubaki/robot_ws/ping-pong-robot/docs/report/report.tex:67: LaTeX Error: Unicode character 二 (U+4E8C)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.67 ...打ち）」「ドライブ打ち」の二
+                                                  種類の打撃方法に�...
+You may provide a definition with
+\DeclareUnicodeCharacter 
+
+
+/home/michi-tsubaki/robot_ws/ping-pong-robot/docs/report/report.tex:67: LaTeX Error: Unicode character 種 (U+7A2E)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.67 ...ち）」「ドライブ打ち」の二種
+                                                  類の打撃方法によ�...
+You may provide a definition with
+\DeclareUnicodeCharacter 
+
+
+/home/michi-tsubaki/robot_ws/ping-pong-robot/docs/report/report.tex:67: LaTeX Error: Unicode character 類 (U+985E)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.67 ...）」「ドライブ打ち」の二種類
+                                                  の打撃方法により�...
+You may provide a definition with
+\DeclareUnicodeCharacter 
+
+
+/home/michi-tsubaki/robot_ws/ping-pong-robot/docs/report/report.tex:67: LaTeX Error: Unicode character の (U+306E)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.67 ...」「ドライブ打ち」の二種類の
+                                                  打撃方法により，�...
+You may provide a definition with
+\DeclareUnicodeCharacter 
+
+
+/home/michi-tsubaki/robot_ws/ping-pong-robot/docs/report/report.tex:67: LaTeX Error: Unicode character 打 (U+6253)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.67 ...「ドライブ打ち」の二種類の打
+                                                  撃方法により，投�...
+You may provide a definition with
+\DeclareUnicodeCharacter 
+
+
+/home/michi-tsubaki/robot_ws/ping-pong-robot/docs/report/report.tex:67: LaTeX Error: Unicode character 撃 (U+6483)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.67 ...ドライブ打ち」の二種類の打撃
+                                                  方法により，投げ�...
+You may provide a definition with
+\DeclareUnicodeCharacter 
+
+
+/home/michi-tsubaki/robot_ws/ping-pong-robot/docs/report/report.tex:67: LaTeX Error: Unicode character 方 (U+65B9)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.67 ...ライブ打ち」の二種類の打撃方
+                                                  法により，投げた�...
+You may provide a definition with
+\DeclareUnicodeCharacter 
+
+
+/home/michi-tsubaki/robot_ws/ping-pong-robot/docs/report/report.tex:67: LaTeX Error: Unicode character 法 (U+6CD5)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.67 ...イブ打ち」の二種類の打撃方法
+                                                  により，投げた卓�...
+You may provide a definition with
+\DeclareUnicodeCharacter 
+
+
+/home/michi-tsubaki/robot_ws/ping-pong-robot/docs/report/report.tex:67: LaTeX Error: Unicode character に (U+306B)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.67 ...ブ打ち」の二種類の打撃方法に
+                                                  より，投げた卓球�...
+You may provide a definition with
+\DeclareUnicodeCharacter 
+
+
+/home/michi-tsubaki/robot_ws/ping-pong-robot/docs/report/report.tex:67: LaTeX Error: Unicode character よ (U+3088)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.67 ...打ち」の二種類の打撃方法によ
+                                                  り，投げた卓球ボ�...
+You may provide a definition with
+\DeclareUnicodeCharacter 
+
+
+/home/michi-tsubaki/robot_ws/ping-pong-robot/docs/report/report.tex:67: LaTeX Error: Unicode character り (U+308A)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.67 ...ち」の二種類の打撃方法により
+                                                  ，投げた卓球ボー�...
+You may provide a definition with
+\DeclareUnicodeCharacter 
+
+
+/home/michi-tsubaki/robot_ws/ping-pong-robot/docs/report/report.tex:67: LaTeX Error: Unicode character ， (U+FF0C)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.67 ...」の二種類の打撃方法により，
+                                                  投げた卓球ボール�...
+You may provide a definition with
+\DeclareUnicodeCharacter 
+
+
+/home/michi-tsubaki/robot_ws/ping-pong-robot/docs/report/report.tex:67: LaTeX Error: Unicode character 投 (U+6295)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.67 ...の二種類の打撃方法により，投
+                                                  げた卓球ボールに�...
+You may provide a definition with
+\DeclareUnicodeCharacter 
+
+
+/home/michi-tsubaki/robot_ws/ping-pong-robot/docs/report/report.tex:67: LaTeX Error: Unicode character げ (U+3052)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.67 ...二種類の打撃方法により，投げ
+                                                  た卓球ボールに対�...
+You may provide a definition with
+\DeclareUnicodeCharacter 
+
+
+/home/michi-tsubaki/robot_ws/ping-pong-robot/docs/report/report.tex:67: LaTeX Error: Unicode character た (U+305F)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.67 ...種類の打撃方法により，投げた
+                                                  卓球ボールに対し�...
+You may provide a definition with
+\DeclareUnicodeCharacter 
+
+
+/home/michi-tsubaki/robot_ws/ping-pong-robot/docs/report/report.tex:67: LaTeX Error: Unicode character 卓 (U+5353)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.67 ...類の打撃方法により，投げた卓
+                                                  球ボールに対して�...
+You may provide a definition with
+\DeclareUnicodeCharacter 
+
+
+/home/michi-tsubaki/robot_ws/ping-pong-robot/docs/report/report.tex:67: LaTeX Error: Unicode character 球 (U+7403)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.67 ...の打撃方法により，投げた卓球
+                                                  ボールに対して，�...
+You may provide a definition with
+\DeclareUnicodeCharacter 
+
+
+/home/michi-tsubaki/robot_ws/ping-pong-robot/docs/report/report.tex:67: LaTeX Error: Unicode character ボ (U+30DC)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.67 ...打撃方法により，投げた卓球ボ
+                                                  ールに対して，タ�...
+You may provide a definition with
+\DeclareUnicodeCharacter 
+
+
+/home/michi-tsubaki/robot_ws/ping-pong-robot/docs/report/report.tex:67: LaTeX Error: Unicode character ー (U+30FC)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.67 ...撃方法により，投げた卓球ボー
+                                                  ルに対して，タイ�...
+You may provide a definition with
+\DeclareUnicodeCharacter 
+
+
+/home/michi-tsubaki/robot_ws/ping-pong-robot/docs/report/report.tex:67: LaTeX Error: Unicode character ル (U+30EB)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.67 ...方法により，投げた卓球ボール
+                                                  に対して，タイミ�...
+You may provide a definition with
+\DeclareUnicodeCharacter 
+
+
+/home/michi-tsubaki/robot_ws/ping-pong-robot/docs/report/report.tex:67: LaTeX Error: Unicode character に (U+306B)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.67 ...法により，投げた卓球ボールに
+                                                  対して，タイミン�...
+You may provide a definition with
+\DeclareUnicodeCharacter 
+
+
+/home/michi-tsubaki/robot_ws/ping-pong-robot/docs/report/report.tex:67: LaTeX Error: Unicode character 対 (U+5BFE)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.67 ...により，投げた卓球ボールに対
+                                                  して，タイミング�...
+You may provide a definition with
+\DeclareUnicodeCharacter 
+
+
+/home/michi-tsubaki/robot_ws/ping-pong-robot/docs/report/report.tex:67: LaTeX Error: Unicode character し (U+3057)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.67 ...より，投げた卓球ボールに対し
+                                                  て，タイミングよ�...
+You may provide a definition with
+\DeclareUnicodeCharacter 
+
+
+/home/michi-tsubaki/robot_ws/ping-pong-robot/docs/report/report.tex:67: LaTeX Error: Unicode character て (U+3066)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.67 ...り，投げた卓球ボールに対して
+                                                  ，タイミングよく�...
+You may provide a definition with
+\DeclareUnicodeCharacter 
+
+
+/home/michi-tsubaki/robot_ws/ping-pong-robot/docs/report/report.tex:67: LaTeX Error: Unicode character ， (U+FF0C)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.67 ...，投げた卓球ボールに対して，
+                                                  タイミングよく振�...
+You may provide a definition with
+\DeclareUnicodeCharacter 
+
+
+/home/michi-tsubaki/robot_ws/ping-pong-robot/docs/report/report.tex:67: LaTeX Error: Unicode character タ (U+30BF)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.67 ...投げた卓球ボールに対して，タ
+                                                  イミングよく振る�...
+You may provide a definition with
+\DeclareUnicodeCharacter 
+
+
+/home/michi-tsubaki/robot_ws/ping-pong-robot/docs/report/report.tex:67: LaTeX Error: Unicode character イ (U+30A4)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.67 ...げた卓球ボールに対して，タイ
+                                                  ミングよく振るこ�...
+You may provide a definition with
+\DeclareUnicodeCharacter 
+
+
+/home/michi-tsubaki/robot_ws/ping-pong-robot/docs/report/report.tex:67: LaTeX Error: Unicode character ミ (U+30DF)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.67 ...た卓球ボールに対して，タイミ
+                                                  ングよく振ること�...
+You may provide a definition with
+\DeclareUnicodeCharacter 
+
+
+/home/michi-tsubaki/robot_ws/ping-pong-robot/docs/report/report.tex:67: LaTeX Error: Unicode character ン (U+30F3)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.67 ...卓球ボールに対して，タイミン
+                                                  グよく振ることが�...
+You may provide a definition with
+\DeclareUnicodeCharacter 
+
+
+/home/michi-tsubaki/robot_ws/ping-pong-robot/docs/report/report.tex:67: LaTeX Error: Unicode character グ (U+30B0)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.67 ...球ボールに対して，タイミング
+                                                  よく振ることがで�...
+You may provide a definition with
+\DeclareUnicodeCharacter 
+
+
+/home/michi-tsubaki/robot_ws/ping-pong-robot/docs/report/report.tex:67: LaTeX Error: Unicode character よ (U+3088)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.67 ...ボールに対して，タイミングよ
+                                                  く振ることができ�...
+You may provide a definition with
+\DeclareUnicodeCharacter 
+
+
+/home/michi-tsubaki/robot_ws/ping-pong-robot/docs/report/report.tex:67: LaTeX Error: Unicode character く (U+304F)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.67 ...ールに対して，タイミングよく
+                                                  振ることができる�...
+You may provide a definition with
+\DeclareUnicodeCharacter 
+
+
+/home/michi-tsubaki/robot_ws/ping-pong-robot/docs/report/report.tex:67: LaTeX Error: Unicode character 振 (U+632F)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.67 ...ルに対して，タイミングよく振
+                                                  ることができる．�...
+You may provide a definition with
+\DeclareUnicodeCharacter 
+
+
+/home/michi-tsubaki/robot_ws/ping-pong-robot/docs/report/report.tex:67: LaTeX Error: Unicode character る (U+308B)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.67 ...に対して，タイミングよく振る
+                                                  ことができる．単�...
+You may provide a definition with
+\DeclareUnicodeCharacter 
+
+
+/home/michi-tsubaki/robot_ws/ping-pong-robot/docs/report/report.tex:67: LaTeX Error: Unicode character こ (U+3053)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.67 ...対して，タイミングよく振るこ
+                                                  とができる．単に�...
+You may provide a definition with
+\DeclareUnicodeCharacter 
+
+
+/home/michi-tsubaki/robot_ws/ping-pong-robot/docs/report/report.tex:67: LaTeX Error: Unicode character と (U+3068)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.67 ...して，タイミングよく振ること
+                                                  ができる．単に，�...
+You may provide a definition with
+\DeclareUnicodeCharacter 
+
+
+/home/michi-tsubaki/robot_ws/ping-pong-robot/docs/report/report.tex:67: LaTeX Error: Unicode character が (U+304C)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.67 ...て，タイミングよく振ることが
+                                                  できる．単に，打�...
+You may provide a definition with
+\DeclareUnicodeCharacter 
+
+
+/home/michi-tsubaki/robot_ws/ping-pong-robot/docs/report/report.tex:67: LaTeX Error: Unicode character で (U+3067)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.67 ...，タイミングよく振ることがで
+                                                  きる．単に，打撃�...
+You may provide a definition with
+\DeclareUnicodeCharacter 
+
+
+/home/michi-tsubaki/robot_ws/ping-pong-robot/docs/report/report.tex:67: LaTeX Error: Unicode character き (U+304D)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.67 ...タイミングよく振ることができ
+                                                  る．単に，打撃制�...
+You may provide a definition with
+\DeclareUnicodeCharacter 
+
+
+/home/michi-tsubaki/robot_ws/ping-pong-robot/docs/report/report.tex:67: LaTeX Error: Unicode character る (U+308B)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.67 ...イミングよく振ることができる
+                                                  ．単に，打撃制御�...
+You may provide a definition with
+\DeclareUnicodeCharacter 
+
+
+/home/michi-tsubaki/robot_ws/ping-pong-robot/docs/report/report.tex:67: LaTeX Error: Unicode character ． (U+FF0E)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.67 ...ミングよく振ることができる．
+                                                  単に，打撃制御や�...
+You may provide a definition with
+\DeclareUnicodeCharacter 
+
+
+/home/michi-tsubaki/robot_ws/ping-pong-robot/docs/report/report.tex:67: LaTeX Error: Unicode character 単 (U+5358)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.67 ...ングよく振ることができる．単
+                                                  に，打撃制御や画�...
+You may provide a definition with
+\DeclareUnicodeCharacter 
+
+
+/home/michi-tsubaki/robot_ws/ping-pong-robot/docs/report/report.tex:67: LaTeX Error: Unicode character に (U+306B)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.67 ...グよく振ることができる．単に
+                                                  ，打撃制御や画像�...
+(That makes 100 errors; please try again.) 
+Here is how much of TeX's memory you used:
+ 12262 strings out of 475589
+ 187801 string characters out of 5782860
+ 1922975 words of memory out of 5000000
+ 34288 multiletter control sequences out of 15000+600000
+ 558271 words of font info for 38 fonts, out of 8000000 for 9000
+ 309 hyphenation exceptions out of 8191
+ 75i,4n,79p,710b,269s stack positions out of 10000i,1000n,20000p,200000b,200000s
+
+/home/michi-tsubaki/robot_ws/ping-pong-robot/docs/report/report.tex:67:  ==> Fatal error occurred, no output PDF file produced!
