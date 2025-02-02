@@ -17,11 +17,12 @@ The concept of this algorithm is shown on the issue (https://github.com/Michi-Ts
 (load "HARIMOTO-speak.l")
 (ros::load-ros-package "jsk_recognition_msgs")
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
 ;; Environment Management ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Setup-position (基本姿勢の定義)
-(setq *basic-pose-l* #f(18 25 7 25)) ;;下で待機
-(setq *basic-pose-u* #f(-60 30 -45 50)) ;;上で待機
-(setq *basic-pose-f* #f(15 -140 -10 -20)) ;;フォアで待機
+;; Setup-position
+(setq *basic-pose-l* #f(18 25 7 25)) ;; setup-position for push-hit mode
+(setq *basic-pose-u* #f(-60 30 -45 50)) ;; setup-position for drive-hit mode
+(setq *basic-pose-f* #f(15 -140 -10 -20)) ;; setup-position for fore-hit mode
 
 ;; Enviornment Region Settings (just reference)
 (setq *env-x-min-lim* -0.20)
@@ -41,51 +42,49 @@ The concept of this algorithm is shown on the issue (https://github.com/Michi-Ts
 
 ;; Ball Judge Region Settings
 ;; As for NEAR ..
-(setq *NEAR-sweet-x-min-lim* -0.04) ;; 左に-5cm ;; 左右方向 (左ー，右＋)
-(setq *NEAR-sweet-x-max-lim* 0.05)  ;; 右に 5cm
-(setq *NEAR-sweet-y-min-lim* -0.06) ;; 上に 2cm ;; 上下方向 (上ー，下＋)
-(setq *NEAR-sweet-y-max-lim* 0.07)  ;; 下に 7cm
-(setq *NEAR-sweet-z-min-lim* 0.16)  ;; 手前16cm ;; 奥行き方向
-(setq *NEAR-sweet-z-max-lim* 0.20)  ;; 奥に22cm ;; NEARは着地後なので近めに設定
+(setq *NEAR-sweet-x-min-lim* -0.04) ;; left -5cm ;; left minus(-) , right(+)
+(setq *NEAR-sweet-x-max-lim* 0.05)  ;; right 5cm
+(setq *NEAR-sweet-y-min-lim* -0.06) ;; upper 2cm ;; upper minus(-), lower(+)
+(setq *NEAR-sweet-y-max-lim* 0.07)  ;; lower 7cm
+(setq *NEAR-sweet-z-min-lim* 0.16)  ;; front 16cm
+(setq *NEAR-sweet-z-max-lim* 0.20)  ;; back  22cm
 
 ;; As for MIDDLE ...
-;; As for MIDDLE ...
-(setq *ball-x-min-lim* -0.08) ;; 左に-7cm (以前: -5cm)
-(setq *ball-x-max-lim* 0.10)  ;; 右に10cm (以前: 8cm)
-(setq *ball-y-min-lim* -0.10) ;; 上に 8cm (以前: 6cm)
-(setq *ball-y-max-lim* 0.15)  ;; 下に12cm (以前: 10cm)
-(setq *ball-z-min-lim* 0.18)  ;; 手前25cm ;; 奥行き方向
-(setq *ball-z-max-lim* 0.25)  ;; 奥に30cm
+(setq *ball-x-min-lim* -0.08) ;; left  -7cm (prev: -5cm)
+(setq *ball-x-max-lim* 0.10)  ;; right 10cm (prev: 8cm)
+(setq *ball-y-min-lim* -0.10) ;; upper  8cm (prev: 6cm)
+(setq *ball-y-max-lim* 0.15)  ;; lower 12cm (prev: 10cm)
+(setq *ball-z-min-lim* 0.18)  ;; front 25cm
+(setq *ball-z-max-lim* 0.25)  ;; back  30cm
 
 ;; As for FAR ...
-;; この範囲にボールが来ると認識された時，sweetスポットに移動する
-(setq *FAR-judge-x-min-lim* -0.25) ;; 左に-5cm ;; 左右方向 (左ー，右＋)
-(setq *FAR-judge-x-max-lim* 0.30)  ;; 右に 5cm
-(setq *FAR-judge-y-min-lim* -0.15) ;; 上に 7cm ;; 上下方向 (上ー，下＋)
-(setq *FAR-judge-y-max-lim* 0.20)  ;; 下に 7cm
-(setq *FAR-judge-z-min-lim* 0.18)  ;; 手前25cm ;; 奥行き方向
-(setq *FAR-judge-z-max-lim* 0.25)  ;; 奥に30cm
-;; FARのsweetスポット
-(setq *FAR-sweet-x-min-lim* -0.03) ;; 左に-5cm ;; 左右方向 (左ー，右＋)
-(setq *FAR-sweet-x-max-lim* 0.04)  ;; 右に 5cm
-(setq *FAR-sweet-y-min-lim* -0.05) ;; 上に 7cm ;; 上下方向 (上ー，下＋)
-(setq *FAR-sweet-y-max-lim* 0.10)  ;; 下に 7cm
-(setq *FAR-sweet-z-min-lim* 0.22)  ;; 手前25cm ;; 奥行き方向
-(setq *FAR-sweet-z-max-lim* 0.28)  ;; 奥に30cm
+(setq *FAR-judge-x-min-lim* -0.25) ;; left -5cm
+(setq *FAR-judge-x-max-lim* 0.30)  ;; right 5cm
+(setq *FAR-judge-y-min-lim* -0.15) ;; upper 7cm
+(setq *FAR-judge-y-max-lim* 0.20)  ;; lower 7cm
+(setq *FAR-judge-z-min-lim* 0.18)  ;; front25cm
+(setq *FAR-judge-z-max-lim* 0.25)  ;; back 30cm
 
+;; sweet-spot for FAR
+(setq *FAR-sweet-x-min-lim* -0.03) ;; left  -3cm
+(setq *FAR-sweet-x-max-lim* 0.04)  ;; right  4cm
+(setq *FAR-sweet-y-min-lim* -0.05) ;; upper  5cm
+(setq *FAR-sweet-y-max-lim* 0.10)  ;; lower 10cm
+(setq *FAR-sweet-z-min-lim* 0.22)  ;; front 22cm
+(setq *FAR-sweet-z-max-lim* 0.28)  ;; back  28cm
 
-;; ROBOT MOTION RESTRICTION (このセンサ値のときしかボールは追いません)
-(setq *space-x-min-lim* -0.15) ;;左に15cm (つまり+10cm)
-(setq *space-x-max-lim* 0.15) ;;右に15cm (つまり+10cm)
-(setq *space-z-min-lim* 0.10) ;;手前10cm ;;奥行き方向
-(setq *space-z-max-lim* 0.40) ;;奥に40cm
+;; ROBOT MOTION RESTRICTION
+(setq *space-x-min-lim* -0.15)  ;;left -15cm
+(setq *space-x-max-lim* 0.15)   ;;right 15cm
+(setq *space-z-min-lim* 0.10)   ;;front 10cm 
+(setq *space-z-max-lim* 0.40)   ;;back  40cm
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Time Management (時間管理);;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Time Management ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; TIMER SETTING 
-(setq *timer* 1) ;;*timer*秒間以上 *ball-?pos-tmp*が同一なら無効化(=0)する． ;;nilにするとバグる．
+(setq *timer* 1) ;;reset arg if this time(sec) passed
 
-;; 変数の使用時間を管理する関数
+;; Time Management Function
 (defun monitor-value (var-symbol timeout)
   (let ((start-time (get-universal-time))
         (last-value (symbol-value var-symbol)))
@@ -96,19 +95,19 @@ The concept of this algorithm is shown on the issue (https://github.com/Michi-Ts
      (when (>= (- (get-universal-time) start-time) timeout)
        (setf (symbol-value var-symbol) nil)))))
 
-;; 現在の時間を取得する関数
+;; Get Time
 (defun get-universal-time()
   ;;(+ (elt (unix:localtime) 0) (* (elt (unix:localtime) 1) 60))
   (/ (send (ros::time-now) :to-nsec) 1000000000)
   )
 
 ;; Offset Parameters
-(setq *time-offset* 0.10) ;; 時間分の距離オフセット．少し前に打つ
+(setq *time-offset* 0.10) ;;this param is no more needed
 (setq *time-offset-far* 0.10)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; 速度計算と予測関係の変数の定義(一応)
-;; SPEED Var (速度測定用の変数)
+;; Defvar for speed calc, estimation
+;; SPEED Var
 (defvar *prev-ball-xpos* nil)
 (defvar *prev-ball-ypos* nil)
 (defvar *prev-ball-zpos* nil)
@@ -119,22 +118,21 @@ The concept of this algorithm is shown on the issue (https://github.com/Michi-Ts
 (defvar vz nil)
 (defvar *velocity-list* nil) 
 
-;; Estimation Var (着地推定用の変数)
+;; Estimation Var
 (defvar *predicted-x* nil)
 (defvar *predicted-y* nil)
-(defvar *predicted-z* nil)  ;; これは常に*ball-z-max-lim*と同じ値
+(defvar *predicted-z* nil)  ;; equal to *ball-z-max-lim*
 (defvar *time-to-arrival* nil)
 (defvar *FAR-predicted-x* nil)
 (defvar *FAR-predicted-y* nil)
-(defvar *FAR-predicted-z* nil)  ;; これは常に*ball-z-max-lim*と同じ値
+(defvar *FAR-predicted-z* nil)  ;; equal to *ball-z-max-lim*
 (defvar *FAR-time-to-arrival* nil)
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Recognition Function (認識系);;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Recognition Function (Perception);;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun search-ball()
   (format t "search-ball~%")
   (ros::subscribe "/centroid_publisher/output/point" geometry_msgs::PointStamped #'search-ball-cb 1)
-  ;; メッセージ型をPoseStampedに変更
   (ros::advertise "/ball_prediction" geometry_msgs::PoseStamped 1)
   (ros::advertise "/far_ball_prediction" geometry_msgs::PoseStamped 1)
   (ros::spin-once)
@@ -150,7 +148,7 @@ The concept of this algorithm is shown on the issue (https://github.com/Michi-Ts
           (is-nan (send (send msg :point) :z)))
       (ros::ros-info "ball not found ~%")
     (progn
-      ;; 現在の値を取得
+      ;; get current value
       (setq x (send (send msg :point) :x))
       (setq y (send (send msg :point) :y))
       (setq z (send (send msg :point) :z))
@@ -159,8 +157,7 @@ The concept of this algorithm is shown on the issue (https://github.com/Michi-Ts
       (setq *ball-ypos* y)
       (setq *ball-zpos* z)
       (setq *ball-time* current-time)
-
-      ;; 速度計算部分
+      ;; *** speed calc section ***
       (if (and *prev-ball-xpos*
                *prev-ball-ypos*
                *prev-ball-zpos*
@@ -170,27 +167,26 @@ The concept of this algorithm is shown on the issue (https://github.com/Michi-Ts
                  (dx (- x *prev-ball-xpos*))
                  (dy (- y *prev-ball-ypos*))
                  (dz (- z *prev-ball-zpos*)))
-            ;; 位置の変化量が閾値以上の場合のみ更新
+            ;; filtering1
             (if (>= (abs dx) 0.001) (setq vx (* (/ dx dt) 1000000000)))
             (if (>= (abs dy) 0.001) (setq vy (* (/ dy dt) 1000000000)))
             (if (>= (abs dz) 0.001) (setq vz (* (/ dz dt) 1000000000)))
-	    ;; 速度のフィルタリング
+	    ;; filtering2
 	    (setq vx (filter-velocity vx 0.01))
 	    (setq vy (filter-velocity vy 0.01))
 	    (setq vz (filter-velocity vz 0.01))
             (ros::ros-info "ball velocity: vx:~A vy:~A vz:~A" vx vy vz)
-	    ;; 速度リストを更新し、3回分データが揃ったら予測を実行
+	    ;; update list
             (if (update-velocity-list vx vy vz)
                 (predict-ball-arrival x y z)
-	      )
-	    )
-	)
+	      ) ;;if
+	    ) ;;let*
+	) ;;if
   
-
-      ;; 位置情報の表示
+      ;; debug
       (ros::ros-info "ball: x-pos:~A y-pos:~A z-pos:~A time:~A" x y z current-time)
       
-      ;; Global変数に現在の値を保存
+      ;; save valuer
       (setq *prev-ball-xpos* x)
       (setq *prev-ball-ypos* y)
       (setq *prev-ball-zpos* z)
@@ -199,13 +195,13 @@ The concept of this algorithm is shown on the issue (https://github.com/Michi-Ts
     )
   )
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Speed Calculation (速度計測)
+;; Speed Calculation ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun calculate-ball-velocity (x y z time)
   (if (and *prev-ball-xpos*
            *prev-ball-ypos*
            *prev-ball-zpos*
            *prev-ball-time*
-           (> (abs (- time *prev-ball-time*)) 0.001)) ;; dtの閾値判定
+           (> (abs (- time *prev-ball-time*)) 0.001)) ;; dt threshold
       (let* ((dt (- time *prev-ball-time*))
              (dx (- x *prev-ball-xpos*))
              (dy (- y *prev-ball-ypos*))
