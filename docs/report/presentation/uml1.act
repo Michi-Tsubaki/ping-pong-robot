@@ -1,0 +1,66 @@
+@startuml
+|コンピュータ|
+   start
+  :開始;
+
+  repeat
+
+ fork
+|カメラ(ボール用(D405))|
+    :DepthとRGBを撮る;
+    :DepthとRGBのtopicを送る;
+ fork again
+|カメラ(対人用(RGB))|
+    :RGBを撮る;
+    :RGBのtopicを送る;
+
+
+ 
+|コンピュータ|
+ end fork
+ fork
+    :RGBDの3次元画像をsubし続ける;
+    :HSIフィルタでボールだけ抽出する;
+    :Euclidean Clusteringする;
+    :バウンディングボックスをつけて
+    ボールの中心座標をpubする;
+ fork again
+    :RGBの2次元画像(対人)のデータをsubする;
+    :相手の人間のの姿勢推定を行う;
+    :腕の角度からボールの回転を予測する;
+    :「ボールの回転」のtopicを立ててpubする;
+ fork again
+    :RGBの2次元画像(対ボール)の時系列
+データをsubする;
+    :2次元画像から着地予測地点を予測する;
+    :その地点の座標を取得する;
+    :「着地予測地点」の座標のtopic
+を立ててpubする;
+ end fork
+
+
+|アーム|
+:ボールの回転をsubする;
+if (「ボールの回転」) then
+  -上回転
+  -ラケットを下に向ける
+else
+  -下回転
+  -ラケットを上に向ける
+endif
+
+|車輪|
+:「予測地点」をsubする;
+:着地予測地点に移動する;
+
+|アーム|
+if (ボールの中心座標 < 基準値) then
+:ラケットを振る;
+else
+:待機する;
+endif
+
+:ラケットを初期姿勢に戻す;
+repeat while ()
+end
+@endulm

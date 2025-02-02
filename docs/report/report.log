@@ -1,4 +1,4 @@
-This is LuaHBTeX, Version 1.17.0 (TeX Live 2023/Debian)  (format=lualatex 2025.1.31)  1 FEB 2025 16:22
+This is LuaHBTeX, Version 1.17.0 (TeX Live 2023/Debian)  (format=lualatex 2025.1.31)  2 FEB 2025 13:11
  restricted system commands enabled.
  file:line:error style messages enabled.
 **/home/michi-tsubaki/robot_ws/ping-pong-robot/docs/report/report
@@ -943,7 +943,7 @@ LaTeX Font Info:    Font shape `JT3/HaranoAjiMincho-Regular.otf(0)/m/n' will be
 (Font)              scaled to size 23.94002pt on input line 54.
 LaTeX Font Info:    Font shape `JY3/HaranoAjiMincho-Regular.otf(0)/m/n' will be
 (Font)              scaled to size 23.94002pt on input line 54.
-<figures/HARIMOTO.png, id=128, 286.06876pt x 380.42125pt>
+<figures/HARIMOTO.png, id=136, 286.06876pt x 380.42125pt>
 File: figures/HARIMOTO.png Graphic file (type png)
 <use figures/HARIMOTO.png>
 Package luatex.def Info: figures/HARIMOTO.png  used on input line 56.
@@ -955,7 +955,7 @@ LaTeX Font Info:    Font shape `JT3/HaranoAjiMincho-Regular.otf(0)/b/n' will be
 (Font)              scaled to size 13.85594pt on input line 65.
 LaTeX Font Info:    Font shape `JY3/HaranoAjiMincho-Regular.otf(0)/b/n' will be
 (Font)              scaled to size 13.85594pt on input line 65.
-<figures/system.png, id=139, 984.67876pt x 738.76pt>
+<figures/system.png, id=148, 984.67876pt x 738.76pt>
 File: figures/system.png Graphic file (type png)
 <use figures/system.png>
 Package luatex.def Info: figures/system.png  used on input line 92.
@@ -1014,34 +1014,82 @@ Overfull \hbox (16.28589pt too wide) in paragraph at lines 227--228
 \TU/lmtt/m/n/10 github.com/Michi-[]Tsubaki/ping-[]pong-[]robot/blob/main/src/HARIMOTO/launch/detect_ball.launch$[][]\TU/lmr/m/n/10 ,
  []
 
-[5](load cache: extra_lmromandemi10-regular.luc) [6] [7] [8] [9]
-Overfull \hbox (17.94714pt too wide) in paragraph at lines 372--373
+[5](load cache: extra_lmromandemi10-regular.luc) [6]
+<figures/flow.png, id=264, 552.0625pt x 1041.8925pt>
+File: figures/flow.png Graphic file (type png)
+<use figures/flow.png>
+Package luatex.def Info: figures/flow.png  used on input line 291.
+(luatex.def)             Requested size: 312.9803pt x 590.7053pt.
+ [7] [8<./figures/flow.png>]
+<figures/arm.jpg, id=286, 3035.34pt x 4047.12pt>
+File: figures/arm.jpg Graphic file (type jpg)
+<use figures/arm.jpg>
+Package luatex.def Info: figures/arm.jpg  used on input line 305.
+(luatex.def)             Requested size: 218.51521pt x 291.29361pt.
+<figures/armparts.jpg, id=287, 3035.34pt x 4047.12pt>
+File: figures/armparts.jpg Graphic file (type jpg)
+<use figures/armparts.jpg>
+Package luatex.def Info: figures/armparts.jpg  used on input line 312.
+(luatex.def)             Requested size: 218.51521pt x 291.29361pt.
+<figures/body1.jpg, id=292, 3035.34pt x 4047.12pt>
+File: figures/body1.jpg Graphic file (type jpg)
+<use figures/body1.jpg>
+Package luatex.def Info: figures/body1.jpg  used on input line 324.
+(luatex.def)             Requested size: 218.51521pt x 291.29361pt.
+<figures/body2.jpg, id=293, 3035.34pt x 4047.12pt>
+File: figures/body2.jpg Graphic file (type jpg)
+<use figures/body2.jpg>
+Package luatex.def Info: figures/body2.jpg  used on input line 331.
+(luatex.def)             Requested size: 218.51521pt x 291.29361pt.
+<figures/body3.jpg, id=294, 3035.34pt x 4047.12pt>
+File: figures/body3.jpg Graphic file (type jpg)
+<use figures/body3.jpg>
+Package luatex.def Info: figures/body3.jpg  used on input line 340.
+(luatex.def)             Requested size: 218.51521pt x 291.29361pt.
+<figures/body4.jpg, id=295, 4047.12pt x 3035.34pt>
+File: figures/body4.jpg Graphic file (type jpg)
+<use figures/body4.jpg>
+Package luatex.def Info: figures/body4.jpg  used on input line 347.
+(luatex.def)             Requested size: 218.51521pt x 163.86423pt.
+ [9<./figures/arm.jpg><./figures/armparts.jpg>] [10<./figures/body1.jpg><./figures/body2.jpg><./figures/body3.jpg><./figures/body4.jpg>]
+<figures/robot1.jpg, id=315, 391.4625pt x 514.58917pt>
+File: figures/robot1.jpg Graphic file (type jpg)
+<use figures/robot1.jpg>
+Package luatex.def Info: figures/robot1.jpg  used on input line 362.
+(luatex.def)             Requested size: 218.51521pt x 287.24928pt.
+<figures/robot2.jpg, id=316, 3035.34pt x 4047.12pt>
+File: figures/robot2.jpg Graphic file (type jpg)
+<use figures/robot2.jpg>
+Package luatex.def Info: figures/robot2.jpg  used on input line 369.
+(luatex.def)             Requested size: 218.51521pt x 291.29361pt.
+ [11<./figures/robot1.jpg><./figures/robot2.jpg>] [12]
+Overfull \hbox (17.94714pt too wide) in paragraph at lines 450--451
 []|\JY3/HaranoAjiMincho-Regular.otf(0)/m/n/10 本 |プ |ロ |ジ |ェ |ク |ト |に |関 |す |る |全 |て |の |ソ |ー |ス |コ |ー |ド |と |自 |作 |パ |ー |ツ |の |モ |デ |ル |は [] [][]$\TU/lmtt/m/n/10 https://github.com/Michi-[]Tsubaki/
  []
 
-[10] [11] (./report.aux)
+[13] [14] (./report.aux)
  ***********
 LaTeX2e <2023-11-01> patch level 1
 L3 programming layer <2024-01-22>
  ***********
 Package rerunfilecheck Info: File `report.out' has not changed.
-(rerunfilecheck)             Checksum: 4F15D33F9B224091B9334C1E2ECA9702;4983.
+(rerunfilecheck)             Checksum: 90E805C5D67C621CAE818CA490DBAEC1;5367.
 )
 
 Here is how much of LuaTeX's memory you used:
- 17926 strings out of 476553
- 597289,1977958 words of node,token memory allocated
- 1412 words of node memory still in use:
-   10 hlist, 2 vlist, 5 rule, 3 glue, 4 kern, 1 glyph, 333 attribute, 60 glue_spec, 41 attribute_list, 1 write, 13 user_defined, 7 pdf_action nodes
-   avail lists: 1:42,2:98710,3:604,4:11773,5:7061,6:66,7:8987,8:123,9:16815,10:28,11:767
- 39372 multiletter control sequences out of 65536+600000
+ 18043 strings out of 476553
+ 597287,1977958 words of node,token memory allocated
+ 1447 words of node memory still in use:
+   10 hlist, 2 vlist, 5 rule, 3 glue, 4 kern, 1 glyph, 344 attribute, 61 glue_spec, 42 attribute_list, 1 write, 13 user_defined, 8 pdf_action nodes
+   avail lists: 1:43,2:98698,3:602,4:11773,5:7060,6:65,7:8987,8:123,9:16815,10:28,11:767
+ 39447 multiletter control sequences out of 65536+600000
  83 fonts using 80434079 bytes
- 125i,8n,128p,1835b,928s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 125i,9n,128p,1835b,928s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </usr/share/texmf/fonts/opentype/public/lm/lmromandemi10-regular.otf></usr/share/texmf/fonts/opentype/public/lm/lmmono9-regular.otf></usr/share/texmf/fonts/opentype/public/lm/lmmono10-regular.otf></usr/share/texmf/fonts/opentype/public/lm/lmroman8-regular.otf></usr/share/texmf/fonts/opentype/public/lm/lmroman6-regular.otf></usr/share/texmf/fonts/opentype/public/lm/lmroman7-regular.otf></usr/share/texmf/fonts/opentype/public/lm/lmroman10-bold.otf></usr/share/texmf/fonts/opentype/public/lm/lmroman10-regular.otf></usr/share/texlive/texmf-dist/fonts/opentype/public/haranoaji/HaranoAjiGothic-Medium.otf></usr/share/texmf/fonts/opentype/public/lm/lmroman12-bold.otf></usr/share/texmf/fonts/opentype/public/lm/lmroman17-regular.otf></usr/share/texlive/texmf-dist/fonts/opentype/public/haranoaji/HaranoAjiMincho-Regular.otf></usr/share/texmf/fonts/opentype/public/lm/lmroman12-regular.otf></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/latxfont/lcircle1.pfb>
-Output written on report.pdf (12 pages, 670219 bytes).
+Output written on report.pdf (15 pages, 10792377 bytes).
 
-PDF statistics: 421 PDF objects out of 1000 (max. 8388607)
- 352 compressed objects within 4 object streams
- 113 named destinations out of 1000 (max. 131072)
- 249 words of extra memory for PDF output out of 10000 (max. 100000000)
+PDF statistics: 477 PDF objects out of 1000 (max. 8388607)
+ 395 compressed objects within 4 object streams
+ 128 named destinations out of 1000 (max. 131072)
+ 265 words of extra memory for PDF output out of 10000 (max. 100000000)
 
