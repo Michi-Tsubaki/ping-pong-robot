@@ -1,0 +1,25 @@
+repositories:
+  harimoto:
+    type: git
+    url: git@github.com:Michi-Tsubaki/ping-pong-robot.git
+    version: main
+  jsk-ros-pkg/jsk_common:
+    type: git
+    url: https://github.com/jsk-ros-pkg/jsk_common
+    version: master
+  jsk-ros-pkg/jsk_recognition:
+    type: git
+    url: git@github.com:jsk-ros-pkg/jsk_recognition.git
+    version: master
+  rcb4:
+    type: git
+    url: https://github.com/iory/rcb4
+    version: main
+  realsense-ros:
+    type: git
+    url: git@github.com:IntelRealSense/realsense-ros.git
+    version: ros1-legacy
+  riberry:
+    type: git
+    url: https://github.com/iory/riberry
+    version: 161b0c489b1ab6cf1fa661bbd286c6076cf9a713
