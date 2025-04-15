@@ -1,6 +1,0 @@
-devel_space: /home/mech-user/ping-pong-robot/devel
-install: false
-install_space: /home/mech-user/ping-pong-robot/install
-profile: default
-source_space: /home/mech-user/ping-pong-robot/src
-workspace: /home/mech-user/ping-pong-robot

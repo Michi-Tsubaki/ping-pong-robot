@@ -1,8 +1,0 @@
-prefix=/home/mech-user/ping-pong-robot/devel/.private/riberry_startup
-
-Name: riberry_startup
-Description: Description of riberry_startup
-Version: 0.0.1
-Cflags: -I/home/mech-user/ping-pong-robot/devel/.private/riberry_startup/include
-Libs: -L${prefix}/lib 
-Requires: audio_common_msgs roscpp sensor_msgs std_msgs

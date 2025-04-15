@@ -1,1 +1,0 @@
-/home/mech-user/ping-pong-robot/devel/.private/riberry_startup/lib/pkgconfig/riberry_startup.pc

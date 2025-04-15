@@ -1,2 +1,0 @@
-scikit-robot>=0.0.45
-urdfeus>=0.0.12  # support mass paramerter for euslisp model

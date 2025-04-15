@@ -1,1 +1,0 @@
-/home/mech-user/ping-pong-robot/devel/.private/riberry_startup/share/gennodejs/ros/riberry_startup/msg/ImuFace.js

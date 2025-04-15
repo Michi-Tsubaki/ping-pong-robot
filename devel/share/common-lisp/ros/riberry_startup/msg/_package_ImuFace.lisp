@@ -1,1 +1,0 @@
-/home/mech-user/ping-pong-robot/devel/.private/riberry_startup/share/common-lisp/ros/riberry_startup/msg/_package_ImuFace.lisp
