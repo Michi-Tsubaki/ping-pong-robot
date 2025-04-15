@@ -16,34 +16,23 @@ https://github.com/user-attachments/assets/58849984-7b79-49e7-ac35-15ba77b642aa
 自主プロジェクトの進捗及び計画は，このRepositoryのissueにより管理されている．
 
 ## 卓球ロボットHARIMOTOの動かし方
-### 0. 準備
-### 0.1. ワークスペースのクローン
-1. ホームディレクトリ直下にワークスペースをクローンする．
-Ubuntu20.04，ROS noetic環境下で，
+### 1. Setup
 ```
-cd ~
-git clone https://github.com/Michi-Tsubaki/ping-pong-robot.git
-cd ping-pong-robot
-source /opt/ros/noetic/setup.bash
-```
-
-2. パッケージのダウンロード・インストール
-```
-cd ~/ping-pong-robot
-source /opt/ros/noetic/setup.bash
+mkdir ping-pong-ws
+cd ping-pong-ws
+catkin init
+mkdir src
+cd src
+wget https://raw.githubusercontent.com/Michi-Tsubaki/ping-pong-robot/refs/heads/main/vcs-ros-o.yaml > vcs import
+cd ..
 rosdep install -riy --from-paths src
-```
-3. ビルド
-```
-cd ~/ping-pong-robot
-source /opt/ros/noetic/setup.bash
+source /opt/ros/<ros distro>/setup.bash
 catkin build
 ```
 
-### 0.2. ロボットの起動
-4. プログラムを起動する．
+### 2. ロボットの起動
 ```
-cd ~/ping-pong-robot
+cd ping-pong-ws
 source devel/setup.bash
 roslaunch HARIMOTO all.launch
 ```
