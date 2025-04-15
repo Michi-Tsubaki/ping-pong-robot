@@ -1,1 +1,0 @@
-/home/mech-user/ping-pong-robot/devel/.private/kxr_controller/lib/kxr_controller/test_kxr_controller.py

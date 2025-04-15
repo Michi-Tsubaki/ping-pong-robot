@@ -1,1 +1,0 @@
-/home/mech-user/ping-pong-robot/devel/.private/realsense2_camera/share/realsense2_camera/cmake/realsense2_camera-msg-paths.cmake

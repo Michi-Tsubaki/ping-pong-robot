@@ -1,1 +1,0 @@
-/home/mech-user/ping-pong-robot/devel/.private/realsense2_camera/lib/pkgconfig/realsense2_camera.pc

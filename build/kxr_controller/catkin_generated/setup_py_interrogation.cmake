@@ -1,7 +1,0 @@
-set(kxr_controller_SETUP_PY_SETUP_MODULE "setuptools")
-set(kxr_controller_SETUP_PY_VERSION "0.0.8")
-set(kxr_controller_SETUP_PY_SCRIPTS "")
-set(kxr_controller_SETUP_PY_PACKAGES "kxr_controller")
-set(kxr_controller_SETUP_PY_PACKAGE_DIRS "python/kxr_controller")
-set(kxr_controller_SETUP_PY_MODULES "")
-set(kxr_controller_SETUP_PY_MODULE_DIRS "")

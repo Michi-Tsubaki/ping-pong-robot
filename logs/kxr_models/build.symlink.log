@@ -1,8 +1,0 @@
-Linked: (/home/mech-user/ping-pong-robot/devel/.private/kxr_models/share/kxr_models/cmake/kxr_modelsConfig.cmake, /home/mech-user/ping-pong-robot/devel/share/kxr_models/cmake/kxr_modelsConfig.cmake)
-Linked: (/home/mech-user/ping-pong-robot/devel/.private/kxr_models/share/kxr_models/cmake/kxr_modelsConfig-version.cmake, /home/mech-user/ping-pong-robot/devel/share/kxr_models/cmake/kxr_modelsConfig-version.cmake)
-Linked: (/home/mech-user/ping-pong-robot/devel/.private/kxr_models/lib/kxr_models/get_urdf_model.py, /home/mech-user/ping-pong-robot/devel/lib/kxr_models/get_urdf_model.py)
-Linked: (/home/mech-user/ping-pong-robot/devel/.private/kxr_models/lib/kxr_models/cmake.lock, /home/mech-user/ping-pong-robot/devel/lib/kxr_models/cmake.lock)
-Linked: (/home/mech-user/ping-pong-robot/devel/.private/kxr_models/lib/kxr_models/urdf_model_server.py, /home/mech-user/ping-pong-robot/devel/lib/kxr_models/urdf_model_server.py)
-Linked: (/home/mech-user/ping-pong-robot/devel/.private/kxr_models/lib/kxr_models/http_server_node.py, /home/mech-user/ping-pong-robot/devel/lib/kxr_models/http_server_node.py)
-Linked: (/home/mech-user/ping-pong-robot/devel/.private/kxr_models/lib/pkgconfig/kxr_models.pc, /home/mech-user/ping-pong-robot/devel/lib/pkgconfig/kxr_models.pc)
-Linked: (/home/mech-user/ping-pong-robot/devel/.private/kxr_models/lib/python3/dist-packages/kxr_models/__init__.py, /home/mech-user/ping-pong-robot/devel/lib/python3/dist-packages/kxr_models/__init__.py)

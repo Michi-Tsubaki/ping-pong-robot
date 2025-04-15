@@ -1,1 +1,0 @@
-/home/mech-user/ping-pong-robot/devel/.private/kxr_controller/share/gennodejs/ros/kxr_controller/msg/Stretch.js

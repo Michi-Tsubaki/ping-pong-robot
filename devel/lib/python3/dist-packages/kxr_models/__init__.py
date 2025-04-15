@@ -1,1 +1,0 @@
-/home/mech-user/ping-pong-robot/devel/.private/kxr_models/lib/python3/dist-packages/kxr_models/__init__.py

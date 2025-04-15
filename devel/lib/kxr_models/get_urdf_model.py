@@ -1,1 +1,0 @@
-/home/mech-user/ping-pong-robot/devel/.private/kxr_models/lib/kxr_models/get_urdf_model.py

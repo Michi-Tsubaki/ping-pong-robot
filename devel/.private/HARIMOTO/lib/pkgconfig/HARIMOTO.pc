@@ -1,8 +1,0 @@
-prefix=/home/mech-user/ping-pong-robot/devel/.private/HARIMOTO
-
-Name: HARIMOTO
-Description: Description of HARIMOTO
-Version: 1.0.0
-Cflags: 
-Libs: -L${prefix}/lib 
-Requires: 
