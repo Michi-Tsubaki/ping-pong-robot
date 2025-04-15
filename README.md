@@ -9,6 +9,8 @@
 
 https://github.com/user-attachments/assets/58849984-7b79-49e7-ac35-15ba77b642aa
 
+＊顔はX.comのAIであるGROKで生成しました．特定の個人の「写真」ではありません．
+
 ## 計画
 ### 自主プロジェクトの進捗及び計画
 自主プロジェクトの進捗及び計画は，このRepositoryのissueにより管理されている．
