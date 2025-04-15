@@ -1,6 +1,0 @@
-[submodule "src/src/rcb4"]
-	path = src/src/rcb4
-	url = https://github.com/iory/rcb4.git
-[submodule "src/jsk_recognition"]
-	path = src/jsk_recognition
-	url = https://github.com/jsk-ros-pkg/jsk_recognition.git
