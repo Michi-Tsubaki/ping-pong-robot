@@ -1,0 +1,10 @@
+joint_name_to_servo_id: {
+  upper_shoulder: {id: 0, direction: 1, offset: 0},
+  lower_shoulder: {id: 2, direction: 1, offset: 0},
+  upper_arm: {id: 4, direction: 1, offset: 0},
+  lower_arm: {id: 6, direction: 1, offset: 0},
+  front_right_wheel_joint: {id: 24, direction: 1, offset: 0, type: continuous},
+  front_left_wheel_joint: {id: 20, direction: -1, offset: 0, type: continuous},
+  rear_right_wheel_joint: {id: 26, direction: 1, offset: 0, type: continuous},
+  rear_left_wheel_joint: {id: 22, direction: -1, offset: 0, type: continuous},
+}

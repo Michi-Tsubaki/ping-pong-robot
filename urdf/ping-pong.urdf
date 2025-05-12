@@ -1,0 +1,544 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- This URDF was automatically created by SolidWorks to URDF Exporter! Originally created by Stephen Brawner (brawner@gmail.com) 
+     Commit Version:   Build Version: 1.6.9102.25287
+     For more information, please see http://wiki.ros.org/sw_urdf_exporter -->
+<robot
+  name="ping-pong">
+  <link
+    name="base_link">
+    <inertial>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <mass
+        value="0.0468580060932661" />
+      <inertia
+        ixx="1.56534574192188E-05"
+        ixy="6.61087369064978E-07"
+        ixz="-7.21642700260539E-07"
+        iyy="1.29229800207445E-05"
+        iyz="5.02340603686712E-06"
+        izz="1.41194963510472E-05" />
+    </inertial>
+    <visual>
+      <origin xyz="-0.09 -0.04 0.605" rpy="0.45 1.6 1.35"/>
+      <geometry>
+        <mesh filename="package://ping-pong/meshes/base_link.STL"/>
+      </geometry>
+    </visual>
+    <visual>
+      <origin xyz="-0.085 0.05 0.16" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.2 0.15 0.02"/>
+      </geometry>
+      <material name="black">
+        <color rgba="1 1 1 0.5"/>
+      </material>
+    </visual>
+        <visual>
+      <origin xyz="-0.01 0.05 0.22" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.04 0.1 0.14"/>
+      </geometry>
+      <material name="black">
+        <color rgba="1 1 1 0.5"/>
+      </material>
+    </visual>
+    <collision>
+        <origin xyz="0 0 0.15" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.2 0.2 0.3"/>
+      </geometry>
+    </collision>
+  </link>
+  <link
+    name="upper_shoulder">
+    <inertial>
+      <origin
+        xyz="0.0129549305137396 -0.0148664141809147 -0.0276892742587567"
+        rpy="0 0 0" />
+      <mass
+        value="0.0335476434855063" />
+      <inertia
+        ixx="3.81490155615431E-06"
+        ixy="1.21543917806917E-08"
+        ixz="2.11998108883291E-08"
+        iyy="4.64648709409639E-06"
+        iyz="9.45842330050794E-09"
+        izz="3.45395092938991E-06" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://ping-pong/meshes/upper_shoulder.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.298039215686275 0.298039215686275 0.298039215686275 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://ping-pong/meshes/upper_shoulder.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="upper_shoulder"
+    type="revolute">
+    <origin
+      xyz="0 0 0.3"
+      rpy="-1.57 -1.57 0" />
+    <parent
+      link="base_link" />
+    <child
+      link="upper_shoulder" />
+    <axis
+      xyz="0 0 1" />
+    <limit
+      lower="-1"
+      upper="0"
+      effort="0"
+      velocity="10" />
+  </joint>
+  <link
+    name="lower_shoulder">
+    <inertial>
+      <origin
+        xyz="-6.29007393652889E-05 -0.0773879745241495 -2.62161943492267E-05"
+        rpy="0 0 0" />
+      <mass
+        value="0.0576719241727569" />
+      <inertia
+        ixx="1.7120909538195E-05"
+        ixy="9.45797260721662E-09"
+        ixz="-1.21542702244487E-08"
+        iyy="4.4501235896574E-06"
+        iyz="-2.11998275069902E-08"
+        izz="1.64179743238391E-05" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://ping-pong/meshes/lower_shoulder.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.298039215686275 0.298039215686275 0.298039215686275 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://ping-pong/meshes/lower_shoulder.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="lower_shoulder"
+    type="revolute">
+    <origin
+      xyz="0.033 -0.0145 -0.041"
+      rpy="-2.35 -1.5708 0" />
+    <parent
+      link="upper_shoulder" />
+    <child
+      link="lower_shoulder" />
+    <axis
+      xyz="0 1 0" />
+    <limit
+      lower="-2.7"
+      upper="0.75"
+      effort="0"
+      velocity="10" />
+  </joint>
+  <link
+    name="upper_arm">
+    <inertial>
+      <origin
+        xyz="-0.00733809185080686 9.50609948116299E-05 -0.00741154132403037"
+        rpy="0 0 0" />
+      <mass
+        value="0.0214573443165031" />
+      <inertia
+        ixx="2.31688951311032E-06"
+        ixy="3.18660578583586E-09"
+        ixz="2.10545109019354E-08"
+        iyy="3.0075651917683E-06"
+        iyz="1.16767658606973E-08"
+        izz="2.83620449126694E-06" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://ping-pong/meshes/upper_arm.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.298039215686275 0.298039215686275 0.298039215686275 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://ping-pong/meshes/upper_arm.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="upper_arm"
+    type="revolute">
+    <origin
+      xyz="0 -0.1 0"
+      rpy="-1.5708 0 -1.5708" />
+    <parent
+      link="lower_shoulder" />
+    <child
+      link="upper_arm" />
+    <axis
+      xyz="0 -1 0" />
+    <limit
+      lower="-0.7"
+      upper="0.7"
+      effort="0"
+      velocity="10" />
+  </joint>
+  <link
+    name="lower_arm">
+    <inertial>
+      <origin
+        xyz="0.0905172935969401 0.0166000014024307 0.0144645438816075"
+        rpy="0 0 0" />
+      <mass
+        value="0.00518942527154281" />
+      <inertia
+        ixx="1.15670084412165E-07"
+        ixy="5.45570467748176E-14"
+        ixz="6.63380350348761E-09"
+        iyy="9.48396463628822E-07"
+        iyz="-5.87125231080151E-15"
+        izz="1.02989357855173E-06" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="1 1 1"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://ping-pong/meshes/lower_arm.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.298039215686275 0.298039215686275 0.298039215686275 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://ping-pong/meshes/lower_arm.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="lower_arm"
+    type="revolute">
+    <origin
+      xyz="0 0 -0.02"
+      rpy="0 0 3.1416" />
+    <parent
+      link="upper_arm" />
+    <child
+      link="lower_arm" />
+    <axis
+      xyz="0 0 -1" />
+    <limit
+      lower="-1.5"
+      upper="1.5"
+      effort="0"
+      velocity="10" />
+  </joint>
+  <link
+    name="hand">
+    <inertial>
+      <origin
+        xyz="-1 0.0165410815195246 0.0167804968470659"
+        rpy="0 0 0" />
+      <mass
+        value="0.0425234840552025" />
+      <inertia
+        ixx="5.46948254274658E-06"
+        ixy="-4.38387714935454E-10"
+        ixz="9.10215745459036E-07"
+        iyy="2.00650338164068E-05"
+        iyz="1.25447234705641E-09"
+        izz="1.69147927720201E-05" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://ping-pong/meshes/hand.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://ping-pong/meshes/hand.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="hand"
+    type="fixed">
+    <origin
+      xyz="-0.11 0 0"
+      rpy="0 0 0" />
+    <parent
+      link="lower_arm" />
+    <child
+      link="hand" />
+    <axis
+      xyz="0 0 0" />
+  </joint>
+<joint name="front_right_wheel_joint" type="continuous">
+   <limit effort="100" velocity="6.55"/>
+   <parent link="base_link"/>
+   <child link="front_right_wheel_link"/>
+   <axis xyz="-1. 0. 0."/>
+   <origin xyz="0 -0.03 0.16" rpy="0.0 -0.0 1.5708"/>
+</joint>
+
+<joint name="front_left_wheel_joint" type="continuous">
+   <limit effort="100" velocity="6.55"/>
+   <parent link="base_link"/>
+   <child link="front_left_wheel_link"/>
+   <axis xyz="1. 0. 0."/>
+   <origin xyz="0 0.13 0.16" rpy="0.0 -0.0 1.5708"/>
+</joint>
+
+<joint name="rear_right_wheel_joint" type="continuous">
+   <limit effort="100" velocity="6.55"/>
+   <parent link="base_link"/>
+   <child link="rear_right_wheel_link"/>
+   <axis xyz="-1. 0. 0."/>
+   <origin xyz="-0.17 -0.03 0.16" rpy="0.0 -0.0 1.5708"/>
+</joint>
+
+<joint name="rear_left_wheel_joint" type="continuous">
+   <limit effort="100" velocity="6.55"/>
+   <parent link="base_link"/>
+   <child link="rear_left_wheel_link"/>
+   <axis xyz="1. 0. 0."/>
+   <origin xyz="-0.17 0.13 0.16" rpy="0.0 -0.0 1.5708"/>
+</joint>
+  <link name="front_right_wheel_link">
+    <inertial>
+      <!-- <origin xyz="0.0344932842136683 0.0970000970916309 -0.0435000024416005" rpy="0.0 -0.0 0.0"/> -->
+      <!-- <mass value="0.0620356799852319"/> -->
+      <!-- <!-\- <inertia ixx="1.17891072454946e-05" ixy="-4.41939757993746e-11" ixz="2.8155029764713e-12" iyy="9.70723532361731e-06" iyz="2.3526216007568e-12" izz="9.707219297398e-06"/> -\-> -->
+      <!-- <inertia ixx="1.000000e-04" ixy="-4.41939757993746e-11" ixz="2.8155029764713e-12" iyy="1.000000e-04" iyz="2.3526216007568e-12" izz="1.000000e-04"/> -->
+      <mass value="0.095024" />
+      <origin xyz="-6.93889e-18 0.016915 0" rpy="0 -0 0"/>
+      <inertia ixx="0.000174" ixy="5.9261e-22" ixz="5.04911e-20" iyy="0.000173" iyz="-1.9762e-20" izz="0.000262"/>
+
+    </inertial>
+    <visual>
+      <geometry>
+        <mesh filename="package://ping-pong/meshes/front_right_wheel_link.dae"/>
+      </geometry>
+      <material name=""/>
+      <origin xyz="0.0505000000000009 0.097 -0.0434999999999994" rpy="0.0 -0.0 0.0"/>
+      <!-- <origin xyz="-0.02 0 0" rpy="0 1.5707963267948966 0"/> -->
+      <!-- <geometry> -->
+      <!--   <cylinder radius="0.03" length="0.02"/> -->
+      <!-- </geometry> -->
+    </visual>
+    <!-- <collision> -->
+    <!--   <geometry> -->
+    <!--     <mesh filename="package://jedy_description/meshes/front_right_wheel_link.stl"/> -->
+    <!--   </geometry> -->
+    <!--   <origin xyz="0.0505000000000009 0.097 -0.0434999999999994" rpy="0.0 -0.0 0.0"/> -->
+    <!-- </collision> -->
+    <collision>
+      <origin xyz="-0.02 0 0" rpy="0 1.5707963267948966 0"/>
+      <geometry>
+        <cylinder radius="0.03" length="0.02"/>
+      </geometry>
+      <self_collide>false</self_collide>
+    </collision>
+  </link>
+  <link name="front_left_wheel_link">
+    <inertial>
+      <!-- <origin xyz="-0.0344932901302818 0.0969999049831629 -0.0435000004047774" rpy="0.0 -0.0 0.0"/> -->
+      <!-- <mass value="0.0620331863909222"/> -->
+      <!-- <!-\- <inertia ixx="1.17881307318182e-05" ixy="-4.52960489509934e-11" ixz="2.33278294698924e-12" iyy="9.70649490175883e-06" iyz="3.34165767029261e-12" izz="9.7064772842312e-06"/> -\-> -->
+      <!-- <inertia ixx="1.000000e-04" ixy="-4.52960489509934e-11" ixz="2.33278294698924e-12" iyy="1.000000e-04" iyz="3.34165767029261e-12" izz="1.000000e-04"/> -->
+      <mass value="0.095024" />
+      <origin xyz="-6.93889e-18 0.016915 0" rpy="0 -0 0"/>
+      <inertia ixx="0.000174" ixy="5.9261e-22" ixz="5.04911e-20" iyy="0.000173" iyz="-1.9762e-20" izz="0.000262"/>
+
+    </inertial>
+    <visual>
+      <geometry>
+        <mesh filename="package://ping-pong/meshes/front_left_wheel_link.dae"/>
+      </geometry>
+      <material name=""/>
+      <origin xyz="-0.0504999999999993 0.0970000000000006 -0.0434999999999985" rpy="0.0 -0.0 0.0"/>
+      <!-- <origin xyz="0.02 0 0" rpy="0 1.5707963267948966 0"/> -->
+      <!-- <geometry> -->
+      <!--   <cylinder radius="0.03" length="0.02"/> -->
+      <!-- </geometry> -->
+    </visual>
+    <!-- <collision> -->
+    <!--   <geometry> -->
+    <!--     <mesh filename="package://jedy_description/meshes/front_left_wheel_link.stl"/> -->
+    <!--   </geometry> -->
+    <!--   <origin xyz="-0.0504999999999993 0.0970000000000006 -0.0434999999999985" rpy="0.0 -0.0 0.0"/> -->
+    <!-- </collision> -->
+    <collision>
+      <origin xyz="0.02 0 0" rpy="0 1.5707963267948966 0"/>
+      <geometry>
+        <cylinder radius="0.03" length="0.02"/>
+      </geometry>
+      <self_collide>false</self_collide>
+    </collision>
+  </link>
+  <link name="rear_right_wheel_link">
+    <inertial>
+      <mass value="0.095024" />
+      <origin xyz="-6.93889e-18 0.016915 0" rpy="0 -0 0"/>
+      <inertia ixx="0.000174" ixy="5.9261e-22" ixz="5.04911e-20" iyy="0.000173" iyz="-1.9762e-20" izz="0.000262"/>
+
+      <!-- <origin xyz="0.0344932842136686 0.0970000970916324 0.0434999975583993" rpy="0.0 -0.0 0.0"/> -->
+      <!-- <mass value="0.0620356799852319"/> -->
+      <!-- <!-\- <inertia ixx="1.17891072454946e-05" ixy="-4.41939758006981e-11" ixz="2.81550297072405e-12" iyy="9.70723532361731e-06" iyz="2.35262160013476e-12" izz="9.707219297398e-06"/> -\-> -->
+      <!-- <inertia ixx="1.000000e-04" ixy="-4.41939758006981e-11" ixz="2.81550297072405e-12" iyy="1.000000e-04" iyz="2.35262160013476e-12" izz="1.000000e-04"/> -->
+    </inertial>
+    <visual>
+      <geometry>
+        <mesh filename="package://ping-pong/meshes/rear_right_wheel_link.dae"/>
+      </geometry>
+      <material name=""/>
+      <origin xyz="0.0505000000000012 0.0969999999999992 0.0435000000000006" rpy="0.0 -0.0 0.0"/>
+      <!-- <origin xyz="-0.02 0 0" rpy="0 1.5707963267948966 0"/> -->
+      <!-- <geometry> -->
+      <!--   <cylinder radius="0.03" length="0.02"/> -->
+      <!-- </geometry> -->
+    </visual>
+    <!-- <collision> -->
+    <!--   <geometry> -->
+    <!--     <mesh filename="package://jedy_description/meshes/rear_right_wheel_link.stl"/> -->
+    <!--   </geometry> -->
+    <!--   <origin xyz="0.0505000000000012 0.0969999999999992 0.0435000000000006" rpy="0.0 -0.0 0.0"/> -->
+    <!-- </collision> -->
+    <collision>
+      <origin xyz="-0.02 0 0" rpy="0 1.5707963267948966 0"/>
+      <geometry>
+        <cylinder radius="0.03" length="0.02"/>
+      </geometry>
+      <self_collide>false</self_collide>
+    </collision>
+  </link>
+  <link name="rear_left_wheel_link">
+    <inertial>
+      <!-- <origin xyz="-0.0344932901302836 0.0969999049831609 0.0434999995952184" rpy="0.0 -0.0 0.0"/> -->
+      <!-- <mass value="0.0620331863909222"/> -->
+      <!-- <!-\- <inertia ixx="1.17881307318182e-05" ixy="-4.52960489535212e-11" ixz="2.33278294290793e-12" iyy="9.70649490175883e-06" iyz="3.34165766872427e-12" izz="9.70647728423119e-06"/> -\-> -->
+      <!-- <inertia ixx="1.000000e-04" ixy="-4.52960489535212e-11" ixz="2.33278294290793e-12" iyy="1.000000e-04" iyz="3.34165766872427e-12" izz="1.000000e-04"/> -->
+      <mass value="0.095024" />
+      <origin xyz="-6.93889e-18 0.016915 0" rpy="0 -0 0"/>
+      <inertia ixx="0.000174" ixy="5.9261e-22" ixz="5.04911e-20" iyy="0.000173" iyz="-1.9762e-20" izz="0.000262"/>
+
+    </inertial>
+    <visual>
+      <geometry>
+        <mesh filename="package://ping-pong/meshes/rear_left_wheel_link.dae"/>
+      </geometry>
+      <material name=""/>
+      <origin xyz="-0.0504999999999999 0.0969999999999994 0.0435000000000005" rpy="0.0 -0.0 0.0"/>
+      <!-- <origin xyz="0.02 0 0" rpy="0 1.5707963267948966 0"/> -->
+      <!-- <geometry> -->
+      <!--   <cylinder radius="0.03" length="0.02"/> -->
+      <!-- </geometry> -->
+    </visual>
+    <!-- <collision> -->
+    <!--   <geometry> -->
+    <!--     <mesh filename="package://jedy_description/meshes/rear_left_wheel_link.stl"/> -->
+    <!--   </geometry> -->
+    <!--   <origin xyz="-0.0504999999999999 0.0969999999999994 0.0435000000000005" rpy="0.0 -0.0 0.0"/> -->
+    <!-- </collision> -->
+    <collision>
+      <origin xyz="0.02 0 0" rpy="0 1.5707963267948966 0"/>
+      <geometry>
+        <cylinder radius="0.03" length="0.02"/>
+      </geometry>
+      <self_collide>false</self_collide>
+    </collision>
+  </link>
+
+  <link name="camera_link">
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.025 0.09 0.025"/>
+      </geometry>
+      <material name="red">
+        <color rgba="1 0 0 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.025 0.09 0.025"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="0.1"/>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <inertia ixx="0.001" ixy="0.0" ixz="0.0" iyy="0.001" iyz="0.0" izz="0.001"/>
+    </inertial>
+  </link>
+
+<joint name="camera_joint" type="fixed">
+   <origin xyz="0 0.05 0.25" rpy="0 0 0"/>
+   <parent link="base_link"/>
+   <child link="camera_link"/>
+</joint>
+
+</robot>

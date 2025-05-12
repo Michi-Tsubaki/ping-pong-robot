@@ -1,0 +1,310 @@
+#!/usr/bin/python3
+
+import sys
+import rospy
+import cv2
+import numpy as np
+import time
+from sensor_msgs.msg import Image, CameraInfo
+from cv_bridge import CvBridge
+from collections import deque
+
+d435_path = "/camera/color/image_raw"
+d435_depth_path = "/camera/aligned_depth_to_color/image_raw"
+usb_path = "/usb_cam/image_raw"
+class Ball:
+    def __init__(self):
+        self.xpos = 0
+        self.ypos = 0
+        self.zpos = 0
+        self.name = "ping-pong-ball"
+        self.trajectory = deque(maxlen=30)
+        self.predicted_landing = None
+        self.image_height = 480  # 画像の高さを保持
+
+    def update(self, xpos, ypos, zpos=0):
+        self.xpos = xpos
+        self.ypos = ypos
+        self.zpos = zpos
+        self.trajectory.append((xpos, ypos))
+
+    def predict_landing(self):
+        if len(self.trajectory) < 10:
+            return None
+            
+        # 最新の10点を使用
+        points = np.array(list(self.trajectory)[-10:])
+        x = points[:, 0]
+        y = points[:, 1]
+        time = np.arange(len(x))
+        
+        # x方向は線形フィット
+        x_coef = np.polyfit(time, x, 1)
+        # y方向は2次関数フィット（放物線）
+        y_coef = np.polyfit(time, y, 2)
+        
+        # 予測時間を現在から30フレーム先まで
+        future_time = np.arange(len(time), len(time) + 30)
+        
+        # 着地点予測
+        x_pred = np.poly1d(x_coef)(future_time)
+        y_pred = np.poly1d(y_coef)(future_time)
+        
+        # 画像の下端に到達する点を探す
+        for i in range(len(future_time)):
+            if y_pred[i] >= self.image_height - 1:  # 画像の高さ-1を超えないようにする
+                # 座標を整数に変換し、範囲内に収める
+                x_landing = int(min(max(x_pred[i], 0), 640 - 1))  # 画像の幅も考慮
+                y_landing = int(min(max(y_pred[i], 0), self.image_height - 1))
+                self.predicted_landing = (x_landing, y_landing)
+                return self.predicted_landing
+                
+        return None
+    
+from geometry_msgs.msg import Point
+
+class BallTracker:
+    def __init__(self):
+        self.bridge = CvBridge()
+        self.ball = Ball()
+        self.image_raw = None
+        self.depth_image = None
+        self.prev_filtered = None
+        
+        # HSVフィルタのパラメータ
+        self.h_min = 0
+        self.h_max = 15
+        self.s_min = 70
+        self.s_max = 255
+        self.v_min = 50
+        self.v_max = 255
+        
+        # クラスターサイズとノイズ処理のパラメータ
+        self.min_area = 100  # 最小クラスターサイズ
+        self.max_area = 5000  # 最大クラスターサイズ
+        self.kernel_size = 3  # ノイズ処理用カーネルサイズ
+        
+        # トラックバーのセットアップ
+        cv2.namedWindow('Parameters')
+        cv2.createTrackbar('H_min', 'Parameters', self.h_min, 179, lambda x: setattr(self, 'h_min', x))
+        cv2.createTrackbar('H_max', 'Parameters', self.h_max, 179, lambda x: setattr(self, 'h_max', x))
+        cv2.createTrackbar('S_min', 'Parameters', self.s_min, 255, lambda x: setattr(self, 's_min', x))
+        cv2.createTrackbar('S_max', 'Parameters', self.s_max, 255, lambda x: setattr(self, 's_max', x))
+        cv2.createTrackbar('V_min', 'Parameters', self.v_min, 255, lambda x: setattr(self, 'v_min', x))
+        cv2.createTrackbar('V_max', 'Parameters', self.v_max, 255, lambda x: setattr(self, 'v_max', x))
+        cv2.createTrackbar('Min Area', 'Parameters', self.min_area, 1000, lambda x: setattr(self, 'min_area', x))
+        cv2.createTrackbar('Kernel', 'Parameters', self.kernel_size, 10, lambda x: setattr(self, 'kernel_size', max(1, x)))
+        
+        # 着地予測地点のパブリッシャーを追加
+        self.landing_pub = rospy.Publisher('/predicted_landing_point', Point, queue_size=10)
+        
+    def image_cb(self, msg):
+        self.image_raw = self.bridge.imgmsg_to_cv2(msg, "bgr8")
+        
+    def depth_cb(self, msg):
+        self.depth_image = self.bridge.imgmsg_to_cv2(msg, "16UC1")
+
+    def detect_motion(self, current_frame):
+        # フレーム間差分による動体検出
+        if self.prev_filtered is None:
+            self.prev_filtered = current_frame
+            return current_frame
+
+        # フレーム間の差分を計算
+        diff = cv2.absdiff(current_frame, self.prev_filtered)
+        gray_diff = cv2.cvtColor(diff, cv2.COLOR_BGR2GRAY)
+        
+        # 差分画像の二値化
+        _, motion_mask = cv2.threshold(gray_diff, 25, 255, cv2.THRESH_BINARY)
+        
+        # ノイズ除去
+        kernel = np.ones((3,3), np.uint8)
+        motion_mask = cv2.morphologyEx(motion_mask, cv2.MORPH_OPEN, kernel)
+        motion_mask = cv2.morphologyEx(motion_mask, cv2.MORPH_CLOSE, kernel)
+        
+        # 動体部分のみを抽出
+        result = cv2.bitwise_and(current_frame, current_frame, mask=motion_mask)
+        
+        # 現在のフレームを保存
+        self.prev_filtered = current_frame
+        
+        return result
+        
+    def hsv_color_filter(self, img):
+        hsvdata = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
+        
+        # トラックバーから現在のHSV値を取得
+        lower_red1 = np.array([self.h_min, self.s_min, self.v_min])
+        upper_red1 = np.array([self.h_max, self.s_max, self.v_max])
+        
+        # 赤色の別の色相範囲も追加
+        lower_red2 = np.array([165, self.s_min, self.v_min])
+        upper_red2 = np.array([179, self.s_max, self.v_max])
+        
+        # マスクの作成と結合
+        mask1 = cv2.inRange(hsvdata, lower_red1, upper_red1)
+        mask2 = cv2.inRange(hsvdata, lower_red2, upper_red2)
+        img_mask = cv2.add(mask1, mask2)
+        
+        # ノイズ除去
+        kernel = np.ones((3,3), np.uint8)
+        img_mask = cv2.morphologyEx(img_mask, cv2.MORPH_OPEN, kernel)
+        img_mask = cv2.morphologyEx(img_mask, cv2.MORPH_CLOSE, kernel)
+        
+        # マスクを適用
+        filtered_img = cv2.bitwise_and(img, img, mask=img_mask)
+        
+        # 動体検出を適用
+        motion_filtered = self.detect_motion(filtered_img)
+        
+        return motion_filtered
+        
+        # ノイズ除去
+        kernel = np.ones((3,3), np.uint8)
+        img_mask = cv2.morphologyEx(img_mask, cv2.MORPH_OPEN, kernel)
+        img_mask = cv2.morphologyEx(img_mask, cv2.MORPH_CLOSE, kernel)
+        
+        filtered_img = cv2.bitwise_and(img, img, mask=img_mask)
+        return filtered_img
+
+    def find_balls(self, img):
+        gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+        _, thresh = cv2.threshold(gray, 30, 255, cv2.THRESH_BINARY)
+        
+        # ノイズ除去（必要に応じて調整）
+        kernel = np.ones((self.kernel_size, self.kernel_size), np.uint8)
+        thresh = cv2.morphologyEx(thresh, cv2.MORPH_OPEN, kernel)
+        
+        # 輪郭検出
+        contours, _ = cv2.findContours(thresh, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+        
+        ball_pos = []
+        for contour in contours:
+            area = cv2.contourArea(contour)
+            if area > self.min_area:  # サイズによるフィルタリングのみ
+                M = cv2.moments(contour)
+                if M["m00"] != 0:
+                    cx = int(M["m10"] / M["m00"])
+                    cy = int(M["m01"] / M["m00"])
+                    ball_pos.append([cx, cy])
+                    
+                    # 深度情報があれば取得
+                    if self.depth_image is not None:
+                        z = self.depth_image[cy, cx]
+                        self.ball.update(cx, cy, z)
+                    else:
+                        self.ball.update(cx, cy)
+        
+        return ball_pos
+
+    def draw_visualization(self, img, ball_pos):
+        # ボールの現在位置を描画
+        for pos in ball_pos:
+            cv2.circle(img, (pos[0], pos[1]), 10, (0, 0, 255), 2)
+        
+        # 軌跡の描画
+        points = list(self.ball.trajectory)
+        for i in range(1, len(points)):
+            cv2.line(img, 
+                    (int(points[i-1][0]), int(points[i-1][1])),
+                    (int(points[i][0]), int(points[i][1])),
+                    (0, 255, 0), 2)
+        
+        # 着地予測点の描画と公開
+        landing_point = self.ball.predict_landing()
+        if landing_point:
+            cv2.circle(img, landing_point, 15, (255, 0, 0), 3)
+            
+            # 着地予測点をトピックとして公開
+            point_msg = Point()
+            point_msg.x = landing_point[0]
+            point_msg.y = landing_point[1]
+            if self.depth_image is not None:
+                # 深度情報が利用可能な場合、z座標も設定
+                point_msg.z = self.depth_image[landing_point[1], landing_point[0]]
+            else:
+                point_msg.z = 0.0
+            
+            self.landing_pub.publish(point_msg)
+            # 破線の描画（点線を手動で描画）
+            pt1 = (int(points[-1][0]), int(points[-1][1]))
+            pt2 = landing_point
+            dist = np.linalg.norm(np.array(pt1) - np.array(pt2))
+            steps = int(dist / 10)  # 10ピクセルごとに点を打つ
+            
+            for i in range(steps):
+                t = i / float(steps)
+                x = int(pt1[0] * (1-t) + pt2[0] * t)
+                y = int(pt1[1] * (1-t) + pt2[1] * t)
+                cv2.circle(img, (x,y), 1, (255,0,0), -1)
+        
+        return img
+
+def is_topic_alive(topic_name):
+    published_topics = rospy.get_published_topics()
+    return any(topic_name == topic[0] for topic in published_topics)
+
+def main():
+    rospy.init_node("ball_tracking", anonymous=True)
+    tracker = BallTracker()
+    
+    # ROSモードかビデオモードかを判定
+    ros_mode = False
+    if is_topic_alive(d435_path):
+        rospy.Subscriber(d435_path, Image, tracker.image_cb)
+        rospy.Subscriber(d435_depth_path, Image, tracker.depth_cb)
+        ros_mode = True
+    elif is_topic_alive(usb_path):
+        rospy.Subscriber(usb_path, Image, tracker.image_cb)
+        ros_mode = True
+    
+    # ビデオモードの場合
+    if not ros_mode:
+        print("Video mode: Using video.mp4")
+        cap = cv2.VideoCapture("../test/video.mp4")
+        if not cap.isOpened():
+            print("Error: Could not open video.mp4")
+            return
+    
+    rate = rospy.Rate(30)
+    
+    while not rospy.is_shutdown():
+        if ros_mode:
+            if tracker.image_raw is None:
+                rate.sleep()
+                continue
+            image = tracker.image_raw
+        else:
+            ret, image = cap.read()
+            if not ret:
+                print("End of video")
+                break
+            tracker.image_raw = image
+            
+        # 共通の処理部分
+        # フィルタリング処理と結果の表示
+        filtered = tracker.hsv_color_filter(image)
+        ball_pos = tracker.find_balls(filtered)
+        output = tracker.draw_visualization(image.copy(), ball_pos)
+        
+        # フィルタリング結果のデバッグ表示
+        cv2.imshow("HSV Filter Result", filtered)
+        
+        cv2.imshow("Ball Tracking", output)
+        if cv2.waitKey(1) & 0xFF == 27:
+            break
+            
+        if not ros_mode:
+            time.sleep(0.03)  # ビデオモード時のフレームレート調整
+        else:
+            rate.sleep()
+    
+    cv2.destroyAllWindows()
+    if not ros_mode:
+        cap.release()
+
+if __name__ == '__main__':
+    try:
+        main()
+    except rospy.ROSInterruptException:
+        pass
