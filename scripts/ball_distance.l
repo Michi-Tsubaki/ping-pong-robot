@@ -1,5 +1,4 @@
 (ros::roseus "ball_distance")
+(ros::roseus-add-msgs "geometry_msgs")
 
-(ros::roseus "talker")
-
-(ros::advertise "chatter" std_msgs::string 1)
+(ros::advertise "ping-pong/ball_distance" geometry_msgs::Pose 1)
