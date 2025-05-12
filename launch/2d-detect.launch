@@ -5,12 +5,12 @@
     <arg name="use_camera_info1" default="false" doc="Indicates that the camera_info topic should be subscribed to to get the default input_frame_id. Otherwise the frame from the image message will be used." />
     <arg name="debug_view1" default="false" doc="Specify whether the node displays a window to show image" />
     <arg name="queue_size1" default="3" doc="Specigy queue_size of input image subscribers" />
-    <arg name="h_limit_max" default="8" doc="The maximum allowed field value Hue" />
-    <arg name="h_limit_min" default="352" doc="The minimum allowed field value Hue" />
+    <arg name="h_limit_max" default="18" doc="The maximum allowed field value Hue" />
+    <arg name="h_limit_min" default="335" doc="The minimum allowed field value Hue" />
     <arg name="s_limit_max" default="255" doc="The maximum allowed field value Saturation" />
-    <arg name="s_limit_min" default="170" doc="The minimum allowed field value Saturation" />
+    <arg name="s_limit_min" default="207" doc="The minimum allowed field value Saturation" />
     <arg name="v_limit_max" default="255" doc="The maximum allowed field value Value" />
-    <arg name="v_limit_min" default="1" doc="The minimum allowed field value Value" />
+    <arg name="v_limit_min" default="100" doc="The minimum allowed field value Value" />
 
     <arg name="node_name2" default="edge_detection" />
     <arg name="image2" default="/ball_detection/hsv_color_filter/image" doc="The image topic. Should be remapped to the name of the real image topic." />
@@ -35,14 +35,14 @@
   <arg name="debug_view3" default="false" doc="Specify whether the node displays a window to show edge image" />
   <arg name="queue_size3" default="3" doc="Specigy queue_size of input image subscribers" />
 
-  <arg name="canny_threshold" default="300" doc="Upper threshold for the internal Canny edge detector." />
+  <arg name="canny_threshold" default="255" doc="Upper threshold for the internal Canny edge detector." />
   <arg name="accumulator_threshold" default="80" doc="Threshold for center detection." />
-  <arg name="gaussian_blur_size" default="20" doc="The size of gaussian blur (should be odd number)" />
+  <arg name="gaussian_blur_size" default="19" doc="The size of gaussian blur (should be odd number)" />
   <arg name="gaussian_sigma_x" default="2" doc="Sigma x of gaussian kernel" />
   <arg name="gaussian_sigma_y" default="2" doc="Sigma y of gaussian kernel" />
   <arg name="dp" default="2" doc="The inverse ratio of resolution." />
-  <arg name="min_circle_radius" default="1" doc="The minimum size of the circle, If unknown, put zero as default" />
-  <arg name="max_circle_radius" default="400" doc="The maximum size of the circle, If unknown, put zero as default." />
+  <arg name="min_circle_radius" default="2" doc="The minimum size of the circle, If unknown, put zero as default" />
+  <arg name="max_circle_radius" default="900" doc="The maximum size of the circle, If unknown, put zero as default." />
 
 
     <!-- color_filter.cpp  -->
@@ -87,8 +87,10 @@
       <param name="gaussian_sigma_x" value="$(arg gaussian_sigma_x)" />
       <param name="gaussian_sigma_y" value="$(arg gaussian_sigma_y)" />
       <param name="dp" value="$(arg dp)" />
+      <param name="min_distanve_between_circles" value="800" />
       <param name="min_circle_radius" value="$(arg min_circle_radius)" />
       <param name="max_circle_radius" value="$(arg max_circle_radius)" />
     </node>
   </group>
+  <node name="hough_ball_positon" pkg="ping-pong" type="hough_ball_position.l"/>
 </launch>

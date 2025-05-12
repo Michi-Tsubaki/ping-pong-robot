@@ -1,11 +1,11 @@
 #!/usr/bin/env roseus
 
-;; SPDX-FileCopyrightText: 2024 Michitoshi Tsubaki <michi.tsubaki.tech@gmail.com>
+;; SPDX-FileCopyrightText: 2024- Michitoshi Tsubaki <tsubaki@jsk.t.u-tokyo.ac.jp>
 ;; SPDX-License-Identifier: BSD-3-Clause
 
 #|
 # Description
-This code is the main algorithm of my pong-pong-robot project!
+This code is the foundation algorithm for takku. 
 The concept of this algorithm is shown on the issue (https://github.com/Michi-Tsubaki/ping-pong-robot/issues/14)
 |#
 
@@ -19,55 +19,54 @@ The concept of this algorithm is shown on the issue (https://github.com/Michi-Ts
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;; Environment Management ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Setup-position
+;; Setup-position (angle-vector)
 (setq *basic-pose-l* #f(18 25 7 25)) ;; setup-position for push-hit mode
 (setq *basic-pose-u* #f(-60 30 -45 50)) ;; setup-position for drive-hit mode
 (setq *basic-pose-f* #f(15 -140 -10 -20)) ;; setup-position for fore-hit mode
 
 ;; Enviornment Region Settings (just reference)
-(setq *env-x-min-lim* -0.20)
-(setq *env-x-max-lim* 0.20)
-(setq *env-y-min-lim* -0.20)
-(setq *env-y-max-lim* 0.10)
-(setq *env-z-min-lim* 0.15)
+(setq *env-x-min-lim* -0.40)
+(setq *env-x-max-lim* 0.40)
+(setq *env-y-min-lim* -0.30)
+(setq *env-y-max-lim* 0.20)
+(setq *env-z-min-lim* 0.05)
 (setq *env-z-max-lim* 1.00)
 
 ;; Area Descriptions (The boarders among NEAR, MIDDLE and FAR areas.)
 (setq *NEAR-min-lim* *env-z-min-lim*)
-(setq *NEAR-max-lim* 0.25) ;; 25cm ;;  HEAR should be filled!! (@Michi-Tsubaki, Jan 9)
+(setq *NEAR-max-lim* 0.15) ;; 15cm ;;  HEAR should be filled!!
 (setq *MIDDLE-min-lim* *NEAR-max-lim*)
-(setq *MIDDLE-max-lim* 0.40) ;; 65cm ;; HEAR should be filled!! (@Michi-Tsubaki, Jan 9)
+(setq *MIDDLE-max-lim* 0.60) ;; 60cm ;; HEAR should be filled!!
 (setq *FAR-min-lim* *MIDDLE-max-lim*)
 (setq *FAR-max-lim* *env-z-max-lim*)
 
 ;; Ball Judge Region Settings
 ;; As for NEAR ..
-(setq *NEAR-sweet-x-min-lim* -0.04) ;; left -5cm ;; left minus(-) , right(+)
-(setq *NEAR-sweet-x-max-lim* 0.05)  ;; right 5cm
-(setq *NEAR-sweet-y-min-lim* -0.06) ;; upper 2cm ;; upper minus(-), lower(+)
-(setq *NEAR-sweet-y-max-lim* 0.07)  ;; lower 7cm
-(setq *NEAR-sweet-z-min-lim* 0.16)  ;; front 16cm
-(setq *NEAR-sweet-z-max-lim* 0.20)  ;; back  22cm
-
+(setq *NEAR-sweet-x-min-lim* -0.05) ;; left -5cm ;; left minus(-) , right(+)
+(setq *NEAR-sweet-x-max-lim* 0.02)  ;; right 2cm
+(setq *NEAR-sweet-y-min-lim* -0.02) ;; upper 2cm ;; upper minus(-), lower(+)
+(setq *NEAR-sweet-y-max-lim* 0.05)  ;; lower 5cm
+(setq *NEAR-sweet-z-min-lim* *NEAR-min-lim*)  ;; front 16cm
+(setq *NEAR-sweet-z-max-lim* *NEAR-max-lim*)  ;; back  22cm
 ;; As for MIDDLE ...
-(setq *ball-x-min-lim* -0.08) ;; left  -7cm (prev: -5cm)
-(setq *ball-x-max-lim* 0.10)  ;; right 10cm (prev: 8cm)
-(setq *ball-y-min-lim* -0.10) ;; upper  8cm (prev: 6cm)
-(setq *ball-y-max-lim* 0.15)  ;; lower 12cm (prev: 10cm)
-(setq *ball-z-min-lim* 0.18)  ;; front 25cm
-(setq *ball-z-max-lim* 0.25)  ;; back  30cm
+(setq *ball-x-min-lim* -0.07) ;; left  -7cm (prev: -5cm)
+(setq *ball-x-max-lim* 0.04)  ;; right  4cm (prev: 8cm)
+(setq *ball-y-min-lim* -0.08) ;; upper  8cm (prev: 6cm)
+(setq *ball-y-max-lim* 0.15)  ;; lower 15cm (prev: 10cm)
+(setq *ball-z-min-lim* 0.05)  ;; front  5cm
+(setq *ball-z-max-lim* 0.25)  ;; back  25cm
 
 ;; As for FAR ...
-(setq *FAR-judge-x-min-lim* -0.25) ;; left -5cm
-(setq *FAR-judge-x-max-lim* 0.30)  ;; right 5cm
-(setq *FAR-judge-y-min-lim* -0.15) ;; upper 7cm
-(setq *FAR-judge-y-max-lim* 0.20)  ;; lower 7cm
-(setq *FAR-judge-z-min-lim* 0.18)  ;; front25cm
-(setq *FAR-judge-z-max-lim* 0.25)  ;; back 30cm
+(setq *FAR-judge-x-min-lim* -0.25) ;; left -25cm
+(setq *FAR-judge-x-max-lim* 0.30)  ;; right 30cm
+(setq *FAR-judge-y-min-lim* -0.15) ;; upper 15cm
+(setq *FAR-judge-y-max-lim* 0.20)  ;; lower 20cm
+(setq *FAR-judge-z-min-lim* 0.18)  ;; front 18cm
+(setq *FAR-judge-z-max-lim* 0.25)  ;; back  25cm
 
 ;; sweet-spot for FAR
-(setq *FAR-sweet-x-min-lim* -0.03) ;; left  -3cm
-(setq *FAR-sweet-x-max-lim* 0.04)  ;; right  4cm
+(setq *FAR-sweet-x-min-lim* -0.02) ;; left  -2m
+(setq *FAR-sweet-x-max-lim* 0.02)  ;; right  2cm
 (setq *FAR-sweet-y-min-lim* -0.05) ;; upper  5cm
 (setq *FAR-sweet-y-max-lim* 0.10)  ;; lower 10cm
 (setq *FAR-sweet-z-min-lim* 0.22)  ;; front 22cm
@@ -132,7 +131,9 @@ The concept of this algorithm is shown on the issue (https://github.com/Michi-Ts
 ;; Recognition Function (Perception);;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun search-ball()
   (format t "search-ball~%")
-  (ros::subscribe "/centroid_publisher/output/point" geometry_msgs::PointStamped #'search-ball-cb 1)
+  ;;(ros::subscribe "/centroid_publisher/output/point" geometry_msgs::PointStamped #'search-ball-cb 1)
+  (ros::subscribe "/hough_ball_position" geometry_msgs::PointStamped #'search-ball-cb 1)
+  ;;(ros::subscribe "/ball_distance" geometry_msgs::Point #'search-ball-cb 1)
   (ros::advertise "/ball_prediction" geometry_msgs::PoseStamped 1)
   (ros::advertise "/far_ball_prediction" geometry_msgs::PoseStamped 1)
   (ros::spin-once)
@@ -146,12 +147,18 @@ The concept of this algorithm is shown on the issue (https://github.com/Michi-Ts
   (if (or (is-nan (send (send msg :point) :x))
           (is-nan (send (send msg :point) :y))
           (is-nan (send (send msg :point) :z)))
+  ;;(if (or (is-nan (send  msg  :x))
+  ;;        (is-nan (send  msg  :y))
+  ;;        (is-nan (send  msg  :z)))
       (ros::ros-info "ball not found ~%")
     (progn
-      ;; get current value
+      ;; get current valu
       (setq x (send (send msg :point) :x))
       (setq y (send (send msg :point) :y))
       (setq z (send (send msg :point) :z))
+     ;; (setq x (send msg :x))
+     ;; (setq y (send msg :y))
+     ;; (setq z (send msg :z))
       (setq current-time (send (ros::time-now) :to-nsec))
       (setq *ball-xpos* x)
       (setq *ball-ypos* y)
@@ -206,12 +213,10 @@ The concept of this algorithm is shown on the issue (https://github.com/Michi-Ts
              (dx (- x *prev-ball-xpos*))
              (dy (- y *prev-ball-ypos*))
              (dz (- z *prev-ball-zpos*)))
-        ;; 位置の変化量が閾値以上の場合のみ更新
         (if (>= (abs dx) 0.001) (setq vx (/ dx dt)))
         (if (>= (abs dy) 0.001) (setq vy (/ dy dt)))
         (if (>= (abs dz) 0.001) (setq vz (/ dz dt)))
         (ros::ros-info "ball velocity: vx:~A vy:~A vz:~A" vx vy vz)))
-  ;; Global変数に現在の値を保存
   (setq *prev-ball-xpos* x)
   (setq *prev-ball-ypos* y)
   (setq *prev-ball-zpos* z)
@@ -223,9 +228,8 @@ The concept of this algorithm is shown on the issue (https://github.com/Michi-Ts
       (if (< (abs v) threshold)
           0
           v)
-    0))  ;; nilや数値以外の場合は0を返す
+    0))
 
-;; 速度リストを更新し、3回分のデータが揃っているかを確認する関数
 (defun update-velocity-list (vx vy vz)
   (if (< vz 0) ;; zの速度が負（接近中）の場合のみ
       (progn
@@ -240,7 +244,6 @@ The concept of this algorithm is shown on the issue (https://github.com/Michi-Ts
   )
 
 
-;; 接近予測
 (defun reset-predictions ()
   (setq *predicted-x* nil)
   (setq *predicted-y* nil)
@@ -249,28 +252,24 @@ The concept of this algorithm is shown on the issue (https://github.com/Michi-Ts
   (setq *FAR-predicted-x* nil)
   (setq *FAR-predicted-y* nil)
   (setq *FAR-predicted-z* nil)
-  (setq *FAR-time-to-arrival* nil))
+  (setq *FAR-time-to-arrival* nil)
+  )
 
 (defun predict-ball-arrival (current-x current-y current-z)
-  (when (or (not vz) (= vz 0))  ;; 0除算防止
+  (when (or (not vz) (= vz 0))
     (reset-predictions)
     (return-from predict-ball-arrival nil))
-    
   (if (and *velocity-list* (= (length *velocity-list*) 3))
       (progn
         (let* ((avg-vx (/ (apply #'+ (mapcar #'car *velocity-list*)) 3))
                (avg-vy (/ (apply #'+ (mapcar #'cadr *velocity-list*)) 3))
                (avg-vz (/ (apply #'+ (mapcar #'caddr *velocity-list*)) 3))
-               ;; 平均を使わない方
                (time-to-arrival (abs (/ (- current-z *ball-z-min-lim*) vz)))
                (predicted-x (+ current-x (* vx time-to-arrival)))
                (predicted-y (+ current-y (* vy time-to-arrival)))
-               ;; 平均を使う方
                (FAR-time-to-arrival (abs (/ (- current-z *ball-z-min-lim*) avg-vz)))
                (FAR-predicted-x (+ current-x (* avg-vx time-to-arrival)))
                (FAR-predicted-y (+ current-y (* avg-vy time-to-arrival))))
-          
-          ;; グローバル変数に予測結果を保存
           (setq *predicted-x* predicted-x)
           (setq *predicted-y* predicted-y)
           (setq *predicted-z* *ball-z-min-lim*)
@@ -278,8 +277,7 @@ The concept of this algorithm is shown on the issue (https://github.com/Michi-Ts
           (setq *FAR-predicted-x* FAR-predicted-x)
           (setq *FAR-predicted-y* FAR-predicted-y)
           (setq *FAR-predicted-z* *ball-z-min-lim*)
-          (setq *FAR-time-to-arrival* FAR-time-to-arrival)
-          
+          (setq *FAR-time-to-arrival* FAR-time-to-arrival)          
           (ros::ros-info "Ball Arrival Prediction:")
           (ros::ros-info "Time to arrival: SIMPLE: ~A seconds, AVG: ~A seconds" 
                         time-to-arrival FAR-time-to-arrival)
@@ -288,7 +286,6 @@ The concept of this algorithm is shown on the issue (https://github.com/Michi-Ts
           (ros::ros-info "FAR Predicted position - X: ~A, Y: ~A, Z: ~A"
                         FAR-predicted-x FAR-predicted-y *ball-z-min-lim*)
 
-          ;; PoseStamped MSGを作成してPublish
           (let ((msg (instance geometry_msgs::PoseStamped :init)))
             (send msg :header :stamp (ros::time-now))
             (send msg :header :frame_id "camera_link")
@@ -298,7 +295,6 @@ The concept of this algorithm is shown on the issue (https://github.com/Michi-Ts
             (send (send (send msg :pose) :orientation) :w time-to-arrival)
             (ros::publish "/ball_prediction" msg))
           
-          ;; FARの方もPublish
           (let ((msg (instance geometry_msgs::PoseStamped :init)))
             (send msg :header :stamp (ros::time-now))
             (send msg :header :frame_id "camera_link")
@@ -315,7 +311,6 @@ The concept of this algorithm is shown on the issue (https://github.com/Michi-Ts
             (let* ((time-to-arrival (abs (/ (- current-z *ball-z-min-lim*) vz)))
                    (predicted-x (+ current-x (* vx time-to-arrival)))
                    (predicted-y (+ current-y (* vy time-to-arrival))))	
-              ;; グローバル変数に予測結果を保存
               (setq *predicted-x* predicted-x)
               (setq *predicted-y* predicted-y)
               (setq *predicted-z* *ball-z-min-lim*)
@@ -326,7 +321,6 @@ The concept of this algorithm is shown on the issue (https://github.com/Michi-Ts
               (ros::ros-info "Predicted position - X: ~A, Y: ~A, Z: ~A"
                             predicted-x predicted-y *ball-z-min-lim*)
               
-              ;; PoseStamped MSGを作成してPublish
               (let ((msg (instance geometry_msgs::PoseStamped :init)))
                 (send msg :header :stamp (ros::time-now))
                 (send msg :header :frame_id "camera_link")
@@ -337,23 +331,24 @@ The concept of this algorithm is shown on the issue (https://github.com/Michi-Ts
                 (ros::publish "/ball_prediction" msg))
               
               (list predicted-x predicted-y time-to-arrival))
-            ;; 速度データが無効な場合
             (progn
               (reset-predictions)
-              nil)))))
+              nil)
+	    )
+	)
+      )
+  )
   
-;; 待機時間計算
 (defun calculate-wait-time (velocity time-to-arrival)
-  "ボールの速度に応じて待ち時間を調整する関数"
   (let* ((speed (sqrt (+ (* vx vx) (* vy vy) (* vz vz))))
-        (base-wait-time (- time-to-arrival 0.1)) ;; 基本待ち時間
+        (base-wait-time (- time-to-arrival 0.1))
         (speed-factor (cond
-                      ((> speed 0.8) 0.02)  ;; 高速: より短い待ち時間
-                      ((> speed 0.5) 0.07)  ;; 中速
-                      (t 0.1))))            ;; 低速: 通常の待ち時間
-    (max 0.05 (* base-wait-time speed-factor)))) ;; 最小待ち時間は0.05秒
+                      ((> speed 0.8) 0.02)
+                      ((> speed 0.5) 0.07)
+                      (t 0.1))))
+    (max 0.05 (* base-wait-time speed-factor)))) 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Falling Point Estimation (ボールの落下予測地点の発見);;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Falling Point Estimation ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun falling-estimation()
   (format t "search falling point!~%")
   (ros::rate 10000)
@@ -381,20 +376,21 @@ The concept of this algorithm is shown on the issue (https://github.com/Michi-Ts
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; AUDIO Function (音声に関する関数);;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defun chorei() ;;「チョレイ」と言う
+(defun chorei()
   (ros::spin-once)
   (if (and (> vy 0))
-      (send *ri* :play-sound #P"~/ping-pong-robot/src/ping-pong/srv/chorei.mp3" :wait  nil)
+      (send *ri* :play-sound #P"~/ros/pingpong_ws/src/ping-pong/data/chorei.mp3" :wait  nil)
     )
   ) ;;音声合成に時間がかかるのかこっちは少し遅くて，使い物にならない．
 
 (defun start-voice() ;;「お相手しましょう」と言う
-    (send *ri* :play-sound #P"~/ping-pong-robot/src/ping-pong/srv/start.mp3" :wait nil)
+    (send *ri* :play-sound #P"~/ros/pingpong_ws/src/ping-pong/data/start.mp3" :wait nil)
   )
 
 (defun play-warning() ;; 警告音を鳴らす関数
-  (send *ri* :play-sound #P"~/ping-pong-robot/src/ping-pong/srv/warn.mp3" :wait nil)
+  (send *ri* :play-sound #P"~/ros/ping-pong-robot/src/ping-pong/data/warn.mp3" :wait nil)
 )
+
 
 ;; Warning (警告);;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; 赤サーボにトルクがかかりすぎると故障するので，開始2分後と5分後に警告を鳴らす．
@@ -553,7 +549,7 @@ The concept of this algorithm is shown on the issue (https://github.com/Michi-Ts
 ;; Move(足回りの移動)関数 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; 以下の移動関数はデフォルトで， [10cm]が単位になっている．単位換算に注意．
 ;; 指定された位置に移動する関数
-(defun move-to (target-x target-y &key (vel-scale 2) (pos-threshold 0.01))
+(defun move-to (target-x target-y &key (vel-scale 2) (pos-threshold 0.005))
   "現在位置から相対的な距離(target-x, target-y)だけ移動する
    vel-scale: 並進速度のスケール係数(デフォルト: 2)"
   
@@ -565,20 +561,26 @@ The concept of this algorithm is shown on the issue (https://github.com/Michi-Ts
      (let* ((remaining-x (- target-x moved-x))
             (remaining-y (- target-y moved-y)))
        
-       ;; check
+       ;; check if we've reached the target
        (when (and (< (abs remaining-x) pos-threshold)
                  (< (abs remaining-y) pos-threshold))
          ;; send stop
          (send *ri* :send-cmd-vel-raw 0 0 0)
          (return-from move-to t))
        
-       ;; calculate velocity
-       (let ((vx (* vel-scale (if (> (abs remaining-x) pos-threshold)
-                                 (/ remaining-x (abs remaining-x))
-                                 0)))
-             (vy (* vel-scale (if (> (abs remaining-y) pos-threshold)
-                                 (/ remaining-y (abs remaining-y))
-                                 0))))
+       ;; calculate velocity - scale down for small remaining distances
+       (let* ((dist-to-target (sqrt (+ (* remaining-x remaining-x) 
+                                       (* remaining-y remaining-y))))
+              ;; Reduce velocity as we get closer to target
+              (speed-factor (min 1.0 (/ dist-to-target 0.5)))
+              (vx (* vel-scale speed-factor
+                    (if (> (abs remaining-x) pos-threshold)
+                        (/ remaining-x (abs remaining-x))
+                        0)))
+              (vy (* vel-scale speed-factor
+                    (if (> (abs remaining-y) pos-threshold)
+                        (/ remaining-y (abs remaining-y))
+                        0))))
          
          ;; send control
          (send *ri* :send-cmd-vel-raw vx vy 0)
@@ -587,8 +589,8 @@ The concept of this algorithm is shown on the issue (https://github.com/Michi-Ts
          (setq moved-x (+ moved-x (* vx dt)))
          (setq moved-y (+ moved-y (* vy dt)))
          
-         ;; wait for control
-         (unix:usleep (round (* dt 1000000)))))) ;; usleepがintergerしか受け付けないので，roundで丸めたが，どうやらここにバグがあるっぽい．(Dec 30 @Michi-Tsubaki) 数値計算難しいね．
+         ;; wait for control - ensure integer microseconds
+         (unix:usleep (round (* dt 1000000)))))) 
     ))
 
 ;; ボールの位置(or予測地位)に追従するように機体が動くようにする関数 (Jan 1)
@@ -917,8 +919,8 @@ The concept of this algorithm is shown on the issue (https://github.com/Michi-Ts
 	    ) ;;while *ball-lost
 	  ) ;;block
    ;; (if (= *hit-mode* 0) (push-hit 0) (drive-hit 0))
-   (ros::duration-sleep 2) ;;sleep 2 s ;; x (unix:sleep 2)
+   (ros::duration-sleep 3)
    ) ;; let
  ) ;;do-until-key
+ 
 (off)
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

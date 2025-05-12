@@ -1,17 +1,10 @@
-![Screenshot from 2025-01-13 23-08-14](https://github.com/user-attachments/assets/e43ff8e6-4381-4f09-beb6-0cadd1e39547)
+# 卓上選手型卓球ロボットTakku
+本ロボットは，第43回日本ロボット学会学術講演会で口頭発表しました．
 
-## 機械情報工学科自主プロジェクト 2024
-
-## プロジェクトの概要
-本プロジェクトの概要は，2025年1月14日(火)に実施された自主プロジェクト発表会において使用したスライド資料（ https://docs.google.com/presentation/d/1YKxIMygeKvWiWLk9LIgYPbEiXgONrJlcxnOz03saNL4/edit?usp=sharing ）を参考にしてください．
-
-## ping-pong デモ動画
-
-https://github.com/user-attachments/assets/58849984-7b79-49e7-ac35-15ba77b642aa
-
-## 計画
-### 自主プロジェクトの進捗及び計画
-自主プロジェクトの進捗及び計画は，このRepositoryのissueにより管理されている．
+## Takku デモ動画 (Movie)
+<a href="https://youtu.be/62JgeozOFgI">
+  <img src="https://img.youtube.com/vi/62JgeozOFgI/maxresdefault.jpg" width="400">
+</a>
 
 ## 卓球ロボットping-pongの動かし方
 ### 0. 準備
@@ -46,7 +39,6 @@ source devel/setup.bash
 roslaunch ping-pong all.launch
 ```
 
-
 ### 1. 動かす
 ```
 cd ~/ping-pong-robot
@@ -63,10 +55,32 @@ load "main.l"
 最低限，RVizで確認しておくべきtopicたち
 ![Screenshot from 2025-01-13 23-11-15](https://github.com/user-attachments/assets/e7c7a252-34e4-4e2f-a804-e5e31668f6c8)
 
-### 3. 受賞 (Award)
-このプロジェクトは，機械情報冬学期演習「自主プロジェクト」表彰式にて，敢闘賞として表彰されました．指導してくださった先生方に感謝いたします．
-![Image](https://github.com/user-attachments/assets/723c9829-8797-4f25-b332-9214db8398d4)
+### 3. 引用 (Citation)
+```
+@inproceedings{TakkuHardware:Tsubaki:RSJ2025,
+ author="椿 道智 and 矢野倉 伊織 and 小島 邦生 and 岡田 慧",
+ jauthor="椿 道智 and 矢野倉 伊織 and 小島 邦生 and 岡田 慧",
+ eauthor="Michitoshi Tsubaki and Iori Yanokura and Kunio Kojima and Kei Okada",
+ yomi={つばき みちとし},
+ title="前陣速攻型をモデルにした卓上選手型卓球ロボットTakkuの開発",
+ jtitle="前陣速攻型をモデルにした卓上選手型卓球ロボットTakkuの開発",
+ etitle="Takku: A Desktop Table Tennis Player Robot Modeled on Close-to-the-table Play Style",
+ booktitle=RSJ25J,
+ jbooktitle=RSJ25J,
+ ebooktitle=RSJ25E,
+ pages={1H5-03},
+ month={September},
+ year=2025,
+ yeard=2025,
+ jposition={},
+ eposition={},
+ language={Japanese},
+ key={},
+ abstract={},
+ doi={}
+}
+```
 
 ### 4. ライセンス
 * このソフトウェアパッケージは，3条項BSDライセンスの下，再頒布および使用が許可されます．
-* (c) 2024-2025 Michitoshi Tsubaki
+* (c) 2025 Michitoshi Tsubaki

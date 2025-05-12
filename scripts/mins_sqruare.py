@@ -1,3 +1,7 @@
+#!/usr/bin/env python3
+ls# Description:
+# This script is to get the parameter for the ball distance measurement.
+
 import numpy as np
 from scipy.optimize import curve_fit
 
@@ -18,11 +22,11 @@ a, b = parameters
 # for debug
 predicted_y = function(x, a, b)
 
-# 残差の平方和
+# res
 residuals = y - predicted_y
-rss = np.sum(residuals**2)
+rss = np.sum(residuals**2) / 8
 
-# 結果の表示
+# result
 print("推定されたパラメータ:")
 print("a:", a)
 print("b:", b)
