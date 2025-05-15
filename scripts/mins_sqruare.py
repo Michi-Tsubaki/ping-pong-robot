@@ -1,5 +1,6 @@
-
-# This script is to compute the parameter for distance of a ball
+#!/usr/bin/env python3
+ls# Description:
+# This script is to get the parameter for the ball distance measurement.
 
 import numpy as np
 from scipy.optimize import curve_fit
