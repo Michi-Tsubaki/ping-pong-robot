@@ -1,6 +1,6 @@
 #!/usr/bin/env roseus
 
-;; SPDX-FileCopyrightText: 2024 Michitoshi Tsubaki <michi.tsubaki.tech@gmail.com>
+;; SPDX-FileCopyrightText: 2024- Michitoshi Tsubaki <michi.tsubaki.tech@gmail.com>
 ;; SPDX-License-Identifier: BSD-3-Clause
 
 #|
@@ -19,7 +19,7 @@ The concept of this algorithm is shown on the issue (https://github.com/Michi-Ts
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;; Environment Management ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Setup-position
+;; Setup-position (angle-vector)
 (setq *basic-pose-l* #f(18 25 7 25)) ;; setup-position for push-hit mode
 (setq *basic-pose-u* #f(-60 30 -45 50)) ;; setup-position for drive-hit mode
 (setq *basic-pose-f* #f(15 -140 -10 -20)) ;; setup-position for fore-hit mode
@@ -29,26 +29,25 @@ The concept of this algorithm is shown on the issue (https://github.com/Michi-Ts
 (setq *env-x-max-lim* 0.20)
 (setq *env-y-min-lim* -0.20)
 (setq *env-y-max-lim* 0.10)
-(setq *env-z-min-lim* 0.15)
+(setq *env-z-min-lim* 0.05)
 (setq *env-z-max-lim* 1.00)
 
 ;; Area Descriptions (The boarders among NEAR, MIDDLE and FAR areas.)
 (setq *NEAR-min-lim* *env-z-min-lim*)
-(setq *NEAR-max-lim* 0.25) ;; 25cm ;;  HEAR should be filled!! (@Michi-Tsubaki, Jan 9)
+(setq *NEAR-max-lim* 0.10) ;; 25cm ;;  HEAR should be filled!! (@Michi-Tsubaki, Jan 9)
 (setq *MIDDLE-min-lim* *NEAR-max-lim*)
-(setq *MIDDLE-max-lim* 0.40) ;; 65cm ;; HEAR should be filled!! (@Michi-Tsubaki, Jan 9)
+(setq *MIDDLE-max-lim* 0.65) ;; 65cm ;; HEAR should be filled!! (@Michi-Tsubaki, Jan 9)
 (setq *FAR-min-lim* *MIDDLE-max-lim*)
 (setq *FAR-max-lim* *env-z-max-lim*)
 
 ;; Ball Judge Region Settings
 ;; As for NEAR ..
-(setq *NEAR-sweet-x-min-lim* -0.04) ;; left -5cm ;; left minus(-) , right(+)
+(setq *NEAR-sweet-x-min-lim* -0.05) ;; left -5cm ;; left minus(-) , right(+)
 (setq *NEAR-sweet-x-max-lim* 0.05)  ;; right 5cm
-(setq *NEAR-sweet-y-min-lim* -0.06) ;; upper 2cm ;; upper minus(-), lower(+)
-(setq *NEAR-sweet-y-max-lim* 0.07)  ;; lower 7cm
-(setq *NEAR-sweet-z-min-lim* 0.16)  ;; front 16cm
-(setq *NEAR-sweet-z-max-lim* 0.20)  ;; back  22cm
-
+(setq *NEAR-sweet-y-min-lim* -0.05) ;; upper 2cm ;; upper minus(-), lower(+)
+(setq *NEAR-sweet-y-max-lim* 0.05)  ;; lower 7cm
+(setq *NEAR-sweet-z-min-lim* 0.05)  ;; front 16cm
+(setq *NEAR-sweet-z-max-lim* 0.16)  ;; back  22cm
 ;; As for MIDDLE ...
 (setq *ball-x-min-lim* -0.08) ;; left  -7cm (prev: -5cm)
 (setq *ball-x-max-lim* 0.10)  ;; right 10cm (prev: 8cm)
@@ -132,7 +131,8 @@ The concept of this algorithm is shown on the issue (https://github.com/Michi-Ts
 ;; Recognition Function (Perception);;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun search-ball()
   (format t "search-ball~%")
-  (ros::subscribe "/centroid_publisher/output/point" geometry_msgs::PointStamped #'search-ball-cb 1)
+  ;;(ros::subscribe "/centroid_publisher/output/point" geometry_msgs::PointStamped #'search-ball-cb 1)
+  (ros::subscribe "/ball_distance" geometry_msgs::Point #'search-ball-cb 1)
   (ros::advertise "/ball_prediction" geometry_msgs::PoseStamped 1)
   (ros::advertise "/far_ball_prediction" geometry_msgs::PoseStamped 1)
   (ros::spin-once)
@@ -143,15 +143,21 @@ The concept of this algorithm is shown on the issue (https://github.com/Michi-Ts
   )
 
 (defun search-ball-cb(msg)
-  (if (or (is-nan (send (send msg :point) :x))
-          (is-nan (send (send msg :point) :y))
-          (is-nan (send (send msg :point) :z)))
+  ;;(if (or (is-nan (send (send msg :point) :x))
+  ;;        (is-nan (send (send msg :point) :y))
+  ;;        (is-nan (send (send msg :point) :z)))
+  (if (or (is-nan (send  msg  :x))
+          (is-nan (send  msg  :y))
+          (is-nan (send  msg  :z)))
       (ros::ros-info "ball not found ~%")
     (progn
-      ;; get current value
-      (setq x (send (send msg :point) :x))
-      (setq y (send (send msg :point) :y))
-      (setq z (send (send msg :point) :z))
+      ;; get current valu
+     ;; (setq x (send (send msg :point) :x))
+     ;; (setq y (send (send msg :point) :y))
+     ;; (setq z (send (send msg :point) :z))
+      (setq x (send msg :x))
+      (setq y (send msg :y))
+      (setq z (send msg :z))
       (setq current-time (send (ros::time-now) :to-nsec))
       (setq *ball-xpos* x)
       (setq *ball-ypos* y)
@@ -384,17 +390,18 @@ The concept of this algorithm is shown on the issue (https://github.com/Michi-Ts
 (defun chorei() ;;「チョレイ」と言う
   (ros::spin-once)
   (if (and (> vy 0))
-      (send *ri* :play-sound #P"~/ping-pong-robot/src/ping-pong/srv/chorei.mp3" :wait  nil)
+      (send *ri* :play-sound #P"~/ros/pingpong_ws/src/ping-pong/data/chorei.mp3" :wait  nil)
     )
   ) ;;音声合成に時間がかかるのかこっちは少し遅くて，使い物にならない．
 
 (defun start-voice() ;;「お相手しましょう」と言う
-    (send *ri* :play-sound #P"~/ping-pong-robot/src/ping-pong/srv/start.mp3" :wait nil)
+    (send *ri* :play-sound #P"~/ros/pingpong_ws/src/ping-pong/data/start.mp3" :wait nil)
   )
 
 (defun play-warning() ;; 警告音を鳴らす関数
-  (send *ri* :play-sound #P"~/ping-pong-robot/src/ping-pong/srv/warn.mp3" :wait nil)
+  (send *ri* :play-sound #P"~/ros/ping-pong-robot/src/ping-pong/data/warn.mp3" :wait nil)
 )
+
 
 ;; Warning (警告);;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; 赤サーボにトルクがかかりすぎると故障するので，開始2分後と5分後に警告を鳴らす．
