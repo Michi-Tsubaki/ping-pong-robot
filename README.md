@@ -1,4 +1,3 @@
-![Screenshot from 2025-01-13 23-08-14](https://github.com/user-attachments/assets/e43ff8e6-4381-4f09-beb6-0cadd1e39547)
 
 ## 機械情報工学科自主プロジェクト 2024
 
