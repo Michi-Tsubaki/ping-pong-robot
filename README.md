@@ -1,6 +1,8 @@
 # 卓上選手型卓球ロボットTakku
 本ロボットは，第43回日本ロボット学会学術講演会で口頭発表しました．
-## Takku デモ動画 (画像をクリック)
+## Takku デモ動画
+[https://youtu.be/3UxYMkHx29s](https://youtu.be/3UxYMkHx29s)
+
 <a href="[https://youtu.be/3UxYMkHx29s](https://youtu.be/3UxYMkHx29s)">
   <img src="https://github.com/user-attachments/assets/b70675b1-1f57-4339-821e-1c1f185fd801" width="1155" height="652"　>
 </a>
